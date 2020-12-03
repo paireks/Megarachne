@@ -56,7 +56,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MegarachneComponent.cs" />
+    <Compile Include="CurveToGraphPartGH.cs" />
+    <Compile Include="DeconstructGraphPartGH.cs" />
+    <Compile Include="MeshToGraphPartGH.cs" />
+    <Compile Include="TwoPointsToGraphPartGH.cs" />
+    <Compile Include="VectorToGraphPartGH.cs" />
     <Compile Include="MegarachneInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
