@@ -16,9 +16,38 @@ namespace MegarachneEngine
             {
                 Edges[i] = graphParts[i].Edge;
 
-                
-            }
+                bool foundDuplicateStartVertex = false;
+                bool foundDuplicateEndVertex = false;
 
+                for (int j = 0; j < Vertices.Count; j++)
+                {
+                    if (!foundDuplicateStartVertex && !foundDuplicateEndVertex)
+                    {
+                        break;
+                    }
+                    if (!foundDuplicateStartVertex && Tools.CheckIfPointsAreSame(graphParts[i].StartVertex, Vertices[j], tolerance))
+                    {
+                        GraphArray[0, i] = j;
+                        foundDuplicateStartVertex = true;
+                    }
+                    if (!foundDuplicateEndVertex && Tools.CheckIfPointsAreSame(graphParts[i].EndVertex, Vertices[j], tolerance))
+                    {
+                        GraphArray[1, i] = j;
+                        foundDuplicateEndVertex = true;
+                    }
+                }
+
+                if (!foundDuplicateStartVertex)
+                {
+                    Vertices.Add(graphParts[i].StartVertex);
+                    GraphArray[0, i] = Vertices.Count - 1;
+                }
+                if (!foundDuplicateEndVertex)
+                {
+                    Vertices.Add(graphParts[i].EndVertex);
+                    GraphArray[1, i] = Vertices.Count - 1;
+                }
+            }
         }
 
         public int[,] GraphArray { get; set; }
