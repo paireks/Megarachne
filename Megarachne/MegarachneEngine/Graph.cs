@@ -21,7 +21,7 @@ namespace MegarachneEngine
 
                 for (int j = 0; j < Vertices.Count; j++)
                 {
-                    if (!foundDuplicateStartVertex && !foundDuplicateEndVertex)
+                    if (foundDuplicateStartVertex && foundDuplicateEndVertex)
                     {
                         break;
                     }
