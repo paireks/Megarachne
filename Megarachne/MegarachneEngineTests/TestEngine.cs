@@ -6,8 +6,10 @@ using Xunit;
 namespace MegarachneEngineTests
 {
     [Collection("Rhino Collection")]
-    public class TestGraphPart
+    public class TestEngine
     {
+        #region GraphPart
+
         [Fact]
         public void TestGraphPartConstructor_2Points()
         {
@@ -62,5 +64,40 @@ namespace MegarachneEngineTests
             Assert.Equal(10, graphPart.EndVertex.Z);
             Assert.True(graphPart.IsDirected);
         }
+
+        #endregion
+
+        #region Tools
+
+        [Theory]
+        [InlineData(0, 0, 0, 0, 0, 0, 0.0001)]
+        [InlineData(1, 0, 0, 1, 0, 0, 0.0001)]
+        [InlineData(1, 0, 0, 2, 0, 0, 2.0000)]
+        [InlineData(1, 0, 1, 1, 0, 1, 0.0001)]
+        [InlineData(0, 1, 0, 0, 1, 0, 0.0001)]
+        public void TestCheckIfPointsAreSame_True(double x1, double y1, double z1, double x2, double y2, double z2, double tolerance)
+        {
+            Point3d pointA = new Point3d(x1, y1, z1);
+            Point3d pointB = new Point3d(x2, y2, z2);
+            bool arePointsTheSame = Tools.CheckIfPointsAreSame(pointA, pointB, tolerance);
+            Assert.True(arePointsTheSame);
+        }
+
+        [Theory]
+        [InlineData(0, 0, 0, 0, 0.1, 0, 0.0001)]
+        [InlineData(1, 0, 0, 5, 0, 0, 0.0001)]
+        [InlineData(1, 0, 0, 2, 0, 0, 0.9)]
+        [InlineData(1, 0, 1, 1, 0, 0, 0.0001)]
+        [InlineData(0, 1, 0, 0, 1, 1, 0.0001)]
+        public void TestCheckIfPointsAreSame_False(double x1, double y1, double z1, double x2, double y2, double z2, double tolerance)
+        {
+            Point3d pointA = new Point3d(x1, y1, z1);
+            Point3d pointB = new Point3d(x2, y2, z2);
+            bool arePointsTheSame = Tools.CheckIfPointsAreSame(pointA, pointB, tolerance);
+            Assert.False(arePointsTheSame);
+        }
+
+        #endregion
+
     }
 }

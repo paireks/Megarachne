@@ -35,11 +35,6 @@ namespace RhinoPlugin.Tests.Xunit
             string envPath = Environment.GetEnvironmentVariable("path");
             string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
             systemDir = System.IO.Path.Combine(programFiles, "Rhino 7", "System");
-            systemDirOld = System.IO.Path.Combine(programFiles, "Rhino 7 WIP", "System");
-            if (System.IO.Directory.Exists(systemDir) != true)
-            {
-                systemDir = systemDirOld;
-            }
 
             Assert.True(System.IO.Directory.Exists(systemDir), string.Format("Rhino system dir not found: {0}", systemDir));
             // Add rhino system directory to path (for RhinoLibrary.dll)
