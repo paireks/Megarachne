@@ -28,7 +28,7 @@ namespace MegarachneEngine
 
             int edgesCount = 0;
 
-            for (int i = 0; i < graphParts.Count; i++)
+            foreach (var graphPart in graphParts)
             {
                 bool foundDuplicateStartVertex = false;
                 bool foundDuplicateEndVertex = false;
@@ -39,30 +39,39 @@ namespace MegarachneEngine
                     {
                         break;
                     }
-                    if (!foundDuplicateStartVertex && Tools.CheckIfPointsAreSame(graphParts[i].StartVertex, Vertices[j], tolerance))
+                    if (!foundDuplicateStartVertex && Tools.CheckIfPointsAreSame(graphPart.StartVertex, Vertices[j], tolerance))
                     {
-                        GraphArray[0, i] = j;
+                        GraphArray[0, edgesCount] = j;
                         foundDuplicateStartVertex = true;
                     }
-                    if (!foundDuplicateEndVertex && Tools.CheckIfPointsAreSame(graphParts[i].EndVertex, Vertices[j], tolerance))
+                    if (!foundDuplicateEndVertex && Tools.CheckIfPointsAreSame(graphPart.EndVertex, Vertices[j], tolerance))
                     {
-                        GraphArray[1, i] = j;
+                        GraphArray[1, edgesCount] = j;
                         foundDuplicateEndVertex = true;
                     }
                 }
 
                 if (!foundDuplicateStartVertex)
                 {
-                    Vertices.Add(graphParts[i].StartVertex);
-                    GraphArray[0, i] = Vertices.Count - 1;
+                    Vertices.Add(graphPart.StartVertex);
+                    GraphArray[0, edgesCount] = Vertices.Count - 1;
                 }
                 if (!foundDuplicateEndVertex)
                 {
-                    Vertices.Add(graphParts[i].EndVertex);
-                    GraphArray[1, i] = Vertices.Count - 1;
+                    Vertices.Add(graphPart.EndVertex);
+                    GraphArray[1, edgesCount] = Vertices.Count - 1;
                 }
 
-                Edges[i] = graphParts[i].Edge;
+                Edges[edgesCount] = graphPart.Edge;
+                edgesCount += 1;
+                if (!graphPart.IsDirected)
+                {
+                    Edges[edgesCount] = graphPart.Edge;
+                    GraphArray[0, edgesCount] = GraphArray[1, edgesCount - 1];
+                    GraphArray[1, edgesCount] = GraphArray[0, edgesCount - 1];
+
+                    edgesCount += 1;
+                }
             }
         }
 
