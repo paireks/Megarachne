@@ -9,13 +9,27 @@ namespace MegarachneEngine
         public Graph(List<GraphPart> graphParts, double tolerance)
         {
             Vertices = new List<Point3d>();
-            Edges = new Curve[graphParts.Count];
-            GraphArray = new int[graphParts.Count, 2];
+
+            int numberOfEdges = 0;
+            foreach (var graphPart in graphParts)
+            {
+                if (graphPart.IsDirected)
+                {
+                    numberOfEdges += 1;
+                }
+                else
+                {
+                    numberOfEdges += 2;
+                }
+            }
+
+            Edges = new Curve[numberOfEdges];
+            GraphArray = new int[2, numberOfEdges];
+
+            int edgesCount = 0;
 
             for (int i = 0; i < graphParts.Count; i++)
             {
-                Edges[i] = graphParts[i].Edge;
-
                 bool foundDuplicateStartVertex = false;
                 bool foundDuplicateEndVertex = false;
 
@@ -47,11 +61,14 @@ namespace MegarachneEngine
                     Vertices.Add(graphParts[i].EndVertex);
                     GraphArray[1, i] = Vertices.Count - 1;
                 }
+
+                Edges[i] = graphParts[i].Edge;
             }
         }
 
         public int[,] GraphArray { get; set; }
         public Curve[] Edges { get; set; }
         public List<Point3d> Vertices { get; set; }
+
     }
 }
