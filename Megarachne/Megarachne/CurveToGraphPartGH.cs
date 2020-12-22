@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
+using MegarachneEngine;
 using Rhino.Geometry;
 
 namespace Megarachne
@@ -24,7 +25,6 @@ namespace Megarachne
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Graph Part", "Graph Part", "Created Graph Part", GH_ParamAccess.item);
-            pManager.AddGeometryParameter("Geometry", "Geometry", "Geometry of edge and vertices", GH_ParamAccess.item);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -33,6 +33,11 @@ namespace Megarachne
 
             DA.GetData(0, ref curve);
             DA.GetData(1, ref isDirected);
+
+            GraphPart graphPart = new GraphPart(curve, isDirected);
+
+            DA.SetData(0, graphPart);
+
         }
         protected override System.Drawing.Bitmap Icon
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
+using MegarachneEngine;
 using Rhino.Geometry;
 
 namespace Megarachne
@@ -20,17 +21,20 @@ namespace Megarachne
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("Edge", "Edge", "Deconstructed edge", GH_ParamAccess.item);
             pManager.AddPointParameter("Vertices", "Vertices", "Deconstructed vertices", GH_ParamAccess.list);
-
+            pManager.AddCurveParameter("Edge", "Edge", "Deconstructed edge", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("IsDirected", "IsDirected", "Check if the graph part is directed",
+                GH_ParamAccess.item);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            GraphPart graphPart = null;
 
-        }
-        public override GH_Exposure Exposure
-        {
-            get { return GH_Exposure.secondary; }
+            DA.GetData(0, ref graphPart);
+
+            DA.SetDataList(0, new List<Point3d> {graphPart.StartVertex, graphPart.EndVertex});
+            DA.SetData(1, graphPart.Edge);
+            DA.SetData(2, graphPart.IsDirected);
         }
         protected override System.Drawing.Bitmap Icon
         {

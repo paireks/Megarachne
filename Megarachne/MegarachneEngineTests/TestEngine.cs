@@ -111,10 +111,32 @@ namespace MegarachneEngineTests
             GraphPart graphPart = new GraphPart(pointA, pointB, isDirected);
 
             Graph graph = new Graph(new List<GraphPart>{graphPart}, 0.001);
-            int[,] expectedGraphArray = new int[2,1];
+            int[,] expectedGraphArray = new int[2,2];
 
             expectedGraphArray[0, 0] = 0;
             expectedGraphArray[1, 0] = 1;
+            expectedGraphArray[0, 1] = 1;
+            expectedGraphArray[1, 1] = 0;
+            Assert.Equal(expectedGraphArray.Length, graph.GraphArray.Length);
+            Assert.Equal(expectedGraphArray, graph.GraphArray);
+        }
+
+        [Fact]
+        public void TestGraphConstructor_2Points2Times_GraphArray()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            bool isDirected = true;
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, isDirected);
+            GraphPart graphPart2 = new GraphPart(pointA, pointB, isDirected);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
+            int[,] expectedGraphArray = new int[2, 2];
+
+            expectedGraphArray[0, 0] = 0;
+            expectedGraphArray[1, 0] = 1;
+            expectedGraphArray[0, 1] = 0;
+            expectedGraphArray[1, 1] = 1;
             Assert.Equal(expectedGraphArray.Length, graph.GraphArray.Length);
             Assert.Equal(expectedGraphArray, graph.GraphArray);
         }
@@ -125,7 +147,7 @@ namespace MegarachneEngineTests
             Point3d pointA = new Point3d(0.01, 0.2, 0.5);
             Point3d pointB = new Point3d(1, 7, 10);
             Point3d pointC = new Point3d(1.2, 5.3, 10);
-            bool isDirected = false;
+            bool isDirected = true;
             GraphPart graphPart1 = new GraphPart(pointA, pointB, isDirected);
             GraphPart graphPart2 = new GraphPart(pointB, pointC, isDirected);
 
@@ -141,12 +163,36 @@ namespace MegarachneEngineTests
         }
 
         [Fact]
+        public void TestGraphConstructor_3PointsSame1Edge_GraphArray()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            bool isDirected = true;
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, isDirected);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, isDirected);
+            GraphPart graphPart3 = new GraphPart(pointA, pointB, isDirected);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+            int[,] expectedGraphArray = new int[2, 3];
+
+            expectedGraphArray[0, 0] = 0;
+            expectedGraphArray[1, 0] = 1;
+            expectedGraphArray[0, 1] = 1;
+            expectedGraphArray[1, 1] = 2;
+            expectedGraphArray[0, 2] = 0;
+            expectedGraphArray[1, 2] = 1;
+            Assert.Equal(expectedGraphArray.Length, graph.GraphArray.Length);
+            Assert.Equal(expectedGraphArray, graph.GraphArray);
+        }
+
+        [Fact]
         public void TestGraphConstructor_3PointsTriangle_GraphArray()
         {
             Point3d pointA = new Point3d(0.01, 0.2, 0.5);
             Point3d pointB = new Point3d(1, 7, 10);
             Point3d pointC = new Point3d(1.2, 5.3, 10);
-            bool isDirected = false;
+            bool isDirected = true;
             GraphPart graphPart1 = new GraphPart(pointA, pointB, isDirected);
             GraphPart graphPart2 = new GraphPart(pointB, pointC, isDirected);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, isDirected);

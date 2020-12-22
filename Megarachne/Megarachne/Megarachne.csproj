@@ -56,7 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateGraphGH.cs" />
     <Compile Include="CurveToGraphPartGH.cs" />
+    <Compile Include="DeconstructGraphGH.cs" />
     <Compile Include="DeconstructGraphPartGH.cs" />
     <Compile Include="MeshToGraphPartGH.cs" />
     <Compile Include="TwoPointsToGraphPartGH.cs" />
