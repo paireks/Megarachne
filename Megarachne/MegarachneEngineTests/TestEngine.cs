@@ -98,6 +98,26 @@ namespace MegarachneEngineTests
             Assert.False(arePointsTheSame);
         }
 
+        [Fact]
+        public void TestShowGraphArrayStringRepresentation_3PointsTriangle()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            bool isDirected = true;
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, isDirected);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, isDirected);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, isDirected);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+            List<string> expected = new List<string>();
+            expected.Add("0;1");
+            expected.Add("1;2");
+            expected.Add("2;0");
+
+            Assert.Equal(expected, Tools.ShowGraphArrayStringRepresentation(graph.GraphArray));
+        }
+
         #endregion
 
         #region Graph

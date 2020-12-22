@@ -36,6 +36,10 @@ namespace Megarachne
             DA.SetData(1, graphPart.Edge);
             DA.SetData(2, graphPart.IsDirected);
         }
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.secondary; }
+        }
         protected override System.Drawing.Bitmap Icon
         {
             get

@@ -23,5 +23,17 @@ namespace MegarachneEngine
 
             return true;
         }
+
+        public static List<string> ShowGraphArrayStringRepresentation(int[,] graphArray)
+        {
+            List<string> graphArrayStringRepresentation = new List<string>();
+
+            for (int i = 0; i < graphArray.GetLength(1); i++)
+            {
+                graphArrayStringRepresentation.Add(graphArray[0,i] + ";" + graphArray[1,i]);
+            }
+
+            return graphArrayStringRepresentation;
+        }
     }
 }

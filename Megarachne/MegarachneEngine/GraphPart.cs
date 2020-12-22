@@ -1,4 +1,5 @@
-﻿using Rhino.Geometry;
+﻿using System.Collections.Generic;
+using Rhino.Geometry;
 
 namespace MegarachneEngine
 {
@@ -33,6 +34,8 @@ namespace MegarachneEngine
 
             IsDirected = isDirected;
         }
+
+
 
         public bool IsDirected { get; set; }
         public Point3d StartVertex { get; set; }

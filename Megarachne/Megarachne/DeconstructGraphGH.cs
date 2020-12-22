@@ -21,7 +21,7 @@ namespace Megarachne
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Graph Array", "Graph Array", "Deconstructed Graph Array", GH_ParamAccess.list);
+            pManager.AddTextParameter("Graph Array", "Graph Array", "Deconstructed Graph Array", GH_ParamAccess.list);
             pManager.AddPointParameter("Vertices", "Vertices", "Deconstructed Vertices", GH_ParamAccess.list);
             pManager.AddCurveParameter("Edges", "Edges", "Deconstructed edges", GH_ParamAccess.list);
         }
@@ -31,9 +31,13 @@ namespace Megarachne
 
             DA.GetData(0, ref graph);
 
-            DA.SetDataList(0, graph.GraphArray);
+            DA.SetDataList(0, Tools.ShowGraphArrayStringRepresentation(graph.GraphArray));
             DA.SetDataList(1, graph.Vertices);
             DA.SetDataList(2, graph.Edges);
+        }
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.secondary; }
         }
         protected override System.Drawing.Bitmap Icon
         {
