@@ -88,7 +88,7 @@ namespace MegarachneEngine
 
             MeshFaceList meshFaces = mesh.Faces;
 
-            int[][] neighborEdgesIndexesSuspects = new int[meshFaces.Count][];
+            List<int> analyzedEdges = new List<int>();
 
             int currentGraphArrayRow = 0;
             int currentEdge = 0;
@@ -98,21 +98,18 @@ namespace MegarachneEngine
                 MeshFace currentMeshFace = meshFaces[i];
                 int[] currentEdgesOfFaceIndexes = mesh.TopologyEdges.GetEdgesForFace(i);
 
-                bool hasFaceNeighborSuspects = neighborEdgesIndexesSuspects[i] != null;
-
                 int facesEdgeCounter = 0;
 
                 foreach (int index in currentEdgesOfFaceIndexes)
                 {
-                    if (hasFaceNeighborSuspects)
+                    bool wasThatEdgeBefore = analyzedEdges.Contains(index);
+
+                    if (wasThatEdgeBefore)
                     {
-                        bool wasThatEdgeBefore = neighborEdgesIndexesSuspects[i].Contains(index);
-                        if (wasThatEdgeBefore)
-                        {
-                            facesEdgeCounter += 1;
-                            continue;
-                        }
+                        facesEdgeCounter += 1;
+                        continue;
                     }
+                    analyzedEdges.Add(index);
 
                     Curve newEdge = mesh.TopologyEdges.EdgeLine(index).ToNurbsCurve();
                     Edges[currentEdge] = newEdge;
@@ -161,12 +158,6 @@ namespace MegarachneEngine
                     facesEdgeCounter += 1;
                 }
 
-                //Add neighbors suspects
-                int[] connectedFaces = meshFaces.GetConnectedFaces(i, 0.0175, true);
-                foreach (int neighborIndex in connectedFaces)
-                {
-                    neighborEdgesIndexesSuspects[neighborIndex] = currentEdgesOfFaceIndexes;
-                }
             }
         }
 
