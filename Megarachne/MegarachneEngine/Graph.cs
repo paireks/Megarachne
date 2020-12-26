@@ -68,7 +68,9 @@ namespace MegarachneEngine
                 edgesCount += 1;
                 if (!graphPart.IsDirected)
                 {
-                    Edges[edgesCount] = graphPart.Edge;
+                    Curve reversedEdge = graphPart.Edge.DuplicateCurve();
+                    reversedEdge.Reverse();
+                    Edges[edgesCount] = reversedEdge;
                     GraphArray[0, edgesCount] = GraphArray[1, edgesCount - 1];
                     GraphArray[1, edgesCount] = GraphArray[0, edgesCount - 1];
 
@@ -88,7 +90,7 @@ namespace MegarachneEngine
 
             MeshFaceList meshFaces = mesh.Faces;
 
-            List<int> analyzedEdges = new List<int>();
+            HashSet<int> analyzedEdges = new HashSet<int>();
 
             int currentGraphArrayRow = 0;
             int currentEdge = 0;

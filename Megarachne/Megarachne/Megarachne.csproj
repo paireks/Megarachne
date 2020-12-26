@@ -61,7 +61,6 @@
     <Compile Include="DeconstructGraphGH.cs" />
     <Compile Include="DeconstructGraphPartGH.cs" />
     <Compile Include="MeshToGraphGH.cs" />
-    <Compile Include="MeshToGraphPartGH.cs" />
     <Compile Include="TwoPointsToGraphPartGH.cs" />
     <Compile Include="VectorToGraphPartGH.cs" />
     <Compile Include="MegarachneInfo.cs" />

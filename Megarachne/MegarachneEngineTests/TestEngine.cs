@@ -256,7 +256,17 @@ namespace MegarachneEngineTests
 
             Graph graph = new Graph(mesh);
 
+            int[,] expectedGraphArray = new int[2, 4];
 
+            expectedGraphArray[0, 0] = 0;
+            expectedGraphArray[1, 0] = 1;
+            expectedGraphArray[0, 1] = 1;
+            expectedGraphArray[1, 1] = 0;
+
+            Assert.Equal(expectedGraphArray[0,0], graph.GraphArray[0,0]);
+            Assert.Equal(expectedGraphArray[1,0], graph.GraphArray[1,0]);
+            Assert.Equal(expectedGraphArray[0,1], graph.GraphArray[0,1]);
+            Assert.Equal(expectedGraphArray[1,1], graph.GraphArray[1,1]);
         }
 
         #endregion
