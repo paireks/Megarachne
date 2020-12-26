@@ -88,78 +88,24 @@ namespace MegarachneEngine
             Edges = new Curve[numberOfEdges];
             GraphArray = new int[2, numberOfEdges];
 
-            MeshFaceList meshFaces = mesh.Faces;
+            MeshTopologyEdgeList topologyEdgeList = mesh.TopologyEdges;
 
-            HashSet<int> analyzedEdges = new HashSet<int>();
+            int currentEdgeCount = 0;
 
-            int currentGraphArrayRow = 0;
-            int currentEdge = 0;
-
-            for (int i = 0; i < meshFaces.Count; i++)
+            for (int i = 0; i < topologyEdgeList.Count; i++)
             {
-                MeshFace currentMeshFace = meshFaces[i];
-                int[] currentEdgesOfFaceIndexes = mesh.TopologyEdges.GetEdgesForFace(i);
+                Curve currentEdge = topologyEdgeList.EdgeLine(i).ToNurbsCurve();
+                Edges[currentEdgeCount] = currentEdge;
+                GraphArray[0, currentEdgeCount] = topologyEdgeList.GetTopologyVertices(i).I;
+                GraphArray[1, currentEdgeCount] = topologyEdgeList.GetTopologyVertices(i).J;
+                currentEdgeCount += 1;
 
-                int facesEdgeCounter = 0;
-
-                foreach (int index in currentEdgesOfFaceIndexes)
-                {
-                    bool wasThatEdgeBefore = analyzedEdges.Contains(index);
-
-                    if (wasThatEdgeBefore)
-                    {
-                        facesEdgeCounter += 1;
-                        continue;
-                    }
-                    analyzedEdges.Add(index);
-
-                    Curve newEdge = mesh.TopologyEdges.EdgeLine(index).ToNurbsCurve();
-                    Edges[currentEdge] = newEdge;
-                    currentEdge += 1;
-
-                    Curve copyEdge = newEdge.DuplicateCurve();
-                    copyEdge.Reverse();
-                    Edges[currentEdge] = copyEdge;
-                    currentEdge += 1;
-
-                    switch (facesEdgeCounter)
-                    {
-                        case 0:
-                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.A;
-                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.B;
-                            currentGraphArrayRow += 1;
-                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.B;
-                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.A;
-                            currentGraphArrayRow += 1;
-                            break;
-                        case 1:
-                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.B;
-                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.C;
-                            currentGraphArrayRow += 1;
-                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.C;
-                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.B;
-                            currentGraphArrayRow += 1;
-                            break;
-                        case 2:
-                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.C;
-                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.D;
-                            currentGraphArrayRow += 1;
-                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.D;
-                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.C;
-                            currentGraphArrayRow += 1;
-                            break;
-                        case 3:
-                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.D;
-                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.A;
-                            currentGraphArrayRow += 1;
-                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.A;
-                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.D;
-                            currentGraphArrayRow += 1;
-                            break;
-                    }
-                    facesEdgeCounter += 1;
-                }
-
+                Curve duplicateReversedEdge = currentEdge.DuplicateCurve();
+                duplicateReversedEdge.Reverse();
+                Edges[currentEdgeCount] = duplicateReversedEdge;
+                GraphArray[0, currentEdgeCount] = topologyEdgeList.GetTopologyVertices(i).J;
+                GraphArray[1, currentEdgeCount] = topologyEdgeList.GetTopologyVertices(i).I;
+                currentEdgeCount += 1;
             }
         }
 
