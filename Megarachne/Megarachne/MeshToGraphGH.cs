@@ -7,12 +7,12 @@ using Rhino.Geometry;
 
 namespace Megarachne
 {
-    public class MeshToGraphPartGH : GH_Component
+    public class MeshToGraphGH : GH_Component
     {
-        public MeshToGraphPartGH()
-            : base("Mesh To Graph Parts", "Mesh To Graph Parts",
-                "Convert mesh to undirected Graph Parts.",
-                "Megarachne", "Graph Part")
+        public MeshToGraphGH()
+          : base("Mesh To Graph", "Mesh To Graph",
+              "Convert Mesh to undirected Graph",
+              "Megarachne", "Graph")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -21,7 +21,7 @@ namespace Megarachne
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Graph Parts", "Graph Parts", "Created Graph Parts", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Graph", "Graph", "Created Graph", GH_ParamAccess.item);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -29,13 +29,9 @@ namespace Megarachne
 
             DA.GetData(0, ref mesh);
 
-            List<GraphPart> graphParts = new List<GraphPart>();
-            for (int i = 0; i < mesh.TopologyEdges.Count; i++)
-            {
-                graphParts.Add(new GraphPart(new LineCurve(mesh.TopologyEdges.EdgeLine(i)),false));
-            }
+            Graph graph = new Graph(mesh);
 
-            DA.SetDataList(0, graphParts);
+            DA.SetData(0, graph);
         }
         protected override System.Drawing.Bitmap Icon
         {
@@ -46,7 +42,7 @@ namespace Megarachne
         }
         public override Guid ComponentGuid
         {
-            get { return new Guid("7580929f-11eb-428d-83df-bd89dcda2576"); }
+            get { return new Guid("0927415e-1e70-47b7-b824-1504d1434ed7"); }
         }
     }
 }

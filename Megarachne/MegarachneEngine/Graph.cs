@@ -1,6 +1,8 @@
 ﻿using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Rhino.Geometry.Collections;
 
 namespace MegarachneEngine
 {
@@ -71,6 +73,99 @@ namespace MegarachneEngine
                     GraphArray[1, edgesCount] = GraphArray[0, edgesCount - 1];
 
                     edgesCount += 1;
+                }
+            }
+        }
+
+        public Graph(Mesh mesh)
+        {
+            Vertices = mesh.Vertices.ToPoint3dArray().ToList();
+
+            int numberOfEdges = mesh.TopologyEdges.Count * 2;
+
+            Edges = new Curve[numberOfEdges];
+            GraphArray = new int[2, numberOfEdges];
+
+            MeshFaceList meshFaces = mesh.Faces;
+
+            int[][] neighborEdgesIndexesSuspects = new int[meshFaces.Count][];
+
+            int currentGraphArrayRow = 0;
+            int currentEdge = 0;
+
+            for (int i = 0; i < meshFaces.Count; i++)
+            {
+                MeshFace currentMeshFace = meshFaces[i];
+                int[] currentEdgesOfFaceIndexes = mesh.TopologyEdges.GetEdgesForFace(i);
+
+                bool hasFaceNeighborSuspects = neighborEdgesIndexesSuspects[i] != null;
+
+                int facesEdgeCounter = 0;
+
+                foreach (int index in currentEdgesOfFaceIndexes)
+                {
+                    if (hasFaceNeighborSuspects)
+                    {
+                        bool wasThatEdgeBefore = neighborEdgesIndexesSuspects[i].Contains(index);
+                        if (wasThatEdgeBefore)
+                        {
+                            facesEdgeCounter += 1;
+                            continue;
+                        }
+                    }
+
+                    Curve newEdge = mesh.TopologyEdges.EdgeLine(index).ToNurbsCurve();
+                    Edges[currentEdge] = newEdge;
+                    currentEdge += 1;
+
+                    Curve copyEdge = newEdge.DuplicateCurve();
+                    copyEdge.Reverse();
+                    Edges[currentEdge] = copyEdge;
+                    currentEdge += 1;
+
+                    switch (facesEdgeCounter)
+                    {
+                        case 0:
+                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.A;
+                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.B;
+                            currentGraphArrayRow += 1;
+                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.B;
+                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.A;
+                            currentGraphArrayRow += 1;
+                            break;
+                        case 1:
+                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.B;
+                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.C;
+                            currentGraphArrayRow += 1;
+                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.C;
+                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.B;
+                            currentGraphArrayRow += 1;
+                            break;
+                        case 2:
+                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.C;
+                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.D;
+                            currentGraphArrayRow += 1;
+                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.D;
+                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.C;
+                            currentGraphArrayRow += 1;
+                            break;
+                        case 3:
+                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.D;
+                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.A;
+                            currentGraphArrayRow += 1;
+                            GraphArray[0, currentGraphArrayRow] = currentMeshFace.A;
+                            GraphArray[1, currentGraphArrayRow] = currentMeshFace.D;
+                            currentGraphArrayRow += 1;
+                            break;
+                    }
+                    facesEdgeCounter += 1;
+                }
+
+                //Add neighbors suspects
+                int[] connectedFaces = meshFaces.GetConnectedFaces(i, 0.0175, true);
+                foreach (int neighborIndex in connectedFaces)
+                {
+                    neighborEdgesIndexesSuspects[neighborIndex] = currentEdgesOfFaceIndexes;
                 }
             }
         }
