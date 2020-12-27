@@ -150,6 +150,11 @@ namespace MegarachneEngine
             return pointCloud.ClosestPoint(point);
         }
 
+        public int GetVertexDegree(int vertexIndex)
+        {
+            return AdjacencyList[vertexIndex].Count;
+        }
+
         public int[,] GraphArray { get; }
         public List<int>[] AdjacencyList { get; }
         public Curve[] Edges { get; }

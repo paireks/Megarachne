@@ -7,32 +7,32 @@ using Rhino.Geometry;
 
 namespace Megarachne
 {
-    public class GetClosestVertexIndexGH : GH_Component
+    public class GetVertexDegreeGH : GH_Component
     {
-        public GetClosestVertexIndexGH()
-          : base("Get Closest Vertex Index", "Get Closest Vertex Index",
-              "Get vertex closest to given point, return it's index",
+        public GetVertexDegreeGH()
+          : base("Get Vertex Degree", "Get Vertex Degree",
+              "Get vertex degree",
               "Megarachne", "Graph")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Graph", "Graph", "Input graph", GH_ParamAccess.item);
-            pManager.AddPointParameter("Point", "Point", "Input point to find closest vertex", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Vertex Index", "Vertex Index", "Input vertex index", GH_ParamAccess.item);
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Vertex Index", "Vertex Index", "Closest vertex index", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Vertex Degree", "Vertex Degree", "Vertex degree", GH_ParamAccess.item);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Graph graph = null;
-            Point3d point3d = Point3d.Unset;
+            int vertexIndex = 0;
 
             DA.GetData(0, ref graph);
-            DA.GetData(1, ref point3d);
+            DA.GetData(1, ref vertexIndex);
 
-            DA.SetData(0, graph.GetClosestVertexIndex(point3d));
+            DA.SetData(0, graph.GetVertexDegree(vertexIndex));
         }
         protected override System.Drawing.Bitmap Icon
         {
@@ -47,7 +47,7 @@ namespace Megarachne
         }
         public override Guid ComponentGuid
         {
-            get { return new Guid("bbb0cd82-3155-4545-9574-4b5b8384a548"); }
+            get { return new Guid("5a7f1257-798c-4e2e-8fa3-175bcbbbcf64"); }
         }
     }
 }
