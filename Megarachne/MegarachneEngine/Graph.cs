@@ -35,6 +35,9 @@ namespace MegarachneEngine
                 bool foundDuplicateStartVertex = false;
                 bool foundDuplicateEndVertex = false;
 
+                int firstVertexIndex = 0;
+                int secondVertexIndex = 0;
+
                 for (int j = 0; j < Vertices.Count; j++)
                 {
                     if (foundDuplicateStartVertex && foundDuplicateEndVertex)
@@ -43,12 +46,14 @@ namespace MegarachneEngine
                     }
                     if (!foundDuplicateStartVertex && Tools.CheckIfPointsAreSame(graphPart.StartVertex, Vertices[j], tolerance))
                     {
-                        GraphArray[0, edgesCount] = j;
+                        firstVertexIndex = j;
+                        GraphArray[0, edgesCount] = firstVertexIndex;
                         foundDuplicateStartVertex = true;
                     }
                     if (!foundDuplicateEndVertex && Tools.CheckIfPointsAreSame(graphPart.EndVertex, Vertices[j], tolerance))
                     {
-                        GraphArray[1, edgesCount] = j;
+                        secondVertexIndex = j;
+                        GraphArray[1, edgesCount] = secondVertexIndex;
                         foundDuplicateEndVertex = true;
                     }
                 }
@@ -56,16 +61,25 @@ namespace MegarachneEngine
                 if (!foundDuplicateStartVertex)
                 {
                     Vertices.Add(graphPart.StartVertex);
-                    GraphArray[0, edgesCount] = Vertices.Count - 1;
+                    firstVertexIndex = Vertices.Count - 1;
+                    GraphArray[0, edgesCount] = firstVertexIndex;
                 }
                 if (!foundDuplicateEndVertex)
                 {
                     Vertices.Add(graphPart.EndVertex);
-                    GraphArray[1, edgesCount] = Vertices.Count - 1;
+                    secondVertexIndex = Vertices.Count - 1;
+                    GraphArray[1, edgesCount] = secondVertexIndex;
                 }
 
                 Edges[edgesCount] = graphPart.Edge;
                 edgesCount += 1;
+
+                if (AdjacencyList[firstVertexIndex] == null)
+                {
+                    AdjacencyList[firstVertexIndex] = new List<int>();
+                }
+                AdjacencyList[firstVertexIndex].Add(secondVertexIndex);
+
                 if (!graphPart.IsDirected)
                 {
                     Curve reversedEdge = graphPart.Edge.DuplicateCurve();
@@ -75,6 +89,12 @@ namespace MegarachneEngine
                     GraphArray[1, edgesCount] = GraphArray[0, edgesCount - 1];
 
                     edgesCount += 1;
+
+                    if (AdjacencyList[secondVertexIndex] == null)
+                    {
+                        AdjacencyList[secondVertexIndex] = new List<int>();
+                    }
+                    AdjacencyList[secondVertexIndex].Add(firstVertexIndex);
                 }
             }
         }
@@ -87,6 +107,7 @@ namespace MegarachneEngine
 
             Edges = new Curve[numberOfEdges];
             GraphArray = new int[2, numberOfEdges];
+            AdjacencyList = new List<int>[Vertices.Count];
 
             MeshTopologyEdgeList topologyEdgeList = mesh.TopologyEdges;
 
@@ -94,24 +115,38 @@ namespace MegarachneEngine
 
             for (int i = 0; i < topologyEdgeList.Count; i++)
             {
+                int firstVertexIndex = topologyEdgeList.GetTopologyVertices(i).I;
+                int secondVertexIndex = topologyEdgeList.GetTopologyVertices(i).J;
+
                 Curve currentEdge = topologyEdgeList.EdgeLine(i).ToNurbsCurve();
                 Edges[currentEdgeCount] = currentEdge;
-                GraphArray[0, currentEdgeCount] = topologyEdgeList.GetTopologyVertices(i).I;
-                GraphArray[1, currentEdgeCount] = topologyEdgeList.GetTopologyVertices(i).J;
+                GraphArray[0, currentEdgeCount] = firstVertexIndex;
+                GraphArray[1, currentEdgeCount] = secondVertexIndex;
+                if (AdjacencyList[firstVertexIndex] == null)
+                {
+                    AdjacencyList[firstVertexIndex] = new List<int>();
+                }
+                AdjacencyList[firstVertexIndex].Add(secondVertexIndex);
                 currentEdgeCount += 1;
 
                 Curve duplicateReversedEdge = currentEdge.DuplicateCurve();
                 duplicateReversedEdge.Reverse();
                 Edges[currentEdgeCount] = duplicateReversedEdge;
-                GraphArray[0, currentEdgeCount] = topologyEdgeList.GetTopologyVertices(i).J;
-                GraphArray[1, currentEdgeCount] = topologyEdgeList.GetTopologyVertices(i).I;
+                GraphArray[0, currentEdgeCount] = secondVertexIndex;
+                GraphArray[1, currentEdgeCount] = firstVertexIndex;
+                if (AdjacencyList[secondVertexIndex] == null)
+                {
+                    AdjacencyList[secondVertexIndex] = new List<int>();
+                }
+                AdjacencyList[secondVertexIndex].Add(firstVertexIndex);
                 currentEdgeCount += 1;
             }
         }
 
-        public int[,] GraphArray { get; set; }
-        public Curve[] Edges { get; set; }
-        public List<Point3d> Vertices { get; set; }
+        public int[,] GraphArray { get; }
+        public List<int>[] AdjacencyList { get; }
+        public Curve[] Edges { get; }
+        public List<Point3d> Vertices { get; }
 
     }
 }

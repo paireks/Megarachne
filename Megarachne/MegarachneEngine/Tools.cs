@@ -35,5 +35,22 @@ namespace MegarachneEngine
 
             return graphArrayStringRepresentation;
         }
+
+        public static List<string> ShowAdjacencyListStringRepresentation(List<int>[] adjacencyList)
+        {
+            List<string> adjacencyListStringRepresentation = new List<string>();
+
+            foreach (var currentVertexIndexes in adjacencyList)
+            {
+                string currentString = "";
+                foreach (var index in currentVertexIndexes)
+                {
+                    currentString += index + ";";
+                }
+                adjacencyListStringRepresentation.Add(currentString);
+            }
+
+            return adjacencyListStringRepresentation;
+        }
     }
 }

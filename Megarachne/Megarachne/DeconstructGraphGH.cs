@@ -24,6 +24,7 @@ namespace Megarachne
             pManager.AddTextParameter("Graph Array", "Graph Array", "Deconstructed Graph Array", GH_ParamAccess.list);
             pManager.AddPointParameter("Vertices", "Vertices", "Deconstructed Vertices", GH_ParamAccess.list);
             pManager.AddCurveParameter("Edges", "Edges", "Deconstructed edges", GH_ParamAccess.list);
+            pManager.AddTextParameter("Adjacency List", "Adjacency List", "Deconstructed Adjacency List", GH_ParamAccess.list);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -34,6 +35,7 @@ namespace Megarachne
             DA.SetDataList(0, Tools.ShowGraphArrayStringRepresentation(graph.GraphArray));
             DA.SetDataList(1, graph.Vertices);
             DA.SetDataList(2, graph.Edges);
+            DA.SetDataList(3, Tools.ShowAdjacencyListStringRepresentation(graph.AdjacencyList));
         }
         public override GH_Exposure Exposure
         {
