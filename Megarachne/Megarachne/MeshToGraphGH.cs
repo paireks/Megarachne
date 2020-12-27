@@ -11,7 +11,7 @@ namespace Megarachne
     {
         public MeshToGraphGH()
           : base("Mesh To Graph", "Mesh To Graph",
-              "Convert Mesh to undirected Graph",
+              "Convert Mesh to Graph",
               "Megarachne", "Graph")
         {
         }

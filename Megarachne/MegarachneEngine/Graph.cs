@@ -143,6 +143,13 @@ namespace MegarachneEngine
             }
         }
 
+        public int GetClosestVertexIndex(Point3d point)
+        {
+            PointCloud pointCloud = new PointCloud(Vertices);
+
+            return pointCloud.ClosestPoint(point);
+        }
+
         public int[,] GraphArray { get; }
         public List<int>[] AdjacencyList { get; }
         public Curve[] Edges { get; }
