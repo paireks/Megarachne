@@ -155,6 +155,22 @@ namespace MegarachneEngine
             return AdjacencyList[vertexIndex].Count;
         }
 
+        public int GetGraphDegree()
+        {
+            int max = 0;
+
+            foreach (var listOfIndexes in AdjacencyList)
+            {
+                int currentMax = listOfIndexes.Count;
+                if (max < currentMax)
+                {
+                    max = currentMax;
+                }
+            }
+
+            return max;
+        }
+
         public int[,] GraphArray { get; }
         public List<int>[] AdjacencyList { get; }
         public Curve[] Edges { get; }
