@@ -269,6 +269,20 @@ namespace MegarachneEngineTests
             Assert.Equal(expectedGraphArray[1,1], graph.GraphArray[1,1]);
         }
 
+        [Fact]
+        public void TestGraphConstructor_MeshCube_GraphArray()
+        {
+            Mesh mesh = Mesh.CreateFromBox(new BoundingBox(0, 0, 0, 100, 100, 100), 10, 10, 10);
+
+            Graph graph = new Graph(mesh);
+
+            List<int>[] adjacencyList = graph.AdjacencyList;
+
+            Tools.ShowAdjacencyListStringRepresentation(graph.AdjacencyList);
+
+            //Assert.Equal(new List<int>[]{}, adjacencyList);
+        }
+
         #endregion
 
     }

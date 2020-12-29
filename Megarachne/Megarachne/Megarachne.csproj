@@ -56,6 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BfsGH.cs" />
+    <Compile Include="BfsIsConnectedGH.cs" />
     <Compile Include="BfsShortestPathGH.cs" />
     <Compile Include="CreateGraphGH.cs" />
     <Compile Include="CurveToGraphPartGH.cs" />

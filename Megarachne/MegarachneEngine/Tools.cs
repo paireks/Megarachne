@@ -24,6 +24,24 @@ namespace MegarachneEngine
             return true;
         }
 
+        public static List<int>[] ConvertGraphArrayToAdjacencyList(int numberOfVertices, int[,] graphArray)
+        {
+            List<int>[] adjacencyList = new List<int>[numberOfVertices];
+
+            for (int i = 0; i < graphArray.GetLength(1); i++)
+            {
+                int firstIndex = graphArray[0, i];
+                int secondIndex = graphArray[1, i];
+                if (adjacencyList[firstIndex] == null)
+                {
+                    adjacencyList[firstIndex] = new List<int>();
+                }
+                adjacencyList[firstIndex].Add(secondIndex);
+            }
+
+            return adjacencyList;
+        }
+
         public static List<string> ShowGraphArrayStringRepresentation(int[,] graphArray)
         {
             List<string> graphArrayStringRepresentation = new List<string>();
@@ -43,9 +61,12 @@ namespace MegarachneEngine
             foreach (var currentVertexIndexes in adjacencyList)
             {
                 string currentString = "";
-                foreach (var index in currentVertexIndexes)
+                if (currentVertexIndexes != null)
                 {
-                    currentString += index + ";";
+                    foreach (var index in currentVertexIndexes)
+                    {
+                        currentString += index + ";";
+                    }
                 }
                 adjacencyListStringRepresentation.Add(currentString);
             }

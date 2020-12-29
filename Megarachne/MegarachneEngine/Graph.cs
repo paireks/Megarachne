@@ -35,8 +35,8 @@ namespace MegarachneEngine
                 bool foundDuplicateStartVertex = false;
                 bool foundDuplicateEndVertex = false;
 
-                int firstVertexIndex = 0;
-                int secondVertexIndex = 0;
+                int firstVertexIndex;
+                int secondVertexIndex;
 
                 for (int j = 0; j < Vertices.Count; j++)
                 {
@@ -74,12 +74,6 @@ namespace MegarachneEngine
                 Edges[edgesCount] = graphPart.Edge;
                 edgesCount += 1;
 
-                if (AdjacencyList[firstVertexIndex] == null)
-                {
-                    AdjacencyList[firstVertexIndex] = new List<int>();
-                }
-                AdjacencyList[firstVertexIndex].Add(secondVertexIndex);
-
                 if (!graphPart.IsDirected)
                 {
                     Curve reversedEdge = graphPart.Edge.DuplicateCurve();
@@ -89,14 +83,10 @@ namespace MegarachneEngine
                     GraphArray[1, edgesCount] = GraphArray[0, edgesCount - 1];
 
                     edgesCount += 1;
-
-                    if (AdjacencyList[secondVertexIndex] == null)
-                    {
-                        AdjacencyList[secondVertexIndex] = new List<int>();
-                    }
-                    AdjacencyList[secondVertexIndex].Add(firstVertexIndex);
                 }
             }
+
+            AdjacencyList = Tools.ConvertGraphArrayToAdjacencyList(Vertices.Count, GraphArray);
         }
 
         public Graph(Mesh mesh)
@@ -141,6 +131,13 @@ namespace MegarachneEngine
                 AdjacencyList[secondVertexIndex].Add(firstVertexIndex);
                 currentEdgeCount += 1;
             }
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Graph{0}" +
+                                 "Vertices: {1}{0}" +
+                                 "Edges: {2}{0}", Environment.NewLine, Vertices.Count, Edges.Length);
         }
 
         public int GetClosestVertexIndex(Point3d point)
