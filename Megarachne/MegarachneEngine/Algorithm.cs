@@ -24,11 +24,6 @@ namespace MegarachneEngine
             {
                 int vertex = queue.Dequeue();
 
-                if (adjacencyList[vertex] == null)
-                {
-                    continue;
-                }
-
                 foreach (int neighbor in adjacencyList[vertex])
                 {
                     if (visited[neighbor])
@@ -42,6 +37,7 @@ namespace MegarachneEngine
             }
             return previous;
         }
+
         public static bool BfsIsGraphConnected(Graph graph)
         {
             List<int>[] adjacencyList = graph.AdjacencyList;
@@ -100,11 +96,6 @@ namespace MegarachneEngine
             while (queue.Count != 0 || keepSearching)
             {
                 int vertex = queue.Dequeue();
-
-                if (adjacencyList[vertex] == null)
-                {
-                    continue;
-                }
 
                 foreach (int neighbor in adjacencyList[vertex])
                 {

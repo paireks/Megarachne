@@ -21,7 +21,7 @@ namespace Megarachne
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Graph Degree", "Graph Degree", "Graph degree", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Degree", "Degree", "Graph degree", GH_ParamAccess.item);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {

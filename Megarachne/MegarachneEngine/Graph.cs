@@ -152,6 +152,25 @@ namespace MegarachneEngine
             return AdjacencyList[vertexIndex].Count;
         }
 
+        public int GetVertexOutDegree(int vertexIndex)
+        {
+            return AdjacencyList[vertexIndex].Count;
+        }
+
+        public int GetVertexInDegree(int vertexIndex)
+        {
+            int inDegree = 0;
+            foreach (var neighborsList in AdjacencyList)
+            {
+                if (neighborsList.Contains(vertexIndex))
+                {
+                    inDegree++;
+                }
+            }
+
+            return inDegree;
+        }
+
         public int GetGraphDegree()
         {
             int max = 0;
