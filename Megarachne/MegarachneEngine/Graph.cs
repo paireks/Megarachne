@@ -147,44 +147,35 @@ namespace MegarachneEngine
             return pointCloud.ClosestPoint(point);
         }
 
-        public int GetVertexDegree(int vertexIndex)
+        public int GetVertexOutdegree(int vertexIndex)
         {
+            if (AdjacencyList[vertexIndex] == null)
+            {
+                return 0;
+            }
             return AdjacencyList[vertexIndex].Count;
         }
 
-        public int GetVertexOutDegree(int vertexIndex)
-        {
-            return AdjacencyList[vertexIndex].Count;
-        }
-
-        public int GetVertexInDegree(int vertexIndex)
+        public int GetVertexIndegree(int vertexIndex)
         {
             int inDegree = 0;
             foreach (var neighborsList in AdjacencyList)
             {
-                if (neighborsList.Contains(vertexIndex))
+                if (neighborsList != null)
                 {
-                    inDegree++;
+                    if (neighborsList.Contains(vertexIndex))
+                    {
+                        inDegree++;
+                    }
                 }
             }
 
             return inDegree;
         }
 
-        public int GetGraphDegree()
+        public int GetVertexDegree(int vertexIndex)
         {
-            int max = 0;
-
-            foreach (var listOfIndexes in AdjacencyList)
-            {
-                int currentMax = listOfIndexes.Count;
-                if (max < currentMax)
-                {
-                    max = currentMax;
-                }
-            }
-
-            return max;
+            return GetVertexOutdegree(vertexIndex) + GetVertexIndegree(vertexIndex);
         }
 
         public int[,] GraphArray { get; }

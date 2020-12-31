@@ -52,7 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithm.cs" />
+    <Compile Include="Bfs.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphPart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

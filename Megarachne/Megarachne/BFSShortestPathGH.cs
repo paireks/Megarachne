@@ -37,7 +37,7 @@ namespace Megarachne
             DA.GetData(1, ref startVertexIndex);
             DA.GetData(2, ref endVertexIndex);
 
-            DA.SetDataList(0, Algorithm.BfsShortestPath(graph, startVertexIndex, endVertexIndex));
+            DA.SetDataList(0, Bfs.GetShortestPath(graph, startVertexIndex, endVertexIndex));
         }
         protected override System.Drawing.Bitmap Icon
         {

@@ -11,7 +11,7 @@ namespace Megarachne
     {
         public GetVertexDegreeGH()
           : base("Get Vertex Degrees", "Get Vertex Degrees",
-              "Get vertex degree, indegree, outdegree",
+              "Get vertex degree",
               "Megarachne", "Graph")
         {
         }
@@ -35,8 +35,8 @@ namespace Megarachne
             DA.GetData(1, ref vertexIndex);
 
             DA.SetData(0, graph.GetVertexDegree(vertexIndex));
-            DA.SetData(1, graph.GetVertexInDegree(vertexIndex));
-            DA.SetData(2, graph.GetVertexOutDegree(vertexIndex));
+            DA.SetData(1, graph.GetVertexIndegree(vertexIndex));
+            DA.SetData(2, graph.GetVertexOutdegree(vertexIndex));
         }
         protected override System.Drawing.Bitmap Icon
         {

@@ -230,59 +230,6 @@ namespace MegarachneEngineTests
             Assert.Equal(expectedGraphArray, graph.GraphArray);
         }
 
-        [Fact]
-        public void TestGraphConstructor_Mesh_GraphArray()
-        {
-            Mesh mesh = new Mesh();
-            mesh.Vertices.Add(0.0, 0.0, 1.0); //0
-            mesh.Vertices.Add(1.0, 0.0, 1.0); //1
-            mesh.Vertices.Add(2.0, 0.0, 1.0); //2
-            mesh.Vertices.Add(3.0, 0.0, 0.0); //3
-            mesh.Vertices.Add(0.0, 1.0, 1.0); //4
-            mesh.Vertices.Add(1.0, 1.0, 2.0); //5
-            mesh.Vertices.Add(2.0, 1.0, 1.0); //6
-            mesh.Vertices.Add(3.0, 1.0, 0.0); //7
-            mesh.Vertices.Add(0.0, 2.0, 1.0); //8
-            mesh.Vertices.Add(1.0, 2.0, 1.0); //9
-            mesh.Vertices.Add(2.0, 2.0, 1.0); //10
-            mesh.Vertices.Add(3.0, 2.0, 1.0); //11
-
-            mesh.Faces.AddFace(0, 1, 5, 4);
-            mesh.Faces.AddFace(1, 2, 6, 5);
-            mesh.Faces.AddFace(2, 3, 7, 6);
-            mesh.Faces.AddFace(4, 5, 9, 8);
-            mesh.Faces.AddFace(5, 6, 10, 9);
-            mesh.Faces.AddFace(6, 7, 11, 10);
-
-            Graph graph = new Graph(mesh);
-
-            int[,] expectedGraphArray = new int[2, 4];
-
-            expectedGraphArray[0, 0] = 0;
-            expectedGraphArray[1, 0] = 1;
-            expectedGraphArray[0, 1] = 1;
-            expectedGraphArray[1, 1] = 0;
-
-            Assert.Equal(expectedGraphArray[0,0], graph.GraphArray[0,0]);
-            Assert.Equal(expectedGraphArray[1,0], graph.GraphArray[1,0]);
-            Assert.Equal(expectedGraphArray[0,1], graph.GraphArray[0,1]);
-            Assert.Equal(expectedGraphArray[1,1], graph.GraphArray[1,1]);
-        }
-
-        [Fact]
-        public void TestGraphConstructor_MeshCube_GraphArray()
-        {
-            Mesh mesh = Mesh.CreateFromBox(new BoundingBox(0, 0, 0, 100, 100, 100), 10, 10, 10);
-
-            Graph graph = new Graph(mesh);
-
-            List<int>[] adjacencyList = graph.AdjacencyList;
-
-            Tools.ShowAdjacencyListStringRepresentation(graph.AdjacencyList);
-
-            //Assert.Equal(new List<int>[]{}, adjacencyList);
-        }
-
         #endregion
 
     }

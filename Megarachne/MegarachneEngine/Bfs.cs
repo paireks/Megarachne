@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace MegarachneEngine
 {
-    public static class Algorithm
+    public static class Bfs
     {
-        public static int[] Bfs(Graph graph)
+        public static int[] GetPrevious(Graph graph, int startVertex)
         {
             List<int>[] adjacencyList = graph.AdjacencyList;
             bool[] visited = new bool[graph.Vertices.Count];
             Queue<int> queue = new Queue<int>();
-            int startVertex = 0;
             int[] previous = new int[graph.Vertices.Count];
 
             queue.Enqueue(startVertex);
@@ -38,12 +37,11 @@ namespace MegarachneEngine
             return previous;
         }
 
-        public static bool BfsIsGraphConnected(Graph graph)
+        public static bool IsGraphConnected(Graph graph, int startVertex)
         {
             List<int>[] adjacencyList = graph.AdjacencyList;
             bool[] visited = new bool[graph.Vertices.Count];
             Queue<int> queue = new Queue<int>();
-            int startVertex = 0;
 
             queue.Enqueue(startVertex);
             visited[startVertex] = true;
@@ -81,12 +79,12 @@ namespace MegarachneEngine
 
             return isGraphConnected;
         }
-        public static List<int> BfsShortestPath(Graph graph, int startVertexIndex, int endVertexIndex)
+
+        public static List<int> GetShortestPath(Graph graph, int startVertex, int endVertex)
         {
             List<int>[] adjacencyList = graph.AdjacencyList;
             bool[] visited = new bool[graph.Vertices.Count];
             Queue<int> queue = new Queue<int>();
-            int startVertex = startVertexIndex;
             int[] previous = new int[graph.Vertices.Count];
 
             queue.Enqueue(startVertex);
@@ -106,7 +104,7 @@ namespace MegarachneEngine
                     queue.Enqueue(neighbor);
                     visited[neighbor] = true;
                     previous[neighbor] = vertex;
-                    if (neighbor == endVertexIndex)
+                    if (neighbor == endVertex)
                     {
                         keepSearching = false;
                         break;
@@ -116,17 +114,17 @@ namespace MegarachneEngine
 
             List<int> shortestPath = new List<int>();
 
-            shortestPath.Add(endVertexIndex);
+            shortestPath.Add(endVertex);
 
-            int currentVertex = endVertexIndex;
+            int currentVertex = endVertex;
 
-            while (previous[currentVertex] != startVertexIndex)
+            while (previous[currentVertex] != startVertex)
             {
                 shortestPath.Add(previous[currentVertex]);
                 currentVertex = previous[currentVertex];
             }
 
-            shortestPath.Add(startVertexIndex);
+            shortestPath.Add(startVertex);
 
             shortestPath.Reverse();
 
