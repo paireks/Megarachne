@@ -1,29 +1,39 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MegarachneEngine
 {
     public static class Bfs
     {
-        public static int[] GetPrevious(Graph graph, int startVertex)
+        public static int[] GetPrevious(Graph graph)
         {
-            List<int>[] adjacencyList = graph.AdjacencyList;
             bool[] visited = new bool[graph.Vertices.Count];
             Queue<int> queue = new Queue<int>();
             int[] previous = new int[graph.Vertices.Count];
 
+            for (int i = 0; i < graph.Vertices.Count; i++)
+            {
+                if (visited[i] == false)
+                {
+                    previous[i] = i;
+                    MainLoopForSeparatedConnectedGraph(queue, visited, previous, graph, i);
+                }
+            }
+
+            return previous;
+        }
+
+        private static void MainLoopForSeparatedConnectedGraph(Queue<int> queue, bool[] visited, int[] previous, Graph graph, int startVertex)
+        {
             queue.Enqueue(startVertex);
             visited[startVertex] = true;
-            
+
             while (queue.Count != 0)
             {
                 int vertex = queue.Dequeue();
 
-                foreach (int neighbor in adjacencyList[vertex])
+                foreach (int neighbor in graph.AdjacencyList[vertex])
                 {
                     if (visited[neighbor])
                     {
@@ -34,55 +44,27 @@ namespace MegarachneEngine
                     previous[neighbor] = vertex;
                 }
             }
-            return previous;
         }
 
-        public static bool IsGraphConnected(Graph graph, int startVertex)
+        public static bool IsGraphConnected(Graph graph)
         {
-            List<int>[] adjacencyList = graph.AdjacencyList;
             bool[] visited = new bool[graph.Vertices.Count];
             Queue<int> queue = new Queue<int>();
+            int[] previous = new int[graph.Vertices.Count];
+            int startVertex = 0;
 
-            queue.Enqueue(startVertex);
-            visited[startVertex] = true;
+            MainLoopForSeparatedConnectedGraph(queue, visited, previous, graph, startVertex);
 
-            while (queue.Count != 0)
-            {
-                int vertex = queue.Dequeue();
-
-                if (adjacencyList[vertex] == null)
-                {
-                    continue;
-                }
-
-                foreach (int neighbor in adjacencyList[vertex])
-                {
-                    if (visited[neighbor])
-                    {
-                        continue;
-                    }
-                    queue.Enqueue(neighbor);
-                    visited[neighbor] = true;
-                }
-            }
-
-            bool isGraphConnected;
-
-            if (visited.Contains(false))
-            {
-                isGraphConnected = false;
-            }
-            else
-            {
-                isGraphConnected = true;
-            }
-
-            return isGraphConnected;
+            return !visited.Contains(false);
         }
 
         public static List<int> GetShortestPath(Graph graph, int startVertex, int endVertex)
         {
-            List<int>[] adjacencyList = graph.AdjacencyList;
+            if (startVertex == endVertex)
+            {
+                throw new ArgumentException("Start Vertex should be different from End Vertex");
+            }
+
             bool[] visited = new bool[graph.Vertices.Count];
             Queue<int> queue = new Queue<int>();
             int[] previous = new int[graph.Vertices.Count];
@@ -95,7 +77,7 @@ namespace MegarachneEngine
             {
                 int vertex = queue.Dequeue();
 
-                foreach (int neighbor in adjacencyList[vertex])
+                foreach (int neighbor in graph.AdjacencyList[vertex])
                 {
                     if (visited[neighbor])
                     {
@@ -130,6 +112,5 @@ namespace MegarachneEngine
 
             return shortestPath;
         }
-
     }
 }

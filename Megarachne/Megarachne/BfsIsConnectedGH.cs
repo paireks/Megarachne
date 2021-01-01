@@ -9,7 +9,6 @@ namespace Megarachne
 {
     public class BfsIsConnectedGH : GH_Component
     {
-
         public BfsIsConnectedGH()
           : base("BFS Is Graph Connected", "BFS Is Graph Connected",
               "Check if the graph is connected by using Breadth First Search",
@@ -19,8 +18,6 @@ namespace Megarachne
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Graph", "Graph", "Input graph", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Start Vertex", "Start Vertex", "Index of start vertex",
-                GH_ParamAccess.item);
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
@@ -30,12 +27,10 @@ namespace Megarachne
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Graph graph = null;
-            int startVertex = 0;
 
             DA.GetData(0, ref graph);
-            DA.GetData(1, ref startVertex);
 
-            DA.SetData(0, Bfs.IsGraphConnected(graph, startVertex));
+            DA.SetData(0, Bfs.IsGraphConnected(graph));
         }
         protected override System.Drawing.Bitmap Icon
         {

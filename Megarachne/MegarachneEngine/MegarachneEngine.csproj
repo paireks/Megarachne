@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bfs.cs" />
+    <Compile Include="Dijkstra.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphPart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
