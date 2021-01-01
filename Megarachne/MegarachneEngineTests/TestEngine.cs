@@ -117,6 +117,66 @@ namespace MegarachneEngineTests
             Assert.Equal(expected, Tools.ShowGraphArrayStringRepresentation(graph.GraphArray));
         }
 
+        [Fact]
+        public void TestShowGraphArrayStringRepresentation_3PointsTriangleNotDirected()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, false);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+            List<string> expected = new List<string>();
+            expected.Add("0;1");
+            expected.Add("1;0");
+            expected.Add("1;2");
+            expected.Add("2;1");
+            expected.Add("2;0");
+            expected.Add("0;2");
+
+            Assert.Equal(expected, Tools.ShowGraphArrayStringRepresentation(graph.GraphArray));
+        }
+
+        [Fact]
+        public void TestShowAdjacencyListStringRepresentation_3PointsTriangle()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+            List<string> expected = new List<string>();
+            expected.Add("1;");
+            expected.Add("2;");
+            expected.Add("0;");
+
+            Assert.Equal(expected, Tools.ShowAdjacencyListStringRepresentation(graph.AdjacencyList));
+        }
+
+        [Fact]
+        public void TestShowAdjacencyListStringRepresentation_3PointsTriangleNotDirected()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, false);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+            List<string> expected = new List<string>();
+            expected.Add("1;2;");
+            expected.Add("0;2;");
+            expected.Add("1;0;");
+
+            Assert.Equal(expected, Tools.ShowAdjacencyListStringRepresentation(graph.AdjacencyList));
+        }
+
         #endregion
 
         #region Graph
@@ -583,6 +643,92 @@ namespace MegarachneEngineTests
             Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
 
             Assert.Equal(4, graph.GetGraphDegree());
+        }
+
+        [Fact]
+        public void TestGraphToString_3PointsTriangleNotDirected_String()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, false);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+
+            string expected = "Graph\r\nVertices: 3\r\nEdges: 6";
+
+            Assert.Equal(expected, graph.ToString());
+        }
+
+        [Fact]
+        public void TestGraphGetClosestVertexIndex_3PointsTriangleNotDirected_Index()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, false);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+
+            Point3d pointToFindClosestVertex = new Point3d(0.9,6.9,11);
+
+            Assert.Equal(1, graph.GetClosestVertexIndex(pointToFindClosestVertex));
+        }
+
+        [Fact]
+        public void TestGraphConstructor_Mesh_GraphArray()
+        {
+            Mesh mesh = new Mesh();
+            mesh.Vertices.Add(0.0, 0.0, 1.0); //0
+            mesh.Vertices.Add(1.0, 0.0, 1.0); //1
+            mesh.Vertices.Add(0.0, 1.0, 1.0); //2
+
+            mesh.Faces.AddFace(0, 1, 2);
+
+            int[,] expectedGraphArray = new int[2, 6];
+
+            expectedGraphArray[0, 0] = 0;
+            expectedGraphArray[1, 0] = 1;
+            expectedGraphArray[0, 1] = 1;
+            expectedGraphArray[1, 1] = 0;
+            expectedGraphArray[0, 2] = 0;
+            expectedGraphArray[1, 2] = 2;
+            expectedGraphArray[0, 3] = 2;
+            expectedGraphArray[1, 3] = 0;
+            expectedGraphArray[0, 4] = 1;
+            expectedGraphArray[1, 4] = 2;
+            expectedGraphArray[0, 5] = 2;
+            expectedGraphArray[1, 5] = 1;
+
+            Graph graph = new Graph(mesh);
+
+            Assert.Equal(expectedGraphArray.Length, graph.GraphArray.Length);
+            Assert.Equal(expectedGraphArray, graph.GraphArray);
+        }
+
+        [Fact]
+        public void TestGraphConstructor_Mesh_AdjacencyList()
+        {
+            Mesh mesh = new Mesh();
+            mesh.Vertices.Add(0.0, 0.0, 1.0); //0
+            mesh.Vertices.Add(1.0, 0.0, 1.0); //1
+            mesh.Vertices.Add(0.0, 1.0, 1.0); //2
+
+            mesh.Faces.AddFace(0, 1, 2);
+
+            List<int>[] expectedAdjacencyList = new List<int>[3];
+
+            expectedAdjacencyList[0] = new List<int> { 1, 2 };
+            expectedAdjacencyList[1] = new List<int> { 0, 2 };
+            expectedAdjacencyList[2] = new List<int> { 0, 1 };
+
+            Graph graph = new Graph(mesh);
+
+            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
         }
 
         #endregion

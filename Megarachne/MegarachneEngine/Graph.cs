@@ -137,7 +137,7 @@ namespace MegarachneEngine
         {
             return string.Format("Graph{0}" +
                                  "Vertices: {1}{0}" +
-                                 "Edges: {2}{0}", Environment.NewLine, Vertices.Count, Edges.Length);
+                                 "Edges: {2}", Environment.NewLine, Vertices.Count, Edges.Length);
         }
 
         public int GetClosestVertexIndex(Point3d point)
@@ -149,10 +149,6 @@ namespace MegarachneEngine
 
         public int GetVertexOutdegree(int vertexIndex)
         {
-            if (AdjacencyList[vertexIndex] == null)
-            {
-                return 0;
-            }
             return AdjacencyList[vertexIndex].Count;
         }
 
