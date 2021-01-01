@@ -161,21 +161,35 @@ namespace MegarachneEngine
             int inDegree = 0;
             foreach (var neighborsList in AdjacencyList)
             {
-                if (neighborsList != null)
+                foreach (var neighbor in neighborsList)
                 {
-                    if (neighborsList.Contains(vertexIndex))
+                    if (neighbor == vertexIndex)
                     {
                         inDegree++;
                     }
                 }
             }
-
             return inDegree;
         }
 
         public int GetVertexDegree(int vertexIndex)
         {
             return GetVertexOutdegree(vertexIndex) + GetVertexIndegree(vertexIndex);
+        }
+
+        public int GetGraphDegree()
+        {
+            int max = 0;
+            for (int i = 0; i < Vertices.Count; i++)
+            {
+                int currentVertexDegree = GetVertexDegree(i);
+                if (currentVertexDegree > max)
+                {
+                    max = currentVertexDegree;
+                }
+            }
+
+            return max;
         }
 
         public int[,] GraphArray { get; }

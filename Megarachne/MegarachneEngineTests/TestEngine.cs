@@ -104,10 +104,9 @@ namespace MegarachneEngineTests
             Point3d pointA = new Point3d(0.01, 0.2, 0.5);
             Point3d pointB = new Point3d(1, 7, 10);
             Point3d pointC = new Point3d(1.2, 5.3, 10);
-            bool isDirected = true;
-            GraphPart graphPart1 = new GraphPart(pointA, pointB, isDirected);
-            GraphPart graphPart2 = new GraphPart(pointB, pointC, isDirected);
-            GraphPart graphPart3 = new GraphPart(pointC, pointA, isDirected);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
 
             Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             List<string> expected = new List<string>();
@@ -127,8 +126,7 @@ namespace MegarachneEngineTests
         {
             Point3d pointA = new Point3d(0.01, 0.2, 0.5);
             Point3d pointB = new Point3d(1, 7, 10);
-            bool isDirected = false;
-            GraphPart graphPart = new GraphPart(pointA, pointB, isDirected);
+            GraphPart graphPart = new GraphPart(pointA, pointB, false);
 
             Graph graph = new Graph(new List<GraphPart>{graphPart}, 0.001);
             int[,] expectedGraphArray = new int[2,2];
@@ -142,13 +140,58 @@ namespace MegarachneEngineTests
         }
 
         [Fact]
+        public void TestGraphConstructor_2Points_AdjacencyList()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            GraphPart graphPart = new GraphPart(pointA, pointB, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart }, 0.001);
+            List<int>[] expectedAdjacencyList = new List<int>[2];
+
+            expectedAdjacencyList[0] = new List<int> { 1 };
+            expectedAdjacencyList[1] = new List<int> { 0 };
+
+            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+        }
+
+        [Fact]
+        public void TestGraphDegrees_2Points_VertexDegrees()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            GraphPart graphPart = new GraphPart(pointA, pointB, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart }, 0.001);
+
+            Assert.Equal(2, graph.GetVertexDegree(0));
+            Assert.Equal(1, graph.GetVertexOutdegree(0));
+            Assert.Equal(1, graph.GetVertexIndegree(0));
+
+            Assert.Equal(2, graph.GetVertexDegree(1));
+            Assert.Equal(1, graph.GetVertexOutdegree(1));
+            Assert.Equal(1, graph.GetVertexIndegree(1));
+        }
+
+        [Fact]
+        public void TestGraphDegrees_2Points_Degree()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            GraphPart graphPart = new GraphPart(pointA, pointB, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart }, 0.001);
+
+            Assert.Equal(2, graph.GetGraphDegree());
+        }
+
+        [Fact]
         public void TestGraphConstructor_2Points2Times_GraphArray()
         {
             Point3d pointA = new Point3d(0.01, 0.2, 0.5);
             Point3d pointB = new Point3d(1, 7, 10);
-            bool isDirected = true;
-            GraphPart graphPart1 = new GraphPart(pointA, pointB, isDirected);
-            GraphPart graphPart2 = new GraphPart(pointA, pointB, isDirected);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointA, pointB, true);
 
             Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
             int[,] expectedGraphArray = new int[2, 2];
@@ -162,14 +205,62 @@ namespace MegarachneEngineTests
         }
 
         [Fact]
+        public void TestGraphConstructor_2Points2Times_AdjacencyList()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointA, pointB, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
+            List<int>[] expectedAdjacencyList = new List<int>[2];
+
+            expectedAdjacencyList[0] = new List<int> { 1, 1 };
+            expectedAdjacencyList[1] = new List<int>();
+
+            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+        }
+
+        [Fact]
+        public void TestGraphDegrees_2Points2Times_VertexDegrees()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointA, pointB, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
+
+            Assert.Equal(2, graph.GetVertexDegree(0));
+            Assert.Equal(2, graph.GetVertexOutdegree(0));
+            Assert.Equal(0, graph.GetVertexIndegree(0));
+
+            Assert.Equal(2, graph.GetVertexDegree(1));
+            Assert.Equal(0, graph.GetVertexOutdegree(1));
+            Assert.Equal(2, graph.GetVertexIndegree(1));
+        }
+
+        [Fact]
+        public void TestGraphDegrees_2Points2Times_Degree()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointA, pointB, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
+
+            Assert.Equal(2, graph.GetGraphDegree());
+        }
+
+        [Fact]
         public void TestGraphConstructor_3Points_GraphArray()
         {
             Point3d pointA = new Point3d(0.01, 0.2, 0.5);
             Point3d pointB = new Point3d(1, 7, 10);
             Point3d pointC = new Point3d(1.2, 5.3, 10);
-            bool isDirected = true;
-            GraphPart graphPart1 = new GraphPart(pointA, pointB, isDirected);
-            GraphPart graphPart2 = new GraphPart(pointB, pointC, isDirected);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
 
             Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
             int[,] expectedGraphArray = new int[2, 2];
@@ -183,15 +274,71 @@ namespace MegarachneEngineTests
         }
 
         [Fact]
+        public void TestGraphConstructor_3Points_AdjacencyList()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
+            List<int>[] expectedAdjacencyList = new List<int>[3];
+
+            expectedAdjacencyList[0] = new List<int> { 1 };
+            expectedAdjacencyList[1] = new List<int> { 2 };
+            expectedAdjacencyList[2] = new List<int>();
+
+            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+        }
+
+        [Fact]
+        public void TestGraphDegrees_3Points_VertexDegrees()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
+
+            Assert.Equal(1, graph.GetVertexDegree(0));
+            Assert.Equal(1, graph.GetVertexOutdegree(0));
+            Assert.Equal(0, graph.GetVertexIndegree(0));
+
+            Assert.Equal(2, graph.GetVertexDegree(1));
+            Assert.Equal(1, graph.GetVertexOutdegree(1));
+            Assert.Equal(1, graph.GetVertexIndegree(1));
+
+            Assert.Equal(1, graph.GetVertexDegree(2));
+            Assert.Equal(0, graph.GetVertexOutdegree(2));
+            Assert.Equal(1, graph.GetVertexIndegree(2));
+        }
+
+        [Fact]
+        public void TestGraphDegrees_3Points_Degree()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
+
+            Assert.Equal(2, graph.GetGraphDegree());
+        }
+
+        [Fact]
         public void TestGraphConstructor_3PointsSame1Edge_GraphArray()
         {
             Point3d pointA = new Point3d(0.01, 0.2, 0.5);
             Point3d pointB = new Point3d(1, 7, 10);
             Point3d pointC = new Point3d(1.2, 5.3, 10);
-            bool isDirected = true;
-            GraphPart graphPart1 = new GraphPart(pointA, pointB, isDirected);
-            GraphPart graphPart2 = new GraphPart(pointB, pointC, isDirected);
-            GraphPart graphPart3 = new GraphPart(pointA, pointB, isDirected);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+            GraphPart graphPart3 = new GraphPart(pointA, pointB, true);
 
             Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             int[,] expectedGraphArray = new int[2, 3];
@@ -207,15 +354,74 @@ namespace MegarachneEngineTests
         }
 
         [Fact]
+        public void TestGraphConstructor_3PointsSame1Edge_AdjacencyList()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+            GraphPart graphPart3 = new GraphPart(pointA, pointB, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+            List<int>[] expectedAdjacencyList = new List<int>[3];
+
+            expectedAdjacencyList[0] = new List<int> { 1, 1 };
+            expectedAdjacencyList[1] = new List<int> { 2 };
+            expectedAdjacencyList[2] = new List<int>();
+
+            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+        }
+
+        [Fact]
+        public void TestGraphDegrees_3PointsSame1Edge_VertexDegrees()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+            GraphPart graphPart3 = new GraphPart(pointA, pointB, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+
+            Assert.Equal(2, graph.GetVertexDegree(0));
+            Assert.Equal(2, graph.GetVertexOutdegree(0));
+            Assert.Equal(0, graph.GetVertexIndegree(0));
+
+            Assert.Equal(3, graph.GetVertexDegree(1));
+            Assert.Equal(1, graph.GetVertexOutdegree(1));
+            Assert.Equal(2, graph.GetVertexIndegree(1));
+
+            Assert.Equal(1, graph.GetVertexDegree(2));
+            Assert.Equal(0, graph.GetVertexOutdegree(2));
+            Assert.Equal(1, graph.GetVertexIndegree(2));
+        }
+
+        [Fact]
+        public void TestGraphDegrees_3PointsSame1Edge_Degree()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+            GraphPart graphPart3 = new GraphPart(pointA, pointB, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+
+            Assert.Equal(3, graph.GetGraphDegree());
+        }
+
+        [Fact]
         public void TestGraphConstructor_3PointsTriangle_GraphArray()
         {
             Point3d pointA = new Point3d(0.01, 0.2, 0.5);
             Point3d pointB = new Point3d(1, 7, 10);
             Point3d pointC = new Point3d(1.2, 5.3, 10);
-            bool isDirected = true;
-            GraphPart graphPart1 = new GraphPart(pointA, pointB, isDirected);
-            GraphPart graphPart2 = new GraphPart(pointB, pointC, isDirected);
-            GraphPart graphPart3 = new GraphPart(pointC, pointA, isDirected);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
 
             Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             int[,] expectedGraphArray = new int[2, 3];
@@ -228,6 +434,155 @@ namespace MegarachneEngineTests
             expectedGraphArray[1, 2] = 0;
             Assert.Equal(expectedGraphArray.Length, graph.GraphArray.Length);
             Assert.Equal(expectedGraphArray, graph.GraphArray);
+        }
+
+        [Fact]
+        public void TestGraphConstructor_3PointsTriangle_AdjacencyList()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+            List<int>[] expectedAdjacencyList = new List<int>[3];
+
+            expectedAdjacencyList[0] = new List<int> { 1 };
+            expectedAdjacencyList[1] = new List<int> { 2 };
+            expectedAdjacencyList[2] = new List<int> { 0 };
+
+            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+        }
+
+        [Fact]
+        public void TestGraphDegrees_3PointsTriangle_VertexDegrees()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+
+            Assert.Equal(2, graph.GetVertexDegree(0));
+            Assert.Equal(1, graph.GetVertexOutdegree(0));
+            Assert.Equal(1, graph.GetVertexIndegree(0));
+
+            Assert.Equal(2, graph.GetVertexDegree(1));
+            Assert.Equal(1, graph.GetVertexOutdegree(1));
+            Assert.Equal(1, graph.GetVertexIndegree(1));
+
+            Assert.Equal(2, graph.GetVertexDegree(2));
+            Assert.Equal(1, graph.GetVertexOutdegree(2));
+            Assert.Equal(1, graph.GetVertexIndegree(2));
+        }
+
+        [Fact]
+        public void TestGraphDegrees_3PointsTriangle_Degree()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+
+            Assert.Equal(2, graph.GetGraphDegree());
+        }
+
+        [Fact]
+        public void TestGraphConstructor_3PointsTriangleNotDirected_GraphArray()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, false);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+            int[,] expectedGraphArray = new int[2, 6];
+
+            expectedGraphArray[0, 0] = 0;
+            expectedGraphArray[1, 0] = 1;
+            expectedGraphArray[0, 1] = 1;
+            expectedGraphArray[1, 1] = 0;
+            expectedGraphArray[0, 2] = 1;
+            expectedGraphArray[1, 2] = 2;
+            expectedGraphArray[0, 3] = 2;
+            expectedGraphArray[1, 3] = 1;
+            expectedGraphArray[0, 4] = 2;
+            expectedGraphArray[1, 4] = 0;
+            expectedGraphArray[0, 5] = 0;
+            expectedGraphArray[1, 5] = 2;
+            Assert.Equal(expectedGraphArray.Length, graph.GraphArray.Length);
+            Assert.Equal(expectedGraphArray, graph.GraphArray);
+        }
+
+        [Fact]
+        public void TestGraphConstructor_3PointsTriangleNotDirected_AdjacencyList()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, false);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+            List<int>[] expectedAdjacencyList = new List<int>[3];
+
+            expectedAdjacencyList[0] = new List<int> { 1, 2 };
+            expectedAdjacencyList[1] = new List<int> { 0, 2 };
+            expectedAdjacencyList[2] = new List<int> { 1, 0 };
+
+            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+        }
+
+        [Fact]
+        public void TestGraphDegrees_3PointsTriangleNotDirected_VertexDegrees()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, false);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+
+            Assert.Equal(4, graph.GetVertexDegree(0));
+            Assert.Equal(2, graph.GetVertexOutdegree(0));
+            Assert.Equal(2, graph.GetVertexIndegree(0));
+
+            Assert.Equal(4, graph.GetVertexDegree(1));
+            Assert.Equal(2, graph.GetVertexOutdegree(1));
+            Assert.Equal(2, graph.GetVertexIndegree(1));
+
+            Assert.Equal(4, graph.GetVertexDegree(2));
+            Assert.Equal(2, graph.GetVertexOutdegree(2));
+            Assert.Equal(2, graph.GetVertexIndegree(2));
+        }
+
+        [Fact]
+        public void TestGraphDegrees_3PointsTriangleNotDirected_Degree()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, false);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+
+            Assert.Equal(4, graph.GetGraphDegree());
         }
 
         #endregion

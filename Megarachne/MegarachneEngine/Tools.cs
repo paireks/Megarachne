@@ -28,14 +28,16 @@ namespace MegarachneEngine
         {
             List<int>[] adjacencyList = new List<int>[numberOfVertices];
 
+            for (int i = 0; i < adjacencyList.Length; i++)
+            {
+                adjacencyList[i] = new List<int>();
+            }
+
             for (int i = 0; i < graphArray.GetLength(1); i++)
             {
                 int firstIndex = graphArray[0, i];
                 int secondIndex = graphArray[1, i];
-                if (adjacencyList[firstIndex] == null)
-                {
-                    adjacencyList[firstIndex] = new List<int>();
-                }
+
                 adjacencyList[firstIndex].Add(secondIndex);
             }
 
