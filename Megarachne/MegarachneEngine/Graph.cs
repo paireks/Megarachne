@@ -86,7 +86,7 @@ namespace MegarachneEngine
                 }
             }
 
-            AdjacencyList = Tools.ConvertGraphArrayToAdjacencyList(Vertices.Count, GraphArray);
+            AdjacencyList = new AdjacencyList(Vertices.Count, GraphArray);
         }
 
         public Graph(Mesh mesh)
@@ -97,7 +97,7 @@ namespace MegarachneEngine
 
             Edges = new Curve[numberOfEdges];
             GraphArray = new int[2, numberOfEdges];
-            AdjacencyList = new List<int>[Vertices.Count];
+            AdjacencyList = new AdjacencyList(Vertices.Count);
 
             MeshTopologyEdgeList topologyEdgeList = mesh.TopologyEdges;
 
@@ -112,11 +112,9 @@ namespace MegarachneEngine
                 Edges[currentEdgeCount] = currentEdge;
                 GraphArray[0, currentEdgeCount] = firstVertexIndex;
                 GraphArray[1, currentEdgeCount] = secondVertexIndex;
-                if (AdjacencyList[firstVertexIndex] == null)
-                {
-                    AdjacencyList[firstVertexIndex] = new List<int>();
-                }
-                AdjacencyList[firstVertexIndex].Add(secondVertexIndex);
+
+                AdjacencyList.Vertices[firstVertexIndex].Add(secondVertexIndex);
+                AdjacencyList.Edges[firstVertexIndex].Add(currentEdgeCount);
                 currentEdgeCount += 1;
 
                 Curve duplicateReversedEdge = currentEdge.DuplicateCurve();
@@ -124,11 +122,9 @@ namespace MegarachneEngine
                 Edges[currentEdgeCount] = duplicateReversedEdge;
                 GraphArray[0, currentEdgeCount] = secondVertexIndex;
                 GraphArray[1, currentEdgeCount] = firstVertexIndex;
-                if (AdjacencyList[secondVertexIndex] == null)
-                {
-                    AdjacencyList[secondVertexIndex] = new List<int>();
-                }
-                AdjacencyList[secondVertexIndex].Add(firstVertexIndex);
+
+                AdjacencyList.Vertices[secondVertexIndex].Add(firstVertexIndex);
+                AdjacencyList.Edges[secondVertexIndex].Add(currentEdgeCount);
                 currentEdgeCount += 1;
             }
         }
@@ -149,13 +145,13 @@ namespace MegarachneEngine
 
         public int GetVertexOutdegree(int vertexIndex)
         {
-            return AdjacencyList[vertexIndex].Count;
+            return AdjacencyList.Vertices[vertexIndex].Count;
         }
 
         public int GetVertexIndegree(int vertexIndex)
         {
             int inDegree = 0;
-            foreach (var neighborsList in AdjacencyList)
+            foreach (var neighborsList in AdjacencyList.Vertices)
             {
                 foreach (var neighbor in neighborsList)
                 {
@@ -213,7 +209,7 @@ namespace MegarachneEngine
         }
 
         public int[,] GraphArray { get; }
-        public List<int>[] AdjacencyList { get; }
+        public AdjacencyList AdjacencyList { get; }
         public Curve[] Edges { get; }
         public List<Point3d> Vertices { get; }
 

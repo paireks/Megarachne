@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdjacencyList.cs" />
     <Compile Include="Bfs.cs" />
     <Compile Include="Dijkstra.cs" />
     <Compile Include="Graph.cs" />

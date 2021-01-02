@@ -9,6 +9,48 @@ namespace MegarachneEngineTests
     [Collection("Rhino Collection")]
     public class TestEngine
     {
+        #region AdjacencyList
+
+        [Fact]
+        public void TestAdjacencyListStringRepresentation_3PointsTriangle()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+            List<string> expected = new List<string>();
+            expected.Add("1;");
+            expected.Add("2;");
+            expected.Add("0;");
+
+            Assert.Equal(expected, graph.AdjacencyList.GetStringRepresentation());
+        }
+
+        [Fact]
+        public void TestAdjacencyListStringRepresentation_3PointsTriangleNotDirected()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, false);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
+            List<string> expected = new List<string>();
+            expected.Add("1;2;");
+            expected.Add("0;2;");
+            expected.Add("1;0;");
+
+            Assert.Equal(expected, graph.AdjacencyList.GetStringRepresentation());
+        }
+
+        #endregion
+
         #region GraphPart
 
         [Fact]
@@ -139,44 +181,6 @@ namespace MegarachneEngineTests
             Assert.Equal(expected, Tools.ShowGraphArrayStringRepresentation(graph.GraphArray));
         }
 
-        [Fact]
-        public void TestShowAdjacencyListStringRepresentation_3PointsTriangle()
-        {
-            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
-            Point3d pointB = new Point3d(1, 7, 10);
-            Point3d pointC = new Point3d(1.2, 5.3, 10);
-            GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
-            GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
-            GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
-
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
-            List<string> expected = new List<string>();
-            expected.Add("1;");
-            expected.Add("2;");
-            expected.Add("0;");
-
-            Assert.Equal(expected, Tools.ShowAdjacencyListStringRepresentation(graph.AdjacencyList));
-        }
-
-        [Fact]
-        public void TestShowAdjacencyListStringRepresentation_3PointsTriangleNotDirected()
-        {
-            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
-            Point3d pointB = new Point3d(1, 7, 10);
-            Point3d pointC = new Point3d(1.2, 5.3, 10);
-            GraphPart graphPart1 = new GraphPart(pointA, pointB, false);
-            GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
-            GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
-
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
-            List<string> expected = new List<string>();
-            expected.Add("1;2;");
-            expected.Add("0;2;");
-            expected.Add("1;0;");
-
-            Assert.Equal(expected, Tools.ShowAdjacencyListStringRepresentation(graph.AdjacencyList));
-        }
-
         #endregion
 
         #region Graph
@@ -207,12 +211,17 @@ namespace MegarachneEngineTests
             GraphPart graphPart = new GraphPart(pointA, pointB, false);
 
             Graph graph = new Graph(new List<GraphPart> { graphPart }, 0.001);
-            List<int>[] expectedAdjacencyList = new List<int>[2];
+            List<int>[] expectedAdjacencyListVertices = new List<int>[2];
+            List<int>[] expectedAdjacencyListEdges = new List<int>[2];
 
-            expectedAdjacencyList[0] = new List<int> { 1 };
-            expectedAdjacencyList[1] = new List<int> { 0 };
+            expectedAdjacencyListVertices[0] = new List<int> { 1 };
+            expectedAdjacencyListVertices[1] = new List<int> { 0 };
 
-            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+            expectedAdjacencyListEdges[0] = new List<int> { 0 };
+            expectedAdjacencyListEdges[1] = new List<int> { 1 };
+
+            Assert.Equal(expectedAdjacencyListVertices, graph.AdjacencyList.Vertices);
+            Assert.Equal(expectedAdjacencyListEdges, graph.AdjacencyList.Edges);
         }
 
         [Fact]
@@ -273,12 +282,16 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointA, pointB, true);
 
             Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
-            List<int>[] expectedAdjacencyList = new List<int>[2];
+            List<int>[] expectedAdjacencyListVertices = new List<int>[2];
+            List<int>[] expectedAdjacencyListEdges = new List<int>[2];
 
-            expectedAdjacencyList[0] = new List<int> { 1, 1 };
-            expectedAdjacencyList[1] = new List<int>();
+            expectedAdjacencyListVertices[0] = new List<int> { 1, 1 };
+            expectedAdjacencyListVertices[1] = new List<int>();
+            expectedAdjacencyListEdges[0] = new List<int> { 0, 1 };
+            expectedAdjacencyListEdges[1] = new List<int>();
 
-            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+            Assert.Equal(expectedAdjacencyListVertices, graph.AdjacencyList.Vertices);
+            Assert.Equal(expectedAdjacencyListEdges, graph.AdjacencyList.Edges);
         }
 
         [Fact]
@@ -343,13 +356,19 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
 
             Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
-            List<int>[] expectedAdjacencyList = new List<int>[3];
+            List<int>[] expectedAdjacencyListVertices = new List<int>[3];
+            List<int>[] expectedAdjacencyListEdges = new List<int>[3];
 
-            expectedAdjacencyList[0] = new List<int> { 1 };
-            expectedAdjacencyList[1] = new List<int> { 2 };
-            expectedAdjacencyList[2] = new List<int>();
+            expectedAdjacencyListVertices[0] = new List<int> { 1 };
+            expectedAdjacencyListVertices[1] = new List<int> { 2 };
+            expectedAdjacencyListVertices[2] = new List<int>();
 
-            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+            expectedAdjacencyListEdges[0] = new List<int> { 0 };
+            expectedAdjacencyListEdges[1] = new List<int> { 1 };
+            expectedAdjacencyListEdges[2] = new List<int>();
+
+            Assert.Equal(expectedAdjacencyListVertices, graph.AdjacencyList.Vertices);
+            Assert.Equal(expectedAdjacencyListEdges, graph.AdjacencyList.Edges);
         }
 
         [Fact]
@@ -424,13 +443,19 @@ namespace MegarachneEngineTests
             GraphPart graphPart3 = new GraphPart(pointA, pointB, true);
 
             Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
-            List<int>[] expectedAdjacencyList = new List<int>[3];
+            List<int>[] expectedAdjacencyListVertices = new List<int>[3];
+            List<int>[] expectedAdjacencyListEdges = new List<int>[3];
 
-            expectedAdjacencyList[0] = new List<int> { 1, 1 };
-            expectedAdjacencyList[1] = new List<int> { 2 };
-            expectedAdjacencyList[2] = new List<int>();
+            expectedAdjacencyListVertices[0] = new List<int> { 1, 1 };
+            expectedAdjacencyListVertices[1] = new List<int> { 2 };
+            expectedAdjacencyListVertices[2] = new List<int>();
 
-            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+            expectedAdjacencyListEdges[0] = new List<int> { 0, 2 };
+            expectedAdjacencyListEdges[1] = new List<int> { 1 };
+            expectedAdjacencyListEdges[2] = new List<int>();
+
+            Assert.Equal(expectedAdjacencyListVertices, graph.AdjacencyList.Vertices);
+            Assert.Equal(expectedAdjacencyListEdges, graph.AdjacencyList.Edges);
         }
 
         [Fact]
@@ -507,13 +532,19 @@ namespace MegarachneEngineTests
             GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
 
             Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
-            List<int>[] expectedAdjacencyList = new List<int>[3];
+            List<int>[] expectedAdjacencyListVertices = new List<int>[3];
+            List<int>[] expectedAdjacencyListEdges = new List<int>[3];
 
-            expectedAdjacencyList[0] = new List<int> { 1 };
-            expectedAdjacencyList[1] = new List<int> { 2 };
-            expectedAdjacencyList[2] = new List<int> { 0 };
+            expectedAdjacencyListVertices[0] = new List<int> { 1 };
+            expectedAdjacencyListVertices[1] = new List<int> { 2 };
+            expectedAdjacencyListVertices[2] = new List<int> { 0 };
 
-            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+            expectedAdjacencyListEdges[0] = new List<int> { 0 };
+            expectedAdjacencyListEdges[1] = new List<int> { 1 };
+            expectedAdjacencyListEdges[2] = new List<int> { 2 };
+
+            Assert.Equal(expectedAdjacencyListVertices, graph.AdjacencyList.Vertices);
+            Assert.Equal(expectedAdjacencyListEdges, graph.AdjacencyList.Edges);
         }
 
         [Fact]
@@ -596,13 +627,19 @@ namespace MegarachneEngineTests
             GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
 
             Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
-            List<int>[] expectedAdjacencyList = new List<int>[3];
+            List<int>[] expectedAdjacencyListVertices = new List<int>[3];
+            List<int>[] expectedAdjacencyListEdges = new List<int>[3];
 
-            expectedAdjacencyList[0] = new List<int> { 1, 2 };
-            expectedAdjacencyList[1] = new List<int> { 0, 2 };
-            expectedAdjacencyList[2] = new List<int> { 1, 0 };
+            expectedAdjacencyListVertices[0] = new List<int> { 1, 2 };
+            expectedAdjacencyListVertices[1] = new List<int> { 0, 2 };
+            expectedAdjacencyListVertices[2] = new List<int> { 1, 0 };
 
-            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+            expectedAdjacencyListEdges[0] = new List<int> { 0, 5 };
+            expectedAdjacencyListEdges[1] = new List<int> { 1, 2 };
+            expectedAdjacencyListEdges[2] = new List<int> { 3, 4 };
+
+            Assert.Equal(expectedAdjacencyListVertices, graph.AdjacencyList.Vertices);
+            Assert.Equal(expectedAdjacencyListEdges, graph.AdjacencyList.Edges);
         }
 
         [Fact]
@@ -720,15 +757,21 @@ namespace MegarachneEngineTests
 
             mesh.Faces.AddFace(0, 1, 2);
 
-            List<int>[] expectedAdjacencyList = new List<int>[3];
+            List<int>[] expectedAdjacencyListVertices = new List<int>[3];
+            List<int>[] expectedAdjacencyListEdges = new List<int>[3];
 
-            expectedAdjacencyList[0] = new List<int> { 1, 2 };
-            expectedAdjacencyList[1] = new List<int> { 0, 2 };
-            expectedAdjacencyList[2] = new List<int> { 0, 1 };
+            expectedAdjacencyListVertices[0] = new List<int> { 1, 2 };
+            expectedAdjacencyListVertices[1] = new List<int> { 0, 2 };
+            expectedAdjacencyListVertices[2] = new List<int> { 0, 1 };
+
+            expectedAdjacencyListEdges[0] = new List<int> { 0, 2 };
+            expectedAdjacencyListEdges[1] = new List<int> { 1, 4 };
+            expectedAdjacencyListEdges[2] = new List<int> { 3, 5 };
 
             Graph graph = new Graph(mesh);
 
-            Assert.Equal(expectedAdjacencyList, graph.AdjacencyList);
+            Assert.Equal(expectedAdjacencyListVertices, graph.AdjacencyList.Vertices);
+            Assert.Equal(expectedAdjacencyListEdges, graph.AdjacencyList.Edges);
         }
 
         #endregion

@@ -33,7 +33,7 @@ namespace MegarachneEngine
             {
                 int vertex = queue.Dequeue();
 
-                foreach (int neighbor in graph.AdjacencyList[vertex])
+                foreach (int neighbor in graph.AdjacencyList.Vertices[vertex])
                 {
                     if (visited[neighbor])
                     {
@@ -77,7 +77,7 @@ namespace MegarachneEngine
             {
                 int vertex = queue.Dequeue();
 
-                foreach (int neighbor in graph.AdjacencyList[vertex])
+                foreach (int neighbor in graph.AdjacencyList.Vertices[vertex])
                 {
                     if (visited[neighbor])
                     {
