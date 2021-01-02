@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Rhino.Geometry;
 
 namespace MegarachneEngine
 {
@@ -58,7 +59,7 @@ namespace MegarachneEngine
             return !visited.Contains(false);
         }
 
-        public static List<int> GetShortestPath(Graph graph, int startVertex, int endVertex)
+        public static List<Curve> GetShortestPath(Graph graph, int startVertex, int endVertex)
         {
             if (startVertex == endVertex)
             {
@@ -68,6 +69,7 @@ namespace MegarachneEngine
             bool[] visited = new bool[graph.Vertices.Count];
             Queue<int> queue = new Queue<int>();
             int[] previous = new int[graph.Vertices.Count];
+            int[] previousEdges = new int[graph.Vertices.Count];
 
             queue.Enqueue(startVertex);
             visited[startVertex] = true;
@@ -77,15 +79,20 @@ namespace MegarachneEngine
             {
                 int vertex = queue.Dequeue();
 
-                foreach (int neighbor in graph.AdjacencyList.Vertices[vertex])
+                for (var i = 0; i < graph.AdjacencyList.Vertices[vertex].Count; i++)
                 {
+                    int neighbor = graph.AdjacencyList.Vertices[vertex][i];
+                    int neighborEdge = graph.AdjacencyList.Edges[vertex][i];
+
                     if (visited[neighbor])
                     {
                         continue;
                     }
+
                     queue.Enqueue(neighbor);
                     visited[neighbor] = true;
                     previous[neighbor] = vertex;
+                    previousEdges[neighbor] = neighborEdge; 
                     if (neighbor == endVertex)
                     {
                         keepSearching = false;
@@ -94,19 +101,17 @@ namespace MegarachneEngine
                 }
             }
 
-            List<int> shortestPath = new List<int>();
-
-            shortestPath.Add(endVertex);
+            List<Curve> shortestPath = new List<Curve>();
 
             int currentVertex = endVertex;
 
             while (previous[currentVertex] != startVertex)
             {
-                shortestPath.Add(previous[currentVertex]);
+                shortestPath.Add(graph.Edges[previousEdges[currentVertex]]);
                 currentVertex = previous[currentVertex];
             }
 
-            shortestPath.Add(startVertex);
+            shortestPath.Add(graph.Edges[previousEdges[currentVertex]]);
 
             shortestPath.Reverse();
 

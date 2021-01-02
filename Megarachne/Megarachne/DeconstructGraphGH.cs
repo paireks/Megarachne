@@ -35,7 +35,7 @@ namespace Megarachne
             DA.SetDataList(0, Tools.ShowGraphArrayStringRepresentation(graph.GraphArray));
             DA.SetDataList(1, graph.Vertices);
             DA.SetDataList(2, graph.Edges);
-            DA.SetDataList(3, Tools.ShowAdjacencyListStringRepresentation(graph.AdjacencyList));
+            DA.SetDataList(3, graph.AdjacencyList.GetStringRepresentation());
         }
         public override GH_Exposure Exposure
         {

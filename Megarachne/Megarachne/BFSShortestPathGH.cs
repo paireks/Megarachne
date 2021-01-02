@@ -24,8 +24,10 @@ namespace Megarachne
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Vertices List", "Vertices List",
-                "List of ordered vertices as the shortest path", GH_ParamAccess.list);
+            /*pManager.AddIntegerParameter("Vertices List", "Vertices List",
+                "List of ordered vertices as the shortest path", GH_ParamAccess.list);*/
+            pManager.AddCurveParameter("Path", "Path", "List of ordered edges of calculated shortest path",
+                GH_ParamAccess.list);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
