@@ -9,19 +9,43 @@ namespace MegarachneEngine
 {
     public static class Dijkstra
     {
-        /*public static Curve[] GetShortestPath(Graph graph, int startVertex, int endVertex)
+        private static PriorityQueue<DijkstraElement> SetStartingPriorityQueue(Graph graph, int startVertexIndex)
         {
-            int amountOfVertices = graph.Vertices.Count;
+            PriorityQueue<DijkstraElement> queue = new PriorityQueue<DijkstraElement>();
 
-            int[] d = new int[amountOfVertices];
+            for (int i = 0; i < startVertexIndex; i++)
+            {
+                queue.Enqueue(new DijkstraElement(i, double.MaxValue, -1, false));
+            }
+
+            queue.Enqueue(new DijkstraElement(startVertexIndex, 0, -1, false));
+
+            for (int i = startVertexIndex + 1; i < graph.Vertices.Count; i++)
+            {
+                queue.Enqueue(new DijkstraElement(i, double.MaxValue, -1, false));
+            }
+
+            return queue;
+        } 
+
+        /*public static Path GetShortestPath(Graph graph, int startVertexIndex, int endVertexIndex)
+        {
+            PriorityQueue<DijkstraElement> queue = SetStartingPriorityQueue(graph, startVertexIndex);
+
+
+
+            /*int amountOfVertices = graph.Vertices.Count;
+
+            double[] d = new double[amountOfVertices];
             int[] p = new int[amountOfVertices];
-            int[] q = graph.GetVertexIndicesArray();
-            int[] s = new int[amountOfVertices];
+            int[] q = graph.GetVertexIndexesArray();
+            //int[] s = new int[amountOfVertices];
 
+            double[] edgesWeights = graph.GetEdgesWeights();
 
             for (int i = 0; i < amountOfVertices; i++)
             {
-                d[i] = int.MaxValue;
+                d[i] = double.MaxValue;
                 p[i] = -1;
             }
 
@@ -29,14 +53,19 @@ namespace MegarachneEngine
 
             foreach (int vertex in q)
             {
-                foreach (int neighbor in graph.AdjacencyList[vertex])
+                for (var index = 0; index < graph.AdjacencyList.Vertices[vertex].Count; index++)
                 {
-                    if (d[neighbor] > d[vertex] + )
+                    int neighbor = graph.AdjacencyList.Vertices[vertex][index];
+                    int correlatedEdge = graph.AdjacencyList.Edges[vertex][index];
+                    double weight = edgesWeights[correlatedEdge];
+
+                    if (d[neighbor] > d[vertex] + weight)
                     {
-                        
+                        d[neighbor] = d[vertex] + weight;
+                        p[neighbor] = vertex;
                     }
-                }   
-            }
+                }
+            }#1#
         }*/
     }
 }

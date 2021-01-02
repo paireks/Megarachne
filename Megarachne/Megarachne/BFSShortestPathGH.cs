@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using MegarachneEngine;
-using Rhino.Geometry;
 
 namespace Megarachne
 {
@@ -18,16 +16,20 @@ namespace Megarachne
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Graph", "Graph", "Input graph", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Start Vertex", "Start Vertex", "Index of start vertex",
+            pManager.AddIntegerParameter("Start Vertex Index", "Start Vertex Index", "Index of start vertex",
                 GH_ParamAccess.item);
-            pManager.AddIntegerParameter("End Vertex", "End Vertex", "Index of end vertex", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("End Vertex Index", "End Vertex Index", "Index of end vertex", GH_ParamAccess.item);
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            /*pManager.AddIntegerParameter("Vertices List", "Vertices List",
-                "List of ordered vertices as the shortest path", GH_ParamAccess.list);*/
-            pManager.AddCurveParameter("Path", "Path", "List of ordered edges of calculated shortest path",
+            pManager.AddCurveParameter("Edges", "Edges", "List of ordered edges (curves) of calculated shortest path",
                 GH_ParamAccess.list);
+            pManager.AddPointParameter("Vertices", "Vertices", "List of ordered vertices (points) of calculated shortest path",
+                GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Edges Indexes", "Edges Indexes", "List of ordered edges indexes",
+                GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Vertices Indexes", "Vertices Indexes",
+                "List of ordered indexes of vertices", GH_ParamAccess.list);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -39,7 +41,12 @@ namespace Megarachne
             DA.GetData(1, ref startVertexIndex);
             DA.GetData(2, ref endVertexIndex);
 
-            DA.SetDataList(0, Bfs.GetShortestPath(graph, startVertexIndex, endVertexIndex));
+            Path path = Bfs.GetShortestPath(graph, startVertexIndex, endVertexIndex);
+
+            DA.SetDataList(0, path.Edges);
+            DA.SetDataList(1, path.Vertices);
+            DA.SetDataList(2, path.EdgesIndexes);
+            DA.SetDataList(3, path.VerticesIndexes);
         }
         protected override System.Drawing.Bitmap Icon
         {

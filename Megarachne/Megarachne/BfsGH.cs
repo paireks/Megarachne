@@ -22,7 +22,7 @@ namespace Megarachne
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddIntegerParameter("Previous Array", "Previous Array",
-                "Array of previous vertices indices", GH_ParamAccess.list);
+                "Array of previous vertices indexes", GH_ParamAccess.list);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {

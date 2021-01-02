@@ -12,21 +12,21 @@ namespace MegarachneEngine
         {
             Vertices = new List<Point3d>();
 
-            int numberOfEdges = 0;
+            int numberOfCurves = 0;
             foreach (var graphPart in graphParts)
             {
                 if (graphPart.IsDirected)
                 {
-                    numberOfEdges += 1;
+                    numberOfCurves += 1;
                 }
                 else
                 {
-                    numberOfEdges += 2;
+                    numberOfCurves += 2;
                 }
             }
 
-            Edges = new Curve[numberOfEdges];
-            GraphArray = new int[2, numberOfEdges];
+            Edges = new Curve[numberOfCurves];
+            GraphArray = new int[2, numberOfCurves];
 
             int edgesCount = 0;
 
@@ -93,10 +93,10 @@ namespace MegarachneEngine
         {
             Vertices = mesh.Vertices.ToPoint3dArray().ToList();
 
-            int numberOfEdges = mesh.TopologyEdges.Count * 2;
+            int numberOfCurves = mesh.TopologyEdges.Count * 2;
 
-            Edges = new Curve[numberOfEdges];
-            GraphArray = new int[2, numberOfEdges];
+            Edges = new Curve[numberOfCurves];
+            GraphArray = new int[2, numberOfCurves];
             AdjacencyList = new AdjacencyList(Vertices.Count);
 
             MeshTopologyEdgeList topologyEdgeList = mesh.TopologyEdges;
@@ -184,28 +184,28 @@ namespace MegarachneEngine
             return max;
         }
 
-        public int[] GetVertexIndicesArray()
+        public int[] GetVertexIndexesArray()
         {
-            int[] arrayOfVertexIndices = new int[Vertices.Count];
+            int[] arrayOfVertexIndexes = new int[Vertices.Count];
 
             for (int i = 0; i < Vertices.Count; i++)
             {
-                arrayOfVertexIndices[i] = i;
+                arrayOfVertexIndexes[i] = i;
             }
 
-            return arrayOfVertexIndices;
+            return arrayOfVertexIndexes;
         }
 
-        public double[] GetEdgeWeights()
+        public double[] GetEdgesWeights()
         {
-            double[] weightsOfEdges = new double[Edges.Length];
+            double[] weightsOfCurves = new double[Edges.Length];
 
             for (int i = 0; i < Edges.Length; i++)
             {
-                weightsOfEdges[i] = Edges[i].GetLength();
+                weightsOfCurves[i] = Edges[i].GetLength();
             }
 
-            return weightsOfEdges;
+            return weightsOfCurves;
         }
 
         public int[,] GraphArray { get; }

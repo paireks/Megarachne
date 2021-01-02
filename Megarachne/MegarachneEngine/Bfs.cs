@@ -59,7 +59,7 @@ namespace MegarachneEngine
             return !visited.Contains(false);
         }
 
-        public static List<Curve> GetShortestPath(Graph graph, int startVertex, int endVertex)
+        public static Path GetShortestPath(Graph graph, int startVertex, int endVertex)
         {
             if (startVertex == endVertex)
             {
@@ -101,19 +101,33 @@ namespace MegarachneEngine
                 }
             }
 
-            List<Curve> shortestPath = new List<Curve>();
+            Path shortestPath = new Path();
 
             int currentVertex = endVertex;
+            int edgeIndex = 0;
 
             while (previous[currentVertex] != startVertex)
             {
-                shortestPath.Add(graph.Edges[previousEdges[currentVertex]]);
+                edgeIndex = previousEdges[currentVertex];
+                shortestPath.Edges.Add(graph.Edges[edgeIndex]);
+                shortestPath.EdgesIndexes.Add(edgeIndex);
+
+                shortestPath.Vertices.Add(graph.Vertices[currentVertex]);
+                shortestPath.VerticesIndexes.Add(currentVertex);
+
                 currentVertex = previous[currentVertex];
             }
 
-            shortestPath.Add(graph.Edges[previousEdges[currentVertex]]);
+            shortestPath.Edges.Add(graph.Edges[edgeIndex]);
+            shortestPath.EdgesIndexes.Add(edgeIndex);
 
-            shortestPath.Reverse();
+            shortestPath.Vertices.Add(graph.Vertices[currentVertex]);
+            shortestPath.VerticesIndexes.Add(currentVertex);
+
+            shortestPath.Edges.Reverse();
+            shortestPath.EdgesIndexes.Reverse();
+            shortestPath.Vertices.Reverse();
+            shortestPath.VerticesIndexes.Reverse();
 
             return shortestPath;
         }
