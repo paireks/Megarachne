@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using MegarachneEngine;
-using Rhino.Geometry;
 
 namespace Megarachne
 {
@@ -49,6 +46,10 @@ namespace Megarachne
             DA.SetDataList(1, path.Vertices);
             DA.SetDataList(2, path.EdgesIndexes);
             DA.SetDataList(3, path.VerticesIndexes);
+        }
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.secondary; }
         }
         protected override System.Drawing.Bitmap Icon
         {

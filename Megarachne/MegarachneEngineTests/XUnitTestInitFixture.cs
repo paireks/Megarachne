@@ -14,7 +14,6 @@ namespace RhinoPlugin.Tests.Xunit
     {
         static bool initialized = false;
         static string systemDir = null;
-        static string systemDirOld = null;
 
 
 

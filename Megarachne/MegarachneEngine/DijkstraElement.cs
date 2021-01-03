@@ -8,11 +8,12 @@ namespace MegarachneEngine
 {
     public class DijkstraElement: IPrioritizable
     {
-        public DijkstraElement(int vertexIndex, double priority, int previousVertexIndex, bool isDone)
+        public DijkstraElement(int vertexIndex, double priority, int previousVertexIndex, int previousEdgeIndex, bool isDone)
         {
             VertexIndex = vertexIndex;
             Priority = priority;
             PreviousVertexIndex = previousVertexIndex;
+            PreviousEdgeIndex = previousEdgeIndex;
             IsDone = isDone;
         }
 
@@ -21,6 +22,8 @@ namespace MegarachneEngine
         public double Priority { get; set; }
 
         public int PreviousVertexIndex { get; set; }
+
+        public int PreviousEdgeIndex { get; set; }
 
         public bool IsDone { get; set; }
     }

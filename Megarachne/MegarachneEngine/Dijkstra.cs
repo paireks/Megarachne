@@ -10,14 +10,14 @@ namespace MegarachneEngine
 
             for (int i = 0; i < startVertexIndex; i++)
             {
-                array[i] = new DijkstraElement(i, double.MaxValue, -1, false);
+                array[i] = new DijkstraElement(i, double.MaxValue, -1, -1, false);
             }
 
-            array[startVertexIndex] = new DijkstraElement(startVertexIndex, 0, -1, false);
+            array[startVertexIndex] = new DijkstraElement(startVertexIndex, 0, -1, -1, false);
 
             for (int i = startVertexIndex + 1; i < graph.Vertices.Count; i++)
             {
-                array[i] = new DijkstraElement(i, double.MaxValue, -1, false);
+                array[i] = new DijkstraElement(i, double.MaxValue, -1, -1, false);
             }
 
             return array;
@@ -96,6 +96,8 @@ namespace MegarachneEngine
                             arrayOfDijkstraElements[currentVertex.VertexIndex].Priority + weightToNeighbor;
 
                         arrayOfDijkstraElements[neighborIndex].PreviousVertexIndex = currentVertex.VertexIndex;
+                        arrayOfDijkstraElements[neighborIndex].PreviousEdgeIndex = edgeToNeighbor;
+
 
                         priorityQueue.Enqueue(arrayOfDijkstraElements[neighborIndex]);
                     }
@@ -114,6 +116,11 @@ namespace MegarachneEngine
 
             while (arrayOfDijkstraElements[currentVertexIndex].PreviousVertexIndex != startVertexIndex)
             {
+                edgeIndex = arrayOfDijkstraElements[currentVertexIndex].PreviousEdgeIndex;
+
+                shortestPath.Edges.Add(graph.Edges[edgeIndex]);
+                shortestPath.EdgesIndexes.Add(edgeIndex);
+
                 shortestPath.Vertices.Add(graph.Vertices[currentVertexIndex]);
                 shortestPath.VerticesIndexes.Add(currentVertexIndex);
 
