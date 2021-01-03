@@ -9,11 +9,6 @@ namespace MegarachneEngine
     public sealed class PriorityQueue<TEntry>
         where TEntry : IPrioritizable
     {
-        public int Count()
-        {
-            return Entries.Count;
-        }
-
         public TEntry Dequeue()
         {
             if (Entries.Any())
@@ -52,6 +47,6 @@ namespace MegarachneEngine
         }
 
         public LinkedList<TEntry> Entries { get; } = new LinkedList<TEntry>();
-
+        public int Count => Entries.Count;
     }
 }

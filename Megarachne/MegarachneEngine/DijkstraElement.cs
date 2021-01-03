@@ -18,10 +18,10 @@ namespace MegarachneEngine
 
         public int VertexIndex { get; }
 
-        public double Priority { get; }
+        public double Priority { get; set; }
 
-        public int PreviousVertexIndex { get; }
+        public int PreviousVertexIndex { get; set; }
 
-        public bool IsDone { get; }
+        public bool IsDone { get; set; }
     }
 }

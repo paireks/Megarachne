@@ -7,7 +7,7 @@ namespace MegarachneEngine
 {
     public static class Bfs
     {
-        public static int[] GetPrevious(Graph graph)
+        public static int[] Search(Graph graph)
         {
             bool[] visited = new bool[graph.Vertices.Count];
             Queue<int> queue = new Queue<int>();

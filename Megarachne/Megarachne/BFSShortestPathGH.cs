@@ -9,7 +9,7 @@ namespace Megarachne
     {
         public BfsShortestPathGH()
           : base("BFS Shortest Path", "BFS Shortest Path",
-              "Returns Breadth First Search's shortest path as a list of ordered vertices",
+              "Returns Breadth First Search's shortest path",
               "Megarachne", "Algorithm")
         {
         }

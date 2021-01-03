@@ -8,6 +8,6 @@ namespace MegarachneEngine
 {
     public interface IPrioritizable
     {
-        double Priority { get; }
+        double Priority { get; set; }
     }
 }

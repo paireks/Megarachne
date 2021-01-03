@@ -21,8 +21,7 @@ namespace Megarachne
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Previous Array", "Previous Array",
-                "Array of previous vertices indexes", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Previous", "Previous", "Array of previous vertices indexes", GH_ParamAccess.list);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -30,7 +29,7 @@ namespace Megarachne
 
             DA.GetData(0, ref graph);
 
-            DA.SetDataList(0, Bfs.GetPrevious(graph));
+            DA.SetDataList(0, Bfs.Search(graph));
         }
         protected override System.Drawing.Bitmap Icon
         {

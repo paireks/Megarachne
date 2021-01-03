@@ -63,6 +63,7 @@
     <Compile Include="CurveToGraphPartGH.cs" />
     <Compile Include="DeconstructGraphGH.cs" />
     <Compile Include="DeconstructGraphPartGH.cs" />
+    <Compile Include="DijkstraSearchGH.cs" />
     <Compile Include="GetClosestVertexIndexGH.cs" />
     <Compile Include="GetGraphDegreeGH.cs" />
     <Compile Include="GetVertexDegreeGH.cs" />

@@ -775,5 +775,43 @@ namespace MegarachneEngineTests
         }
 
         #endregion
+
+        [Fact]
+
+        public void TestDijkstra()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            Point3d pointD = new Point3d(3, 4, 11);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, false);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
+            GraphPart graphPart4 = new GraphPart(pointC, pointD, false);
+            GraphPart graphPart5 = new GraphPart(pointB, pointD, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3, graphPart4, graphPart5 }, 0.001);
+
+            DijkstraElement[] actualDijkstraElementsArray = Dijkstra.Search(graph, 0);
+            DijkstraElement[] expectedDijkstraElementsArray = new DijkstraElement[graph.Vertices.Count];
+
+            expectedDijkstraElementsArray[0] = new DijkstraElement(0, 0, -1, true);
+            expectedDijkstraElementsArray[1] = new DijkstraElement(1, 11.7247643899568, 0, true);
+            expectedDijkstraElementsArray[2] = new DijkstraElement(2, 10.8478615404143, 0, true);
+            expectedDijkstraElementsArray[3] = new DijkstraElement(3, 13.2830206727915, 2, true);
+
+            int count = 0;
+            double tolerance = 0.001;
+            
+            foreach (var expectedDijkstraElement in expectedDijkstraElementsArray)
+            {
+                Assert.Equal(expectedDijkstraElement.VertexIndex, actualDijkstraElementsArray[count].VertexIndex);
+                Assert.True(Math.Abs(expectedDijkstraElement.Priority - actualDijkstraElementsArray[count].Priority) < tolerance);
+                Assert.Equal(expectedDijkstraElement.IsDone, actualDijkstraElementsArray[count].IsDone);
+                Assert.Equal(expectedDijkstraElement.PreviousVertexIndex, actualDijkstraElementsArray[count].PreviousVertexIndex);
+
+                count++;
+            }
+        }
     }
 }
