@@ -12,7 +12,7 @@ namespace Megarachne
         public BfsIsConnectedGH()
           : base("BFS Is Graph Connected", "BFS Is Graph Connected",
               "Check if the graph is connected by using Breadth First Search",
-              "Megarachne", "Algorithm")
+              "Megarachne", "3. Algorithm")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

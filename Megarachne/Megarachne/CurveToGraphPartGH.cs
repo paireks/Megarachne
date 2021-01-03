@@ -13,7 +13,7 @@ namespace Megarachne
             : base("Curve To Graph Part", "Curve To Graph Part",
                 "Convert curve to Graph Part." +
                 " Start point of curve will be the first vertex, end point will be the second vertex, curve will be the edge.",
-                "Megarachne", "Graph Part")
+                "Megarachne", "1. Graph Part")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

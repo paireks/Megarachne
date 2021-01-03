@@ -12,7 +12,7 @@ namespace Megarachne
         public CreateGraphGH()
           : base("Create Graph", "Create Graph",
               "Create Graph from Graph Parts",
-              "Megarachne", "Graph")
+              "Megarachne", "2. Graph")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

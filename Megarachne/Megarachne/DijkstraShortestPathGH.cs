@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using MegarachneEngine;
+using Rhino.Geometry;
 
 namespace Megarachne
 {
-    public class BfsShortestPathGH : GH_Component
+    public class DijkstraShortestPathGH : GH_Component
     {
-        public BfsShortestPathGH()
-          : base("BFS Shortest Path", "BFS Shortest Path",
-              "Returns Breadth First Search's shortest path",
+        public DijkstraShortestPathGH()
+          : base("Dijkstra Shortest Path", "Dijkstra Shortest Path",
+              "Returns Dijkstra's shortest path",
               "Megarachne", "3. Algorithm")
         {
         }
@@ -41,7 +43,7 @@ namespace Megarachne
             DA.GetData(1, ref startVertexIndex);
             DA.GetData(2, ref endVertexIndex);
 
-            Path path = Bfs.GetShortestPath(graph, startVertexIndex, endVertexIndex);
+            Path path = Dijkstra.GetShortestPath(graph, startVertexIndex, endVertexIndex);
 
             DA.SetDataList(0, path.Edges);
             DA.SetDataList(1, path.Vertices);
@@ -57,7 +59,7 @@ namespace Megarachne
         }
         public override Guid ComponentGuid
         {
-            get { return new Guid("7c3906f8-861b-41f5-8fc9-abceca13dfc9"); }
+            get { return new Guid("f967b24b-7280-44ac-b92c-ba2877bd6a55"); }
         }
     }
 }

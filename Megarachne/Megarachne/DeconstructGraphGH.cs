@@ -12,7 +12,7 @@ namespace Megarachne
         public DeconstructGraphGH()
           : base("Deconstruct Graph", "Deconstruct Graph",
               "Deconstruct Graph to it's Graph Array, Vertices, Edges",
-              "Megarachne", "Graph")
+              "Megarachne", "2. Graph")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

@@ -7,12 +7,12 @@ using Rhino.Geometry;
 
 namespace Megarachne
 {
-    public class BfsGH : GH_Component
+    public class BfsSearchGH : GH_Component
     {
-        public BfsGH()
-          : base("BFS", "BFS",
+        public BfsSearchGH()
+          : base("BFS Search", "BFS Search",
               "Returns Breadth First Search's previous vertices array",
-              "Megarachne", "Algorithm")
+              "Megarachne", "3. Algorithm")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

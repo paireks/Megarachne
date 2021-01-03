@@ -13,7 +13,7 @@ namespace Megarachne
           : base("Vector To Graph Part", "Vector To Graph Part",
               "Convert bound vector to the Graph Part." +
               " Point will be the first vertex, vector will be the edge, and at the end of the vector new vertex will be created.",
-              "Megarachne", "Graph Part")
+              "Megarachne", "1. Graph Part")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

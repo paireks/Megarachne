@@ -13,7 +13,7 @@ namespace Megarachne
           : base("Two Points To Graph Part", "Two Points To Graph Part",
               "Convert two points to Graph Part." +
               " First point will be the first vertex, second point will be the second vertex, edge will be between them.",
-              "Megarachne", "Graph Part")
+              "Megarachne", "1. Graph Part")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

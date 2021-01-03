@@ -12,7 +12,7 @@ namespace Megarachne
         public GetClosestVertexIndexGH()
           : base("Get Closest Vertex Index", "Get Closest Vertex Index",
               "Get vertex closest to given point, return it's index",
-              "Megarachne", "Graph")
+              "Megarachne", "2. Graph")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

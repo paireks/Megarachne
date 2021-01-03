@@ -12,7 +12,7 @@ namespace Megarachne
         public DijkstraSearchGH()
           : base("Dijkstra Search", "Dijkstra Search",
               "Returns Dijkstra's search array elements",
-              "Megarachne", "Algorithm")
+              "Megarachne", "3. Algorithm")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -51,6 +51,10 @@ namespace Megarachne
             DA.SetDataList(0, array);
             DA.SetDataList(1, weights);
             DA.SetDataList(2, wasDone);
+        }
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.secondary; }
         }
         protected override System.Drawing.Bitmap Icon
         {

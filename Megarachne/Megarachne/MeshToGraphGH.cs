@@ -12,7 +12,7 @@ namespace Megarachne
         public MeshToGraphGH()
           : base("Mesh To Graph", "Mesh To Graph",
               "Convert Mesh to Graph",
-              "Megarachne", "Graph")
+              "Megarachne", "2. Graph")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

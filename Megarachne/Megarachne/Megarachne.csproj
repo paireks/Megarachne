@@ -56,7 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BfsGH.cs" />
+    <Compile Include="BfsSearchGH.cs" />
     <Compile Include="BfsIsConnectedGH.cs" />
     <Compile Include="BfsShortestPathGH.cs" />
     <Compile Include="CreateGraphGH.cs" />
@@ -64,6 +64,7 @@
     <Compile Include="DeconstructGraphGH.cs" />
     <Compile Include="DeconstructGraphPartGH.cs" />
     <Compile Include="DijkstraSearchGH.cs" />
+    <Compile Include="DijkstraShortestPathGH.cs" />
     <Compile Include="GetClosestVertexIndexGH.cs" />
     <Compile Include="GetGraphDegreeGH.cs" />
     <Compile Include="GetVertexDegreeGH.cs" />

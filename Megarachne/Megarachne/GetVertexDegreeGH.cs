@@ -12,7 +12,7 @@ namespace Megarachne
         public GetVertexDegreeGH()
           : base("Get Vertex Degrees", "Get Vertex Degrees",
               "Get vertex degree",
-              "Megarachne", "Graph")
+              "Megarachne", "2. Graph")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
