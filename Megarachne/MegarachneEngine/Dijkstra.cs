@@ -1,110 +1,130 @@
 ﻿
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using MegarachneEngine.Interfaces;
+using Rhino.Geometry;
 
 namespace MegarachneEngine
 {
-    public static class Dijkstra
+    public class Dijkstra : ISearch
     {
-        public static DijkstraElement[] SetStartingDijkstraElementsArray(Graph graph, int startVertexIndex)
+        public Dijkstra(Graph graph)
         {
-            DijkstraElement[] array = new DijkstraElement[graph.Vertices.Count];
-
-            for (int i = 0; i < startVertexIndex; i++)
-            {
-                array[i] = new DijkstraElement(i, double.MaxValue, -1, -1, false);
-            }
-
-            array[startVertexIndex] = new DijkstraElement(startVertexIndex, 0, -1, -1, false);
-
-            for (int i = startVertexIndex + 1; i < graph.Vertices.Count; i++)
-            {
-                array[i] = new DijkstraElement(i, double.MaxValue, -1, -1, false);
-            }
-
-            return array;
+            Graph = graph;
         }
 
-        public static DijkstraElement[] Search(Graph graph, int startVertexIndex)
+        public void SetStartingDijkstraElementsArray()
         {
-            DijkstraElement[] arrayOfDijkstraElements = SetStartingDijkstraElementsArray(graph, startVertexIndex);
-            double[] edgesWeights = graph.GetEdgesWeights();
-            
-            PriorityQueue<DijkstraElement> priorityQueue = new PriorityQueue<DijkstraElement>();
+            PreviousArray = new int[Graph.Vertices.Count];
+            PreviousEdgeArray = new int[Graph.Vertices.Count];
+            Weights = new double[Graph.Vertices.Count];
+            Visited = new bool[Graph.Vertices.Count];
+            VisitedVertices = new List<Point3d>();
+        }
 
-            priorityQueue.Enqueue(arrayOfDijkstraElements[startVertexIndex]);
+        public void Search(int startVertexIndex)
+        {
+            SetStartingDijkstraElementsArray();
 
-            while (priorityQueue.Count != 0)
+            Weights[startVertexIndex] = 0;
+
+            List<int> priorityQueueOfVertices = new List<int> {startVertexIndex};
+            List<double> priorityQueueOfWeights = new List<double> {0};
+            double[] edgesWeights = Graph.GetEdgesWeights();
+
+            while (priorityQueueOfVertices.Any())
             {
-                DijkstraElement currentVertex = priorityQueue.Dequeue();
+                priorityQueueOfVertices = priorityQueueOfVertices.OrderBy(weight => priorityQueueOfWeights.IndexOf(weight)).ToList();
 
-                for (int i = 0; i < graph.AdjacencyList.Vertices[currentVertex.VertexIndex].Count; i++)
+                int currentVertexIndex = priorityQueueOfVertices[0];
+                priorityQueueOfVertices.RemoveAt(0);
+                priorityQueueOfWeights.RemoveAt(0);
+
+                for (int i = 0; i < Graph.AdjacencyList.Vertices[currentVertexIndex].Count; i++)
                 {
-                    int neighborIndex = graph.AdjacencyList.Vertices[currentVertex.VertexIndex][i];
+                    int neighborIndex = Graph.AdjacencyList.Vertices[currentVertexIndex][i];
 
-                    if (arrayOfDijkstraElements[neighborIndex].IsDone)
+                    if (Visited[neighborIndex])
                     {
                         continue;
                     }
 
-                    int edgeToNeighbor = graph.AdjacencyList.Edges[currentVertex.VertexIndex][i];
+                    int edgeToNeighbor = Graph.AdjacencyList.Edges[currentVertexIndex][i];
                     double weightToNeighbor = edgesWeights[edgeToNeighbor];
 
-                    if (arrayOfDijkstraElements[neighborIndex].Priority > arrayOfDijkstraElements[currentVertex.VertexIndex].Priority + weightToNeighbor)
+                    if (Weights[neighborIndex] == 0 || Weights[neighborIndex] > Weights[currentVertexIndex] + weightToNeighbor)
                     {
-                        arrayOfDijkstraElements[neighborIndex].Priority =
-                            arrayOfDijkstraElements[currentVertex.VertexIndex].Priority + weightToNeighbor;
-
-                        arrayOfDijkstraElements[neighborIndex].PreviousVertexIndex = currentVertex.VertexIndex;
-
-
-                        priorityQueue.Enqueue(arrayOfDijkstraElements[neighborIndex]);
+                        Weights[neighborIndex] = Weights[currentVertexIndex] + weightToNeighbor;
+                        PreviousArray[neighborIndex] = currentVertexIndex;
+                        if (!priorityQueueOfVertices.Contains(neighborIndex))
+                        {
+                            priorityQueueOfVertices.Add(neighborIndex);
+                            priorityQueueOfWeights.Add(Weights[neighborIndex]);
+                        }
                     }
                 }
-                arrayOfDijkstraElements[currentVertex.VertexIndex].IsDone = true;
+                Visited[currentVertexIndex] = true;
+                VisitedVertices.Add(Graph.Vertices[currentVertexIndex]);
             }
-
-            return arrayOfDijkstraElements;
         }
 
-        public static Path GetShortestPath(Graph graph, int startVertexIndex, int endVertexIndex)
+        public Path GetShortestPath(int startVertexIndex, int endVertexIndex)
         {
-            DijkstraElement[] arrayOfDijkstraElements = SetStartingDijkstraElementsArray(graph, startVertexIndex);
-            double[] edgesWeights = graph.GetEdgesWeights();
+            if (startVertexIndex == endVertexIndex)
+            {
+                throw new ArgumentException("Start Vertex should be different from End Vertex");
+            }
 
-            PriorityQueue<DijkstraElement> priorityQueue = new PriorityQueue<DijkstraElement>();
+            SetStartingDijkstraElementsArray();
 
-            priorityQueue.Enqueue(arrayOfDijkstraElements[startVertexIndex]);
+            Weights[startVertexIndex] = 0;
+
+            List<int> priorityQueueOfVertices = new List<int> { startVertexIndex };
+            List<double> priorityQueueOfWeights = new List<double> { 0 };
+            double[] edgesWeights = Graph.GetEdgesWeights();
 
             bool keepSearching = true;
-            while (priorityQueue.Count != 0 || keepSearching)
+
+            while (keepSearching || priorityQueueOfVertices.Any())
             {
-                DijkstraElement currentVertex = priorityQueue.Dequeue();
+                priorityQueueOfVertices = priorityQueueOfVertices
+                    .OrderBy(weight => priorityQueueOfWeights.IndexOf(weight)).ToList();
 
-                for (int i = 0; i < graph.AdjacencyList.Vertices[currentVertex.VertexIndex].Count; i++)
+                int currentVertexIndex = priorityQueueOfVertices[0];
+                priorityQueueOfVertices.RemoveAt(0);
+                priorityQueueOfWeights.RemoveAt(0);
+
+                for (int i = 0; i < Graph.AdjacencyList.Vertices[currentVertexIndex].Count; i++)
                 {
-                    int neighborIndex = graph.AdjacencyList.Vertices[currentVertex.VertexIndex][i];
+                    int neighborIndex = Graph.AdjacencyList.Vertices[currentVertexIndex][i];
 
-                    if (arrayOfDijkstraElements[neighborIndex].IsDone)
+                    if (Visited[neighborIndex])
                     {
                         continue;
                     }
 
-                    int edgeToNeighbor = graph.AdjacencyList.Edges[currentVertex.VertexIndex][i];
+                    int edgeToNeighbor = Graph.AdjacencyList.Edges[currentVertexIndex][i];
                     double weightToNeighbor = edgesWeights[edgeToNeighbor];
 
-                    if (arrayOfDijkstraElements[neighborIndex].Priority > arrayOfDijkstraElements[currentVertex.VertexIndex].Priority + weightToNeighbor)
+                    if (Weights[neighborIndex] == 0 ||
+                        Weights[neighborIndex] > Weights[currentVertexIndex] + weightToNeighbor)
                     {
-                        arrayOfDijkstraElements[neighborIndex].Priority =
-                            arrayOfDijkstraElements[currentVertex.VertexIndex].Priority + weightToNeighbor;
-
-                        arrayOfDijkstraElements[neighborIndex].PreviousVertexIndex = currentVertex.VertexIndex;
-                        arrayOfDijkstraElements[neighborIndex].PreviousEdgeIndex = edgeToNeighbor;
-
-
-                        priorityQueue.Enqueue(arrayOfDijkstraElements[neighborIndex]);
+                        Weights[neighborIndex] = Weights[currentVertexIndex] + weightToNeighbor;
+                        PreviousArray[neighborIndex] = currentVertexIndex;
+                        PreviousEdgeArray[neighborIndex] = edgeToNeighbor;
+                        if (!priorityQueueOfVertices.Contains(neighborIndex))
+                        {
+                            priorityQueueOfVertices.Add(neighborIndex);
+                            priorityQueueOfWeights.Add(Weights[neighborIndex]);
+                        }
                     }
                 }
-                arrayOfDijkstraElements[currentVertex.VertexIndex].IsDone = true;
-                if (currentVertex.VertexIndex == endVertexIndex)
+
+                Visited[currentVertexIndex] = true;
+                VisitedVertices.Add(Graph.Vertices[currentVertexIndex]);
+
+                if (currentVertexIndex == endVertexIndex)
                 {
                     keepSearching = false;
                 }
@@ -112,27 +132,27 @@ namespace MegarachneEngine
 
             Path shortestPath = new Path();
 
-            int currentVertexIndex = endVertexIndex;
+            int vertexIndex = endVertexIndex;
             int edgeIndex = 0;
 
-            while (arrayOfDijkstraElements[currentVertexIndex].PreviousVertexIndex != startVertexIndex)
+            while (PreviousArray[vertexIndex] != startVertexIndex)
             {
-                edgeIndex = arrayOfDijkstraElements[currentVertexIndex].PreviousEdgeIndex;
+                edgeIndex = PreviousEdgeArray[vertexIndex];
 
-                shortestPath.Edges.Add(graph.Edges[edgeIndex]);
+                shortestPath.Edges.Add(Graph.Edges[edgeIndex]);
                 shortestPath.EdgesIndexes.Add(edgeIndex);
 
-                shortestPath.Vertices.Add(graph.Vertices[currentVertexIndex]);
-                shortestPath.VerticesIndexes.Add(currentVertexIndex);
+                shortestPath.Vertices.Add(Graph.Vertices[vertexIndex]);
+                shortestPath.VerticesIndexes.Add(vertexIndex);
 
-                currentVertexIndex = arrayOfDijkstraElements[currentVertexIndex].PreviousVertexIndex;
+                vertexIndex = PreviousArray[vertexIndex];
             }
 
-            shortestPath.Edges.Add(graph.Edges[edgeIndex]);
+            shortestPath.Edges.Add(Graph.Edges[edgeIndex]);
             shortestPath.EdgesIndexes.Add(edgeIndex);
 
-            shortestPath.Vertices.Add(graph.Vertices[currentVertexIndex]);
-            shortestPath.VerticesIndexes.Add(currentVertexIndex);
+            shortestPath.Vertices.Add(Graph.Vertices[vertexIndex]);
+            shortestPath.VerticesIndexes.Add(vertexIndex);
 
             shortestPath.Edges.Reverse();
             shortestPath.EdgesIndexes.Reverse();
@@ -141,5 +161,17 @@ namespace MegarachneEngine
 
             return shortestPath;
         }
+
+        public List<Point3d> VisitedVertices { get; private set; }
+
+        public int[] PreviousArray { get; private set; }
+
+        public int[] PreviousEdgeArray { get; private set; }
+
+        public double[] Weights { get; private set; }
+
+        public bool[] Visited { get; private set; }
+
+        public Graph Graph { get; }
     }
 }

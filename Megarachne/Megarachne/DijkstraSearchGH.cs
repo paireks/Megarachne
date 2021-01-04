@@ -20,9 +20,9 @@ namespace Megarachne
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Previous", "Previous", "Previous vertex array", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Weights", "Weights", "Weights to get to vertices array", GH_ParamAccess.list);
-            pManager.AddBooleanParameter("IsDone", "IsDone", "Is done Array", GH_ParamAccess.list);
+            pManager.AddPointParameter("Visited", "Visited", "Visited vertices", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Previous Array", "Previous Array", "Array of previous vertices indexes", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Weights Array", "Weights Array", "Array of weights", GH_ParamAccess.list);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -32,22 +32,12 @@ namespace Megarachne
             DA.GetData(0, ref graph);
             DA.GetData(1, ref startVertexIndex);
 
-            DijkstraElement[] dijkstraElements = Dijkstra.Search(graph, startVertexIndex);
+            Dijkstra dijkstra = new Dijkstra(graph);
+            dijkstra.Search(startVertexIndex);
 
-            int[] array = new int[graph.Vertices.Count];
-            double[] weights = new double[graph.Vertices.Count];
-            bool[] wasDone = new bool[graph.Vertices.Count];
-
-            for (int i = 0; i < dijkstraElements.Length; i++)
-            {
-                array[i] = dijkstraElements[i].PreviousVertexIndex;
-                weights[i] = dijkstraElements[i].Priority;
-                wasDone[i] = dijkstraElements[i].IsDone;
-            }
-
-            DA.SetDataList(0, array);
-            DA.SetDataList(1, weights);
-            DA.SetDataList(2, wasDone);
+            DA.SetDataList(0, dijkstra.VisitedVertices);
+            DA.SetDataList(1, dijkstra.PreviousArray);
+            DA.SetDataList(2, dijkstra.Weights);
         }
         public override GH_Exposure Exposure
         {

@@ -43,12 +43,12 @@ namespace Megarachne
             DA.GetData(1, ref startVertexIndex);
             DA.GetData(2, ref endVertexIndex);
 
-            Path path = AStar.GetShortestPath(graph, startVertexIndex, endVertexIndex);
+            /*Path path = AStar.GetShortestPath(graph, startVertexIndex, endVertexIndex);
 
             DA.SetDataList(0, path.Edges);
             DA.SetDataList(1, path.Vertices);
             DA.SetDataList(2, path.EdgesIndexes);
-            DA.SetDataList(3, path.VerticesIndexes);
+            DA.SetDataList(3, path.VerticesIndexes);*/
         }
         public override GH_Exposure Exposure
         {

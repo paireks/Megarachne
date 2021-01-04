@@ -56,13 +56,10 @@
     <Compile Include="AStar.cs" />
     <Compile Include="Bfs.cs" />
     <Compile Include="Dijkstra.cs" />
-    <Compile Include="DijkstraElement.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphPart.cs" />
-    <Compile Include="Interfaces\IPrioritizable.cs" />
     <Compile Include="Interfaces\ISearch.cs" />
     <Compile Include="Path.cs" />
-    <Compile Include="PriorityQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools.cs" />
   </ItemGroup>
