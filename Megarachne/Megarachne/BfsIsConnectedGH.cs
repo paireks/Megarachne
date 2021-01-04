@@ -30,7 +30,9 @@ namespace Megarachne
 
             DA.GetData(0, ref graph);
 
-            DA.SetData(0, Bfs.IsGraphConnected(graph));
+            Bfs bfs = new Bfs(graph);
+
+            DA.SetData(0, bfs.IsGraphConnected());
         }
         protected override System.Drawing.Bitmap Icon
         {

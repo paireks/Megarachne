@@ -18,18 +18,31 @@ namespace Megarachne
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Graph", "Graph", "Input graph", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Start Vertex Index", "Start Vertex Index",
+                "It will start the search with this given vertex", GH_ParamAccess.item, 0);
+            pManager.AddBooleanParameter("Keep Searching", "Keep Searching", 
+                "True = algorithm will keep searching even if the graph is not connected. False = Naturally stops for not connected graph.", GH_ParamAccess.item, true);
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Previous", "Previous", "Array of previous vertices indexes", GH_ParamAccess.list);
+            pManager.AddPointParameter("Visited", "Visited", "Visited vertices", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Previous Array", "Previous Array", "Array of previous vertices indexes", GH_ParamAccess.list);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Graph graph = null;
+            int startVertex = 0;
+            bool keepSearching = true;
 
             DA.GetData(0, ref graph);
+            DA.GetData(1, ref startVertex);
+            DA.GetData(2, ref keepSearching);
 
-            DA.SetDataList(0, Bfs.Search(graph));
+            Bfs bfs = new Bfs(graph);
+            bfs.Search(startVertex, keepSearching);
+
+            DA.SetDataList(0, bfs.VisitedVertices);
+            DA.SetDataList(1, bfs.PreviousArray);
         }
         protected override System.Drawing.Bitmap Icon
         {

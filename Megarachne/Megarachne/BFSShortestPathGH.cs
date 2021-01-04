@@ -30,6 +30,8 @@ namespace Megarachne
                 GH_ParamAccess.list);
             pManager.AddIntegerParameter("Vertices Indexes", "Vertices Indexes",
                 "List of ordered indexes of vertices", GH_ParamAccess.list);
+            pManager.AddPointParameter("Visited Vertices", "Visited Vertices", "List of visited vertices (points) during calculation of shortest path",
+                GH_ParamAccess.list);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -41,12 +43,14 @@ namespace Megarachne
             DA.GetData(1, ref startVertexIndex);
             DA.GetData(2, ref endVertexIndex);
 
-            Path path = Bfs.GetShortestPath(graph, startVertexIndex, endVertexIndex);
+            Bfs bfs = new Bfs(graph);
+            Path path = bfs.GetShortestPath(startVertexIndex, endVertexIndex);
 
             DA.SetDataList(0, path.Edges);
             DA.SetDataList(1, path.Vertices);
             DA.SetDataList(2, path.EdgesIndexes);
             DA.SetDataList(3, path.VerticesIndexes);
+            DA.SetDataList(4, bfs.VisitedVertices);
         }
         protected override System.Drawing.Bitmap Icon
         {
