@@ -46,6 +46,15 @@ namespace MegarachneEngine
             }
         }
 
+        public bool Contains(TEntry entry)
+        {
+            if (Entries.Contains(entry))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public LinkedList<TEntry> Entries { get; } = new LinkedList<TEntry>();
         public int Count => Entries.Count;
     }

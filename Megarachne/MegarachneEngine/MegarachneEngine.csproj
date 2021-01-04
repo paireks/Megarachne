@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdjacencyList.cs" />
+    <Compile Include="AStar.cs" />
     <Compile Include="Bfs.cs" />
     <Compile Include="Dijkstra.cs" />
     <Compile Include="DijkstraElement.cs" />

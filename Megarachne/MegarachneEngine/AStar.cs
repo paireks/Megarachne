@@ -1,33 +1,18 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MegarachneEngine
 {
-    public static class Dijkstra
+    public static class AStar
     {
-        public static DijkstraElement[] SetStartingDijkstraElementsArray(Graph graph, int startVertexIndex)
-        {
-            DijkstraElement[] array = new DijkstraElement[graph.Vertices.Count];
-
-            for (int i = 0; i < startVertexIndex; i++)
-            {
-                array[i] = new DijkstraElement(i, double.MaxValue, -1, -1, false);
-            }
-
-            array[startVertexIndex] = new DijkstraElement(startVertexIndex, 0, -1, -1, false);
-
-            for (int i = startVertexIndex + 1; i < graph.Vertices.Count; i++)
-            {
-                array[i] = new DijkstraElement(i, double.MaxValue, -1, -1, false);
-            }
-
-            return array;
-        }
-
         public static DijkstraElement[] Search(Graph graph, int startVertexIndex)
         {
-            DijkstraElement[] arrayOfDijkstraElements = SetStartingDijkstraElementsArray(graph, startVertexIndex);
+            DijkstraElement[] arrayOfDijkstraElements = Dijkstra.SetStartingDijkstraElementsArray(graph, startVertexIndex);
             double[] edgesWeights = graph.GetEdgesWeights();
-            
+
             PriorityQueue<DijkstraElement> priorityQueue = new PriorityQueue<DijkstraElement>();
 
             priorityQueue.Enqueue(arrayOfDijkstraElements[startVertexIndex]);
@@ -55,7 +40,6 @@ namespace MegarachneEngine
 
                         arrayOfDijkstraElements[neighborIndex].PreviousVertexIndex = currentVertex.VertexIndex;
 
-
                         priorityQueue.Enqueue(arrayOfDijkstraElements[neighborIndex]);
                     }
                 }
@@ -67,7 +51,7 @@ namespace MegarachneEngine
 
         public static Path GetShortestPath(Graph graph, int startVertexIndex, int endVertexIndex)
         {
-            DijkstraElement[] arrayOfDijkstraElements = SetStartingDijkstraElementsArray(graph, startVertexIndex);
+            DijkstraElement[] arrayOfDijkstraElements = Dijkstra.SetStartingDijkstraElementsArray(graph, startVertexIndex);
             double[] edgesWeights = graph.GetEdgesWeights();
 
             PriorityQueue<DijkstraElement> priorityQueue = new PriorityQueue<DijkstraElement>();
@@ -91,10 +75,13 @@ namespace MegarachneEngine
                     int edgeToNeighbor = graph.AdjacencyList.Edges[currentVertex.VertexIndex][i];
                     double weightToNeighbor = edgesWeights[edgeToNeighbor];
 
-                    if (arrayOfDijkstraElements[neighborIndex].Priority > arrayOfDijkstraElements[currentVertex.VertexIndex].Priority + weightToNeighbor)
+                    double absoluteDistanceToEnd =
+                        graph.Vertices[neighborIndex].DistanceTo(graph.Vertices[endVertexIndex]);
+
+                    if (arrayOfDijkstraElements[neighborIndex].Priority > arrayOfDijkstraElements[currentVertex.VertexIndex].Priority + weightToNeighbor + absoluteDistanceToEnd)
                     {
                         arrayOfDijkstraElements[neighborIndex].Priority =
-                            arrayOfDijkstraElements[currentVertex.VertexIndex].Priority + weightToNeighbor;
+                            arrayOfDijkstraElements[currentVertex.VertexIndex].Priority + weightToNeighbor + absoluteDistanceToEnd;
 
                         arrayOfDijkstraElements[neighborIndex].PreviousVertexIndex = currentVertex.VertexIndex;
                         arrayOfDijkstraElements[neighborIndex].PreviousEdgeIndex = edgeToNeighbor;

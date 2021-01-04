@@ -41,6 +41,18 @@ namespace MegarachneEngine
             }
         }
 
+        /*public List<int>[] GetAbsoluteDistancesAdjacencyList(bool empty)
+        {
+            List<int>[] absoluteDistancesAdjacencyList = new List<int>[Vertices.Length];
+
+            if (!empty)
+            {
+                
+            }
+
+            return absoluteDistancesAdjacencyList;
+        }*/
+
         public List<string> GetStringRepresentation()
         {
             List<string> adjacencyListStringRepresentation = new List<string>();
