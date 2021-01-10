@@ -795,5 +795,25 @@ namespace MegarachneEngineTests
             Dijkstra dijkstra = new Dijkstra(graph);
             dijkstra.Search(0);
         }
+
+        [Fact]
+
+        public void TestAStarShortest()
+        {
+            Point3d pointA = new Point3d(0.01, 0.2, 0.5);
+            Point3d pointB = new Point3d(1, 7, 10);
+            Point3d pointC = new Point3d(1.2, 5.3, 10);
+            Point3d pointD = new Point3d(3, 4, 11);
+            GraphPart graphPart1 = new GraphPart(pointA, pointB, false);
+            GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
+            GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
+            GraphPart graphPart4 = new GraphPart(pointC, pointD, false);
+            GraphPart graphPart5 = new GraphPart(pointB, pointD, false);
+
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3, graphPart4, graphPart5 }, 0.001);
+
+            AStar aStar = new AStar(graph);
+            aStar.GetShortestPath(0, 3);
+        }
     }
 }

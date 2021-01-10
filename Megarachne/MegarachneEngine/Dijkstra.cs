@@ -82,7 +82,7 @@ namespace MegarachneEngine
 
             bool keepSearching = true;
 
-            while (keepSearching || dijkstraVertices.Count != 0)
+            while (keepSearching && dijkstraVertices.Count != 0)
             {
                 dijkstraVertices = dijkstraVertices.OrderBy(x => x.Weight).ToList();
 

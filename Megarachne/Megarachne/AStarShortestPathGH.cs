@@ -32,6 +32,8 @@ namespace Megarachne
                 GH_ParamAccess.list);
             pManager.AddIntegerParameter("Vertices Indexes", "Vertices Indexes",
                 "List of ordered indexes of vertices", GH_ParamAccess.list);
+            pManager.AddPointParameter("Visited Vertices", "Visited Vertices", "List of visited vertices (points) during calculation of shortest path",
+                GH_ParamAccess.list);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -43,12 +45,14 @@ namespace Megarachne
             DA.GetData(1, ref startVertexIndex);
             DA.GetData(2, ref endVertexIndex);
 
-            /*Path path = AStar.GetShortestPath(graph, startVertexIndex, endVertexIndex);
+            AStar aStar = new AStar(graph);
+            Path path = aStar.GetShortestPath(startVertexIndex, endVertexIndex);
 
             DA.SetDataList(0, path.Edges);
             DA.SetDataList(1, path.Vertices);
             DA.SetDataList(2, path.EdgesIndexes);
-            DA.SetDataList(3, path.VerticesIndexes);*/
+            DA.SetDataList(3, path.VerticesIndexes);
+            DA.SetDataList(4, aStar.VisitedVertices);
         }
         public override GH_Exposure Exposure
         {
