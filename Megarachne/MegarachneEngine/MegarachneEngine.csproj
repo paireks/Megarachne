@@ -56,6 +56,7 @@
     <Compile Include="AStar.cs" />
     <Compile Include="Bfs.cs" />
     <Compile Include="Dijkstra.cs" />
+    <Compile Include="DijkstraVertex.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphPart.cs" />
     <Compile Include="Interfaces\ISearch.cs" />
