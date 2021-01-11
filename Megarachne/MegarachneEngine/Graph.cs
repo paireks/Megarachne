@@ -26,6 +26,7 @@ namespace MegarachneEngine
             }
 
             Edges = new Curve[numberOfCurves];
+            EdgesWeights = new double[numberOfCurves];
             GraphArray = new int[2, numberOfCurves];
 
             int edgesCount = 0;
@@ -72,6 +73,7 @@ namespace MegarachneEngine
                 }
 
                 Edges[edgesCount] = graphPart.Edge;
+                EdgesWeights[edgesCount] = graphPart.EdgeWeight;
                 edgesCount += 1;
 
                 if (!graphPart.IsDirected)
@@ -79,6 +81,7 @@ namespace MegarachneEngine
                     Curve reversedEdge = graphPart.Edge.DuplicateCurve();
                     reversedEdge.Reverse();
                     Edges[edgesCount] = reversedEdge;
+                    EdgesWeights[edgesCount] = graphPart.EdgeWeight;
                     GraphArray[0, edgesCount] = GraphArray[1, edgesCount - 1];
                     GraphArray[1, edgesCount] = GraphArray[0, edgesCount - 1];
 
@@ -96,6 +99,7 @@ namespace MegarachneEngine
             int numberOfCurves = mesh.TopologyEdges.Count * 2;
 
             Edges = new Curve[numberOfCurves];
+            EdgesWeights = new double[numberOfCurves];
             GraphArray = new int[2, numberOfCurves];
             AdjacencyList = new AdjacencyList(Vertices.Count);
 
@@ -108,8 +112,11 @@ namespace MegarachneEngine
                 int firstVertexIndex = topologyEdgeList.GetTopologyVertices(i).I;
                 int secondVertexIndex = topologyEdgeList.GetTopologyVertices(i).J;
 
+                double currentEdgeWeight = topologyEdgeList.EdgeLine(i).Length;
+
                 Curve currentEdge = topologyEdgeList.EdgeLine(i).ToNurbsCurve();
                 Edges[currentEdgeCount] = currentEdge;
+                EdgesWeights[currentEdgeCount] = currentEdgeWeight;
                 GraphArray[0, currentEdgeCount] = firstVertexIndex;
                 GraphArray[1, currentEdgeCount] = secondVertexIndex;
 
@@ -120,6 +127,7 @@ namespace MegarachneEngine
                 Curve duplicateReversedEdge = currentEdge.DuplicateCurve();
                 duplicateReversedEdge.Reverse();
                 Edges[currentEdgeCount] = duplicateReversedEdge;
+                EdgesWeights[currentEdgeCount] = currentEdgeWeight;
                 GraphArray[0, currentEdgeCount] = secondVertexIndex;
                 GraphArray[1, currentEdgeCount] = firstVertexIndex;
 
@@ -211,6 +219,7 @@ namespace MegarachneEngine
         public int[,] GraphArray { get; }
         public AdjacencyList AdjacencyList { get; }
         public Curve[] Edges { get; }
+        public double[] EdgesWeights { get; }
         public List<Point3d> Vertices { get; }
 
     }

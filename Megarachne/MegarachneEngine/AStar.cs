@@ -38,8 +38,6 @@ namespace MegarachneEngine
 
             List<AStarVertex> aStarVertices = new List<AStarVertex> { new AStarVertex(startVertexIndex, 0, absoluteDistanceToEnd) };
 
-            double[] edgesWeights = Graph.GetEdgesWeights();
-
             bool keepSearching = true;
 
             while (keepSearching && aStarVertices.Count != 0)
@@ -59,7 +57,7 @@ namespace MegarachneEngine
                     }
 
                     int edgeToNeighbor = Graph.AdjacencyList.Edges[currentVertexIndex][i];
-                    double weightToNeighbor = edgesWeights[edgeToNeighbor];
+                    double weightToNeighbor = Graph.EdgesWeights[edgeToNeighbor];
 
                     absoluteDistanceToEnd = Graph.Vertices[neighborIndex].DistanceTo(Graph.Vertices[endVertexIndex]);
 

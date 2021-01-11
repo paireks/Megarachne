@@ -93,7 +93,7 @@ namespace MegarachneEngine
             VisitedVertices.Add(Graph.Vertices[startVertex]);
 
             bool keepSearching = true;
-            while (queue.Count != 0 || keepSearching)
+            while (queue.Count != 0 && keepSearching)
             {
                 int vertex = queue.Dequeue();
 

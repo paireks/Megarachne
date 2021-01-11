@@ -78,8 +78,6 @@ namespace MegarachneEngine
 
             List<DijkstraVertex> dijkstraVertices = new List<DijkstraVertex> { new DijkstraVertex(startVertexIndex, 0) };
 
-            double[] edgesWeights = Graph.GetEdgesWeights();
-
             bool keepSearching = true;
 
             while (keepSearching && dijkstraVertices.Count != 0)
@@ -99,7 +97,7 @@ namespace MegarachneEngine
                     }
 
                     int edgeToNeighbor = Graph.AdjacencyList.Edges[currentVertexIndex][i];
-                    double weightToNeighbor = edgesWeights[edgeToNeighbor];
+                    double weightToNeighbor = Graph.EdgesWeights[edgeToNeighbor];
 
                     if (Weights[neighborIndex] == 0 || Weights[neighborIndex] > Weights[currentVertexIndex] + weightToNeighbor)
                     {

@@ -9,6 +9,7 @@ namespace MegarachneEngine
             StartVertex = curve.PointAtStart;
             EndVertex = curve.PointAtEnd;
             Edge = curve;
+            EdgeWeight = curve.PointAtStart.DistanceTo(curve.PointAtEnd);
             IsDirected = isDirected;
         }
 
@@ -19,7 +20,7 @@ namespace MegarachneEngine
 
             Line edgeLine = new Line(point, vector);
             Edge = new LineCurve(edgeLine);
-
+            EdgeWeight = vector.Length;
             IsDirected = isDirected;
         }
 
@@ -30,7 +31,7 @@ namespace MegarachneEngine
 
             Line edgeLine = new Line(pointA, pointB);
             Edge = new LineCurve(edgeLine);
-
+            EdgeWeight = pointA.DistanceTo(pointB);
             IsDirected = isDirected;
         }
 
@@ -40,6 +41,7 @@ namespace MegarachneEngine
         public Point3d StartVertex { get; set; }
         public Point3d EndVertex { get; set; }
         public Curve Edge { get; set; }
+        public double EdgeWeight { get; }
 
     }
 }
