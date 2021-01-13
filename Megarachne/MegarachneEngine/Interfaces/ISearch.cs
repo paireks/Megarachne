@@ -7,6 +7,8 @@ namespace MegarachneEngine.Interfaces
     {
         List<Point3d> VisitedVertices { get; }
         int[] PreviousArray { get; }
+        int[] PreviousEdgeArray { get; }
+        bool[] Visited { get; }
         Graph Graph { get; }
     }
 }

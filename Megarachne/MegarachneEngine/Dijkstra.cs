@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using MegarachneEngine.Interfaces;
@@ -117,34 +116,7 @@ namespace MegarachneEngine
                 }
             }
 
-            Path shortestPath = new Path();
-
-            int vertexIndex = endVertexIndex;
-            int edgeIndex = 0;
-
-            while (PreviousArray[vertexIndex] != startVertexIndex)
-            {
-                edgeIndex = PreviousEdgeArray[vertexIndex];
-
-                shortestPath.Edges.Add(Graph.Edges[edgeIndex]);
-                shortestPath.EdgesIndexes.Add(edgeIndex);
-
-                shortestPath.Vertices.Add(Graph.Vertices[vertexIndex]);
-                shortestPath.VerticesIndexes.Add(vertexIndex);
-
-                vertexIndex = PreviousArray[vertexIndex];
-            }
-
-            shortestPath.Edges.Add(Graph.Edges[edgeIndex]);
-            shortestPath.EdgesIndexes.Add(edgeIndex);
-
-            shortestPath.Vertices.Add(Graph.Vertices[vertexIndex]);
-            shortestPath.VerticesIndexes.Add(vertexIndex);
-
-            shortestPath.Edges.Reverse();
-            shortestPath.EdgesIndexes.Reverse();
-            shortestPath.Vertices.Reverse();
-            shortestPath.VerticesIndexes.Reverse();
+            Path shortestPath = new Path(startVertexIndex, endVertexIndex, Graph, PreviousArray, PreviousEdgeArray);
 
             return shortestPath;
         }

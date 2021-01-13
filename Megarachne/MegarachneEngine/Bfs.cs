@@ -13,29 +13,36 @@ namespace MegarachneEngine
             Graph = graph;
         }
 
+        private void DeclareArrays()
+        {
+            PreviousArray = new int[Graph.Vertices.Count];
+            PreviousEdgeArray = new int[Graph.Vertices.Count];
+            Visited = new bool[Graph.Vertices.Count];
+            VisitedVertices = new List<Point3d>();
+        }
+
         public void Search(int startVertex, bool keepSearchForNotConnected)
         {
-            bool[] visited = new bool[Graph.Vertices.Count];
+            DeclareArrays();
+
             Queue<int> queue = new Queue<int>();
-            PreviousArray = new int[Graph.Vertices.Count];
-            VisitedVertices = new List<Point3d>();
 
             if (keepSearchForNotConnected)
             {
-                MainLoopForSeparatedConnectedGraph(queue, visited, PreviousArray, startVertex);
+                MainLoopForSeparatedConnectedGraph(queue, Visited, PreviousArray, startVertex);
 
                 for (int i = 0; i < Graph.Vertices.Count; i++)
                 {
-                    if (visited[i] == false)
+                    if (Visited[i] == false)
                     {
                         PreviousArray[i] = i;
-                        MainLoopForSeparatedConnectedGraph(queue, visited, PreviousArray, i);
+                        MainLoopForSeparatedConnectedGraph(queue, Visited, PreviousArray, i);
                     }
                 }
             }
             else
             {
-                MainLoopForSeparatedConnectedGraph(queue, visited, PreviousArray, startVertex);
+                MainLoopForSeparatedConnectedGraph(queue, Visited, PreviousArray, startVertex);
             }
         }
 
@@ -65,32 +72,30 @@ namespace MegarachneEngine
 
         public bool IsGraphConnected()
         {
-            bool[] visited = new bool[Graph.Vertices.Count];
+            DeclareArrays();
+
             Queue<int> queue = new Queue<int>();
-            PreviousArray = new int[Graph.Vertices.Count];
             int startVertex = 0;
 
-            MainLoopForSeparatedConnectedGraph(queue, visited, PreviousArray, startVertex);
+            MainLoopForSeparatedConnectedGraph(queue, Visited, PreviousArray, startVertex);
 
-            return !visited.Contains(false);
+            return !Visited.Contains(false);
         }
 
-        public Path GetShortestPath(int startVertex, int endVertex)
+        public Path GetShortestPath(int startVertexIndex, int endVertexIndex)
         {
-            if (startVertex == endVertex)
+            if (startVertexIndex == endVertexIndex)
             {
                 throw new ArgumentException("Start Vertex should be different from End Vertex");
             }
 
-            bool[] visited = new bool[Graph.Vertices.Count];
-            Queue<int> queue = new Queue<int>();
-            PreviousArray = new int[Graph.Vertices.Count];
-            VisitedVertices = new List<Point3d>();
-            int[] previousEdges = new int[Graph.Vertices.Count];
+            DeclareArrays();
 
-            queue.Enqueue(startVertex);
-            visited[startVertex] = true;
-            VisitedVertices.Add(Graph.Vertices[startVertex]);
+            Queue<int> queue = new Queue<int>();
+
+            queue.Enqueue(startVertexIndex);
+            Visited[startVertexIndex] = true;
+            VisitedVertices.Add(Graph.Vertices[startVertexIndex]);
 
             bool keepSearching = true;
             while (queue.Count != 0 && keepSearching)
@@ -102,17 +107,17 @@ namespace MegarachneEngine
                     int neighbor = Graph.AdjacencyList.Vertices[vertex][i];
                     int neighborEdge = Graph.AdjacencyList.Edges[vertex][i];
 
-                    if (visited[neighbor])
+                    if (Visited[neighbor])
                     {
                         continue;
                     }
 
                     queue.Enqueue(neighbor);
-                    visited[neighbor] = true;
+                    Visited[neighbor] = true;
                     VisitedVertices.Add(Graph.Vertices[neighbor]);
                     PreviousArray[neighbor] = vertex;
-                    previousEdges[neighbor] = neighborEdge; 
-                    if (neighbor == endVertex)
+                    PreviousEdgeArray[neighbor] = neighborEdge;
+                    if (neighbor == endVertexIndex)
                     {
                         keepSearching = false;
                         break;
@@ -120,42 +125,20 @@ namespace MegarachneEngine
                 }
             }
 
-            Path shortestPath = new Path();
-
-            int currentVertex = endVertex;
-            int edgeIndex = 0;
-
-            while (PreviousArray[currentVertex] != startVertex)
-            {
-                edgeIndex = previousEdges[currentVertex];
-                shortestPath.Edges.Add(Graph.Edges[edgeIndex]);
-                shortestPath.EdgesIndexes.Add(edgeIndex);
-
-                shortestPath.Vertices.Add(Graph.Vertices[currentVertex]);
-                shortestPath.VerticesIndexes.Add(currentVertex);
-
-                currentVertex = PreviousArray[currentVertex];
-            }
-
-            shortestPath.Edges.Add(Graph.Edges[edgeIndex]);
-            shortestPath.EdgesIndexes.Add(edgeIndex);
-
-            shortestPath.Vertices.Add(Graph.Vertices[currentVertex]);
-            shortestPath.VerticesIndexes.Add(currentVertex);
-
-            shortestPath.Edges.Reverse();
-            shortestPath.EdgesIndexes.Reverse();
-            shortestPath.Vertices.Reverse();
-            shortestPath.VerticesIndexes.Reverse();
+            Path shortestPath = new Path(startVertexIndex, endVertexIndex, Graph, PreviousArray, PreviousEdgeArray);
 
             return shortestPath;
         }
 
         public List<Point3d> VisitedVertices { get; private set; }
 
+        public int[] PreviousEdgeArray { get; private set; }
+
         public int[] PreviousArray { get; private set; }
 
         public Graph Graph { get; }
+
+        public bool[] Visited { get; private set; }
 
     }
 }
