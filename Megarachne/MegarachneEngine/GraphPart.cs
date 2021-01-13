@@ -1,4 +1,5 @@
 ﻿using Rhino.Geometry;
+using System;
 
 namespace MegarachneEngine
 {
@@ -35,7 +36,12 @@ namespace MegarachneEngine
             IsDirected = isDirected;
         }
 
-
+        public override string ToString()
+        {
+            return string.Format("Graph Part{0}" +
+                                 "Is Directed: {1}{0}" +
+                                 "Edge Weight: {2}", Environment.NewLine, IsDirected, EdgeWeight);
+        }
 
         public bool IsDirected { get; set; }
         public Point3d StartVertex { get; set; }

@@ -25,6 +25,7 @@ namespace Megarachne
             pManager.AddCurveParameter("Edge", "Edge", "Deconstructed edge", GH_ParamAccess.item);
             pManager.AddBooleanParameter("IsDirected", "IsDirected", "Check if the graph part is directed",
                 GH_ParamAccess.item);
+            pManager.AddNumberParameter("Weight", "Weight", "Weight of the edge", GH_ParamAccess.item);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -35,6 +36,7 @@ namespace Megarachne
             DA.SetDataList(0, new List<Point3d> {graphPart.StartVertex, graphPart.EndVertex});
             DA.SetData(1, graphPart.Edge);
             DA.SetData(2, graphPart.IsDirected);
+            DA.SetData(3, graphPart.EdgeWeight);
         }
         public override GH_Exposure Exposure
         {

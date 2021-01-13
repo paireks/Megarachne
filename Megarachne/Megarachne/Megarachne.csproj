@@ -69,6 +69,7 @@
     <Compile Include="GetClosestVertexIndexGH.cs" />
     <Compile Include="GetGraphDegreeGH.cs" />
     <Compile Include="GetVertexDegreeGH.cs" />
+    <Compile Include="GraphToReportPartGH.cs" />
     <Compile Include="MeshToGraphGH.cs" />
     <Compile Include="TwoPointsToGraphPartGH.cs" />
     <Compile Include="VectorToGraphPartGH.cs" />

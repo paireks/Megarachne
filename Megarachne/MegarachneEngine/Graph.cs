@@ -8,7 +8,7 @@ namespace MegarachneEngine
 {
     public class Graph
     {
-        public Graph(List<GraphPart> graphParts, double tolerance)
+        public Graph(List<GraphPart> graphParts)
         {
             Vertices = new List<Point3d>();
 
@@ -45,13 +45,13 @@ namespace MegarachneEngine
                     {
                         break;
                     }
-                    if (!foundDuplicateStartVertex && Tools.CheckIfPointsAreSame(graphPart.StartVertex, Vertices[j], tolerance))
+                    if (!foundDuplicateStartVertex && graphPart.StartVertex == Vertices[j])
                     {
                         firstVertexIndex = j;
                         GraphArray[0, edgesCount] = firstVertexIndex;
                         foundDuplicateStartVertex = true;
                     }
-                    if (!foundDuplicateEndVertex && Tools.CheckIfPointsAreSame(graphPart.EndVertex, Vertices[j], tolerance))
+                    if (!foundDuplicateEndVertex && graphPart.EndVertex == Vertices[j])
                     {
                         secondVertexIndex = j;
                         GraphArray[1, edgesCount] = secondVertexIndex;
