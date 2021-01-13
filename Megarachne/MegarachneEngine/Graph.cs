@@ -192,30 +192,6 @@ namespace MegarachneEngine
             return max;
         }
 
-        public int[] GetVertexIndexesArray()
-        {
-            int[] arrayOfVertexIndexes = new int[Vertices.Count];
-
-            for (int i = 0; i < Vertices.Count; i++)
-            {
-                arrayOfVertexIndexes[i] = i;
-            }
-
-            return arrayOfVertexIndexes;
-        }
-
-        public double[] GetEdgesWeights()
-        {
-            double[] weightsOfCurves = new double[Edges.Length];
-
-            for (int i = 0; i < Edges.Length; i++)
-            {
-                weightsOfCurves[i] = Edges[i].GetLength();
-            }
-
-            return weightsOfCurves;
-        }
-
         public int[,] GraphArray { get; }
         public AdjacencyList AdjacencyList { get; }
         public Curve[] Edges { get; }

@@ -97,8 +97,8 @@ namespace MegarachneEngine
             Visited[startVertexIndex] = true;
             VisitedVertices.Add(Graph.Vertices[startVertexIndex]);
 
-            bool keepSearching = true;
-            while (queue.Count != 0 && keepSearching)
+            bool foundEnd = false;
+            while (queue.Count != 0 && !foundEnd)
             {
                 int vertex = queue.Dequeue();
 
@@ -119,15 +119,19 @@ namespace MegarachneEngine
                     PreviousEdgeArray[neighbor] = neighborEdge;
                     if (neighbor == endVertexIndex)
                     {
-                        keepSearching = false;
+                        foundEnd = true;
                         break;
                     }
                 }
             }
 
-            Path shortestPath = new Path(startVertexIndex, endVertexIndex, Graph, PreviousArray, PreviousEdgeArray);
+            if (foundEnd)
+            {
+                Path shortestPath = new Path(startVertexIndex, endVertexIndex, Graph, PreviousArray, PreviousEdgeArray);
+                return shortestPath;
+            }
 
-            return shortestPath;
+            throw new ArgumentException("Couldn't find a correct path between those vertices");
         }
 
         public List<Point3d> VisitedVertices { get; private set; }

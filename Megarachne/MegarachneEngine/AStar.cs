@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MegarachneEngine.Interfaces;
 using Rhino.Geometry;
 
 namespace MegarachneEngine
 {
-    public class AStar
+    public class AStar : ISearch
     {
         public AStar(Graph graph)
         {
             Graph = graph;
         }
 
-        public void SetStartingDijkstraElementsArray()
+        private void DeclareArrays()
         {
             PreviousArray = new int[Graph.Vertices.Count];
             PreviousEdgeArray = new int[Graph.Vertices.Count];
@@ -28,7 +29,7 @@ namespace MegarachneEngine
                 throw new ArgumentException("Start Vertex should be different from End Vertex");
             }
 
-            SetStartingDijkstraElementsArray();
+            DeclareArrays();
 
             Weights[startVertexIndex] = 0;
 
@@ -36,9 +37,9 @@ namespace MegarachneEngine
 
             List<AStarVertex> aStarVertices = new List<AStarVertex> { new AStarVertex(startVertexIndex, 0, absoluteDistanceToEnd) };
 
-            bool keepSearching = true;
+            bool foundEnd = false;
 
-            while (keepSearching && aStarVertices.Count != 0)
+            while (aStarVertices.Count != 0 && !foundEnd)
             {
                 aStarVertices = aStarVertices.OrderBy(x => x.Weight + x.StraightLineDistanceToEnd).ToList();
 
@@ -85,13 +86,17 @@ namespace MegarachneEngine
 
                 if (currentVertexIndex == endVertexIndex)
                 {
-                    keepSearching = false;
+                    foundEnd = true;
                 }
             }
 
-            Path shortestPath = new Path(startVertexIndex, endVertexIndex, Graph, PreviousArray, PreviousEdgeArray);
+            if (foundEnd)
+            {
+                Path shortestPath = new Path(startVertexIndex, endVertexIndex, Graph, PreviousArray, PreviousEdgeArray);
+                return shortestPath;
+            }
 
-            return shortestPath;
+            throw new ArgumentException("Couldn't find a correct path between those vertices");
         }
 
         public List<Point3d> VisitedVertices { get; private set; }
