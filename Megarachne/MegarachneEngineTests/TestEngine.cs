@@ -21,7 +21,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             List<string> expected = new List<string>();
             expected.Add("1;");
             expected.Add("2;");
@@ -40,7 +40,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             List<string> expected = new List<string>();
             expected.Add("1;2;");
             expected.Add("0;2;");
@@ -122,7 +122,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             List<string> expected = new List<string>();
             expected.Add("0;1");
             expected.Add("1;2");
@@ -141,7 +141,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             List<string> expected = new List<string>();
             expected.Add("0;1");
             expected.Add("1;0");
@@ -164,7 +164,7 @@ namespace MegarachneEngineTests
             Point3d pointB = new Point3d(1, 7, 10);
             GraphPart graphPart = new GraphPart(pointA, pointB, false);
 
-            Graph graph = new Graph(new List<GraphPart>{graphPart});
+            Graph graph = new Graph(new List<GraphPart>{graphPart}, 0.001);
             int[,] expectedGraphArray = new int[2,2];
 
             expectedGraphArray[0, 0] = 0;
@@ -182,7 +182,7 @@ namespace MegarachneEngineTests
             Point3d pointB = new Point3d(1, 7, 10);
             GraphPart graphPart = new GraphPart(pointA, pointB, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart });
+            Graph graph = new Graph(new List<GraphPart> { graphPart }, 0.001);
             List<int>[] expectedAdjacencyListVertices = new List<int>[2];
             List<int>[] expectedAdjacencyListEdges = new List<int>[2];
 
@@ -203,7 +203,7 @@ namespace MegarachneEngineTests
             Point3d pointB = new Point3d(1, 7, 10);
             GraphPart graphPart = new GraphPart(pointA, pointB, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart });
+            Graph graph = new Graph(new List<GraphPart> { graphPart }, 0.001);
 
             Assert.Equal(2, graph.GetVertexDegree(0));
             Assert.Equal(1, graph.GetVertexOutdegree(0));
@@ -221,7 +221,7 @@ namespace MegarachneEngineTests
             Point3d pointB = new Point3d(1, 7, 10);
             GraphPart graphPart = new GraphPart(pointA, pointB, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart });
+            Graph graph = new Graph(new List<GraphPart> { graphPart }, 0.001);
 
             Assert.Equal(2, graph.GetGraphDegree());
         }
@@ -234,7 +234,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
             GraphPart graphPart2 = new GraphPart(pointA, pointB, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
             int[,] expectedGraphArray = new int[2, 2];
 
             expectedGraphArray[0, 0] = 0;
@@ -253,7 +253,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
             GraphPart graphPart2 = new GraphPart(pointA, pointB, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
             List<int>[] expectedAdjacencyListVertices = new List<int>[2];
             List<int>[] expectedAdjacencyListEdges = new List<int>[2];
 
@@ -274,7 +274,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
             GraphPart graphPart2 = new GraphPart(pointA, pointB, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
 
             Assert.Equal(2, graph.GetVertexDegree(0));
             Assert.Equal(2, graph.GetVertexOutdegree(0));
@@ -293,7 +293,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
             GraphPart graphPart2 = new GraphPart(pointA, pointB, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
 
             Assert.Equal(2, graph.GetGraphDegree());
         }
@@ -307,7 +307,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
             int[,] expectedGraphArray = new int[2, 2];
 
             expectedGraphArray[0, 0] = 0;
@@ -327,7 +327,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
             List<int>[] expectedAdjacencyListVertices = new List<int>[3];
             List<int>[] expectedAdjacencyListEdges = new List<int>[3];
 
@@ -352,7 +352,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
 
             Assert.Equal(1, graph.GetVertexDegree(0));
             Assert.Equal(1, graph.GetVertexOutdegree(0));
@@ -376,7 +376,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart1 = new GraphPart(pointA, pointB, true);
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2 }, 0.001);
 
             Assert.Equal(2, graph.GetGraphDegree());
         }
@@ -391,7 +391,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
             GraphPart graphPart3 = new GraphPart(pointA, pointB, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             int[,] expectedGraphArray = new int[2, 3];
 
             expectedGraphArray[0, 0] = 0;
@@ -414,7 +414,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
             GraphPart graphPart3 = new GraphPart(pointA, pointB, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             List<int>[] expectedAdjacencyListVertices = new List<int>[3];
             List<int>[] expectedAdjacencyListEdges = new List<int>[3];
 
@@ -440,7 +440,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
             GraphPart graphPart3 = new GraphPart(pointA, pointB, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
 
             Assert.Equal(2, graph.GetVertexDegree(0));
             Assert.Equal(2, graph.GetVertexOutdegree(0));
@@ -465,7 +465,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
             GraphPart graphPart3 = new GraphPart(pointA, pointB, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
 
             Assert.Equal(3, graph.GetGraphDegree());
         }
@@ -480,7 +480,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             int[,] expectedGraphArray = new int[2, 3];
 
             expectedGraphArray[0, 0] = 0;
@@ -503,7 +503,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             List<int>[] expectedAdjacencyListVertices = new List<int>[3];
             List<int>[] expectedAdjacencyListEdges = new List<int>[3];
 
@@ -529,7 +529,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
 
             Assert.Equal(2, graph.GetVertexDegree(0));
             Assert.Equal(1, graph.GetVertexOutdegree(0));
@@ -554,7 +554,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, true);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, true);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
 
             Assert.Equal(2, graph.GetGraphDegree());
         }
@@ -569,7 +569,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             int[,] expectedGraphArray = new int[2, 6];
 
             expectedGraphArray[0, 0] = 0;
@@ -598,7 +598,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
             List<int>[] expectedAdjacencyListVertices = new List<int>[3];
             List<int>[] expectedAdjacencyListEdges = new List<int>[3];
 
@@ -624,7 +624,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
 
             Assert.Equal(4, graph.GetVertexDegree(0));
             Assert.Equal(2, graph.GetVertexOutdegree(0));
@@ -649,7 +649,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
 
             Assert.Equal(4, graph.GetGraphDegree());
         }
@@ -664,7 +664,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
 
             string expected = "Graph\r\nVertices: 3\r\nEdges: 6";
 
@@ -681,7 +681,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart2 = new GraphPart(pointB, pointC, false);
             GraphPart graphPart3 = new GraphPart(pointC, pointA, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3 }, 0.001);
 
             Point3d pointToFindClosestVertex = new Point3d(0.9,6.9,11);
 
@@ -762,7 +762,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart4 = new GraphPart(pointC, pointD, false);
             GraphPart graphPart5 = new GraphPart(pointB, pointD, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3, graphPart4, graphPart5 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3, graphPart4, graphPart5 }, 0.001);
 
             Dijkstra dijkstra = new Dijkstra(graph);
             dijkstra.Search(0);
@@ -782,7 +782,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart4 = new GraphPart(pointC, pointD, false);
             GraphPart graphPart5 = new GraphPart(pointB, pointD, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3, graphPart4, graphPart5 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3, graphPart4, graphPart5 }, 0.001);
 
             Dijkstra dijkstra = new Dijkstra(graph);
             dijkstra.GetShortestPath(0, 3);
@@ -802,7 +802,7 @@ namespace MegarachneEngineTests
             GraphPart graphPart4 = new GraphPart(pointC, pointD, false);
             GraphPart graphPart5 = new GraphPart(pointB, pointD, false);
 
-            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3, graphPart4, graphPart5 });
+            Graph graph = new Graph(new List<GraphPart> { graphPart1, graphPart2, graphPart3, graphPart4, graphPart5 }, 0.001);
 
             AStar aStar = new AStar(graph);
             aStar.GetShortestPath(0, 3);

@@ -20,6 +20,7 @@ namespace Megarachne
                 "Set direction, True = from left to right, False = from top to bottom", GH_ParamAccess.item, true);
             pManager.AddBooleanParameter("Show Weights", "Show Weights",
                 "True = show weights of edges, False = hide them", GH_ParamAccess.item, true);
+            pManager.AddTextParameter("Text Format", "Text Format", "Set text format for weights", GH_ParamAccess.item, "{0:0.00}");
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
@@ -30,12 +31,14 @@ namespace Megarachne
             Graph graph = null;
             bool direction = true;
             bool showWeights = true;
+            string textFormat = string.Empty;
 
             DA.GetData(0, ref graph);
             DA.GetData(1, ref direction);
             DA.GetData(2, ref showWeights);
+            DA.GetData(3, ref textFormat);
 
-            DA.SetData(0, Tools.GraphArrayToReportPart(graph.GraphArray, graph.EdgesWeights, direction, showWeights));
+            DA.SetData(0, Tools.GraphArrayToReportPart(graph.GraphArray, graph.EdgesWeights, direction, showWeights, textFormat));
         }
         public override GH_Exposure Exposure
         {
