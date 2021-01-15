@@ -10,7 +10,7 @@ namespace MegarachneEngine
             StartVertex = curve.PointAtStart;
             EndVertex = curve.PointAtEnd;
             Edge = curve;
-            EdgeWeight = curve.PointAtStart.DistanceTo(curve.PointAtEnd);
+            EdgeWeight = curve.GetLength();
             IsDirected = isDirected;
         }
 
