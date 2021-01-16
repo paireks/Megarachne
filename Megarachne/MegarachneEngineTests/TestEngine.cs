@@ -788,7 +788,7 @@ namespace MegarachneEngineTests
             dijkstra.GetShortestPath(0, 3);
         }
 
-        [Fact]
+        /*[Fact]
 
         public void TestAStarShortest()
         {
@@ -806,6 +806,6 @@ namespace MegarachneEngineTests
 
             AStar aStar = new AStar(graph);
             aStar.GetShortestPath(0, 3);
-        }
+        }*/
     }
 }

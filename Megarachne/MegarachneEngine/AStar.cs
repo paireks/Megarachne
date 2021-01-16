@@ -60,8 +60,6 @@ namespace MegarachneEngine
 
                     absoluteDistanceToEnd = Graph.Vertices[neighborIndex].DistanceTo(Graph.Vertices[endVertexIndex]);
 
-                    weightToNeighbor += absoluteDistanceToEnd;
-
                     if (Weights[neighborIndex] == 0 || Weights[neighborIndex] > Weights[currentVertexIndex] + weightToNeighbor)
                     {
                         Weights[neighborIndex] = Weights[currentVertexIndex] + weightToNeighbor;

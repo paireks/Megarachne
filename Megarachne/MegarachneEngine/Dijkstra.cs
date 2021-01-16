@@ -54,7 +54,16 @@ namespace MegarachneEngine
                         Weights[neighborIndex] = Weights[currentVertexIndex] + weightToNeighbor;
                         PreviousArray[neighborIndex] = currentVertexIndex;
 
-                        dijkstraVertices.Add(new DijkstraVertex(neighborIndex, Weights[neighborIndex]));
+                        DijkstraVertex newDijkstraVertex = new DijkstraVertex(neighborIndex, Weights[neighborIndex]);
+                        if (!dijkstraVertices.Contains(newDijkstraVertex))
+                        {
+                            dijkstraVertices.Add(newDijkstraVertex);
+                        }
+                        else
+                        {
+                            DijkstraVertex oldDijkstraVertex = dijkstraVertices.First(p => p.Index == neighborIndex);
+                            oldDijkstraVertex.Weight = Weights[neighborIndex];
+                        }
                     }
                 }
                 Visited[currentVertexIndex] = true;
@@ -102,7 +111,16 @@ namespace MegarachneEngine
                         PreviousArray[neighborIndex] = currentVertexIndex;
                         PreviousEdgeArray[neighborIndex] = edgeToNeighbor;
 
-                        dijkstraVertices.Add(new DijkstraVertex(neighborIndex, Weights[neighborIndex]));
+                        DijkstraVertex newDijkstraVertex = new DijkstraVertex(neighborIndex, Weights[neighborIndex]);
+                        if (!dijkstraVertices.Contains(newDijkstraVertex))
+                        {
+                            dijkstraVertices.Add(newDijkstraVertex);
+                        }
+                        else
+                        {
+                            DijkstraVertex oldDijkstraVertex = dijkstraVertices.First(p => p.Index == neighborIndex);
+                            oldDijkstraVertex.Weight = Weights[neighborIndex];
+                        }
                     }
                 }
                 Visited[currentVertexIndex] = true;
