@@ -129,6 +129,24 @@
   <ItemGroup>
     <None Include="Resources\VectorToGraphPart.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AStarShortestPath.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BFSShortestPath.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DijShortestPath.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IsGraphConnected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BFSSearch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DijSearch.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

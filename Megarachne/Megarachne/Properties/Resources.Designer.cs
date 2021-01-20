@@ -63,6 +63,36 @@ namespace Megarachne.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AStarShortestPath {
+            get {
+                object obj = ResourceManager.GetObject("AStarShortestPath", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BFSSearch {
+            get {
+                object obj = ResourceManager.GetObject("BFSSearch", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BFSShortestPath {
+            get {
+                object obj = ResourceManager.GetObject("BFSShortestPath", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CreateGraph {
             get {
                 object obj = ResourceManager.GetObject("CreateGraph", resourceCulture);
@@ -113,6 +143,26 @@ namespace Megarachne.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DijSearch {
+            get {
+                object obj = ResourceManager.GetObject("DijSearch", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DijShortestPath {
+            get {
+                object obj = ResourceManager.GetObject("DijShortestPath", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap GetClosestVertex {
             get {
                 object obj = ResourceManager.GetObject("GetClosestVertex", resourceCulture);
@@ -146,6 +196,16 @@ namespace Megarachne.Properties {
         internal static System.Drawing.Bitmap GraphToReport {
             get {
                 object obj = ResourceManager.GetObject("GraphToReport", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap IsGraphConnected {
+            get {
+                object obj = ResourceManager.GetObject("IsGraphConnected", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

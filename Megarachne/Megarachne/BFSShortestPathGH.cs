@@ -56,7 +56,7 @@ namespace Megarachne
         {
             get
             {
-                return null;
+                return Properties.Resources.BFSShortestPath;
             }
         }
         public override Guid ComponentGuid

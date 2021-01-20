@@ -118,6 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AStarShortestPath" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AStarShortestPath.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BFSSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BFSSearch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BFSShortestPath" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BFSShortestPath.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="CreateGraph" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CreateGraph.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -133,6 +142,12 @@
   <data name="DeconstructGraphPart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DeconstructGraphPart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="DijSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DijSearch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DijShortestPath" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DijShortestPath.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="GetClosestVertex" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GetClosestVertex.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -144,6 +159,9 @@
   </data>
   <data name="GraphToReport" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GraphToReport.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IsGraphConnected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IsGraphConnected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MeshToGraph" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MeshToGraph.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

@@ -47,7 +47,7 @@ namespace Megarachne
         {
             get
             {
-                return null;
+                return Properties.Resources.DijSearch;
             }
         }
         public override Guid ComponentGuid

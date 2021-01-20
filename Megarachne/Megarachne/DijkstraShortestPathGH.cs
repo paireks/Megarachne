@@ -59,7 +59,7 @@ namespace Megarachne
         {
             get
             {
-                return null;
+                return Properties.Resources.DijShortestPath;
             }
         }
         public override Guid ComponentGuid
