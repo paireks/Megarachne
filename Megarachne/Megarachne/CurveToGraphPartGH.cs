@@ -43,7 +43,7 @@ namespace Megarachne
         {
             get
             {
-                return null;
+                return Properties.Resources.CurveToGraphPart;
             }
         }
         public override Guid ComponentGuid

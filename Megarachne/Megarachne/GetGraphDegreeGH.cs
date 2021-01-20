@@ -35,7 +35,7 @@ namespace Megarachne
         {
             get
             {
-                return null;
+                return Properties.Resources.GetGraphDegreeGraph;
             }
         }
         public override GH_Exposure Exposure

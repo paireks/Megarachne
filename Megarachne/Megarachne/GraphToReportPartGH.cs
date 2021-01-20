@@ -48,7 +48,7 @@ namespace Megarachne
         {
             get
             {
-                return null;
+                return Properties.Resources.GraphToReport;
             }
         }
         public override Guid ComponentGuid

@@ -7,10 +7,10 @@ using Rhino.Geometry;
 
 namespace Megarachne
 {
-    public class GetClosestVertexIndexGH : GH_Component
+    public class GetClosestVertexGH : GH_Component
     {
-        public GetClosestVertexIndexGH()
-          : base("Get Closest Vertex Index", "Get Closest Vertex Index",
+        public GetClosestVertexGH()
+          : base("Get Closest Vertex", "Get Closest Vertex",
               "Get vertex closest to given point, return it's index",
               "Megarachne", "2. Graph")
         {
@@ -38,7 +38,7 @@ namespace Megarachne
         {
             get
             {
-                return null;
+                return Properties.Resources.GetClosestVertex;
             }
         }
         public override GH_Exposure Exposure

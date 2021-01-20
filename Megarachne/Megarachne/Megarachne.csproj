@@ -66,11 +66,16 @@
     <Compile Include="DeconstructGraphPartGH.cs" />
     <Compile Include="DijkstraSearchGH.cs" />
     <Compile Include="DijkstraShortestPathGH.cs" />
-    <Compile Include="GetClosestVertexIndexGH.cs" />
+    <Compile Include="GetClosestVertexGH.cs" />
     <Compile Include="GetGraphDegreeGH.cs" />
     <Compile Include="GetVertexDegreeGH.cs" />
     <Compile Include="GraphToReportPartGH.cs" />
     <Compile Include="MeshToGraphGH.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="TwoPointsToGraphPartGH.cs" />
     <Compile Include="VectorToGraphPartGH.cs" />
     <Compile Include="MegarachneInfo.cs" />
@@ -81,6 +86,48 @@
       <Project>{2efd446e-f6b0-4ca5-b298-38d27f75e0c0}</Project>
       <Name>MegarachneEngine</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CreateGraph.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CreateGraphPart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CurveToGraphPart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DeconstructGraph.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DeconstructGraphPart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GetClosestVertex.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GetGraphDegreeGraph.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GetVertexDegreeGraph.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GraphToReport.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MeshToGraph.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TwoPointsToGraphPart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VectorToGraphPart.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

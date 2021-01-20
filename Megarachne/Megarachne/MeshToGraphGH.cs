@@ -37,7 +37,7 @@ namespace Megarachne
         {
             get
             {
-                return null;
+                return Properties.Resources.MeshToGraph;
             }
         }
         public override Guid ComponentGuid
