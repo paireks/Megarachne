@@ -74,23 +74,50 @@ graph LR
 
 #### Curve To Graph Part
 
+![CurveToGraphPart](Img\CurveToGraphPart.png)
+
 It converts whatever curve you have into the Graph Part:
 
 - Takes start point of your curve - converts to the start vertex.
-
 - Takes whole curve - converts to the edge.
-
 - Takes end point of your curve - converts to the end vertex.
+
+Also this one component allows you to create a loop. You can do this by creating a curve that has the same start and end point:
+
+![Loop](Img\Loop.png)
+
+```mermaid
+graph LR
+	Vertex --> Vertex
+```
+
+
+
+The weight of the edge will be always the length of the curve. This allows to analyze complex sets of curves as graphs:
+
+![NurbsToGraphPart](Img\NurbsToGraphPart.png)
 
 #### Two Points To Graph Part
 
 It converts two points into the Graph Part, where the first point is the start vertex, the second point is the end vertex, and the line created by those points is an edge.
 
+![CurveToGraphPart](Img\TwoPointsToGraphPart.png)
+
+The weight of an edge will be equal to the distance between both points.
+
 #### Vector To Graph Part
 
 It converts vectors into Graph Parts, where the Point (start point) input is the start vertex, then it creates end point by moving start point by Vector input and converts it to end vertex, and then it creates the line between both points, that will become an edge.
 
+![VectorToGraphPart](Img\VectorToGraphPart.png)
+
+The weight of an edge will be equal to the length of the input vector.
+
 #### Deconstruct Graph Part
+
+It deconstructs the Graph Part to it's elements.
+
+![DeconstructGraphPart](Img\DeconstructGraphPart.png)
 
 ## Graph
 
@@ -99,6 +126,48 @@ It converts vectors into Graph Parts, where the Point (start point) input is the
 Graph components will help you to create Graph and to analyze some of it's properties.
 
 There are 2 ways to create Graphs: by creating Graph Parts or by converting the whole mesh created with Grasshopper.
+
+### Graph Array & Adjacency List
+
+These two elements are being created every time you create new / update a Graph.
+
+**Graph Array** is a Graph representation, where each row represents each edge, and it contains start vertex id and end vertex id. For example if you have an edge that has 0;1; - it means that start vertex of this edge is vertex Id=0, and end vertex of this edge is vertex Id=1. Let's analyze one Graph Array:
+
+![GraphArray](Img\GraphArray.png)
+
+This Graph Array shows us that our Graph has 3 edges, where
+
+- Edge Id=0 has start vertex Id=0 and end vertex Id=1
+- Edge Id=1 has start vertex Id=0 and end vertex Id=2
+- Edge Id=2 has start vertex Id=1 and end vertex Id=2
+
+**Adjacency List** is another Graph representation, where each row represents each vertex, and it contains it's neighbors id. For example if the vertex has one neighbor vertex Id=5, then it's vertex will have 5; in this list. If it has few neighbors, for example vertices Id=1, Id=4, Id=7, then in Adjacency List it will be represented as 1;4;7;. If the vertex have no neighbors, than it will be empty for that vertex. Let's analyze an example:
+
+![AdjacencyList](Img\AdjacencyList.png)
+
+This Adjacency List shows us that our Graph has 3 vertices, where
+
+- Vertex Id=0 has two neighbors: vertex Id=1 and vertex Id=2
+- Vertex Id=1 has one neighbor: vertex Id=2
+- Vertex Id=2 has no neighbors
+
+You can easily use Text Split component, and split it by ";" to get specific Id if you need to.
+
+### Getting Vertices / Edges by it's Id
+
+Cool, but you could ask: what can I do with these bare ids of different vertices while you analyze Graph Array or Adjacency List. 
+
+All vertices and edges are ordered by it's Id! It means that you can actually easily get vertex or edge by Id just by using built-in Grasshopper component List item:
+
+![GetVertexById](Img\GetVertexById.png)
+
+In this example we get vertex Id=7 from the Graph.
+
+Now let's do the same with Edges:
+
+![GetEdgeById](Img\GetEdgeById.png)
+
+This way we found an edge Id=31 inside this Graph.
 
 ### Components
 
@@ -110,23 +179,141 @@ Tolerance input will help you to compare different vertices and to decide if the
 
 The component does not compare edges geometries to each other. If there are two graph parts with the same line as an edge - it will treat it as two separate edges.
 
+To understand it more, few simple examples:
+
+1. Graph with one directed Graph Part
+
+   ![Graph1](Img\Graph1.png)
+
+   We can visualize this graph like this:
+
+   ```mermaid
+   graph LR
+   	0 --> 1
+   ```
+
+   Which means that there is one directed edge, and Graph component converted it to Graph Array with one row with an edge 0;1. It also created Adjacency List with 2 elements (2 vertices), so we know that vertex Id=0 has one neighbor: vertex Id=1, but vertex Id=0 doesn't have any neighbors (empty).
+   
+2. Graph with one undirected Graph Part
+
+   ![Graph2](Img\Graph2.png)
+
+   This is the same Graph Part but it's not directed. We can visualize it like this:
+
+   ```mermaid
+   graph LR
+   	0 --> 1;
+   	1 --> 0;
+   ```
+
+   We can see that Graph Array has right now 2 rows (2 edges): 0;1 and 1;0 as well as we can see that there are 2 edges outputs. These are 2 lines, but the second one is reversed. Also in Adjacency List we can see, that vertex Id=1 has finally a neighbor: vertex Id=0.
+
+3. Graph with two separate Graph Parts
+
+   ![Graph3](Img\Graph3.png)
+
+   Here we have two separate directed Graph Parts. Let's visualize it:
+
+   ```mermaid
+   graph LR
+   	0 --> 1;
+   	2 --> 3;
+   ```
+
+   They are not connected with each other, Graph Array contains 2 rows: 0;1 and 2;3.
+
+4. Graph with two Graph Parts
+
+   ![Graph4](Img\Graph4.png)
+
+   This example will show you how Graph components analyze Vertices.
+
+   ```mermaid
+   graph LR
+   	0 --> 1;
+   	0 --> 2;
+   ```
+
+   As you can see: Graph component realized that both Graph Parts have the same vertex input (point with coordinates: 0,0,0). So it doesn't create separate two vertices that have the same coordinates, but it merged them into one vertex, with Id=0. Tolerance input affects how close both points can be next to each other to merge it into one. Graph Array: 0;1, 0;2.
+
+5. Triangle
+
+   ![Graph5](Img\Graph5.png)
+
+   ```mermaid
+   graph LR
+   	0 --> 1;
+   	1 --> 2;
+   	0 --> 2;
+   ```
+
 #### Mesh To Graph
 
 This component takes the mesh as input to create whole Graph.
 
-It treats the mesh's vertices as graph vertices and mesh edges as graph edges. Actually or mesh edges are being converted to two separate edges where one is directed in one direction, and the second one in the opposite direction.
+It treats the mesh's vertices as graph vertices and mesh edges as graph edges. Actually or mesh edges are being converted to two separate edges where one is directed in one direction, and the second one in the opposite direction. Let's see some examples:
+
+1.  Quad single-face mesh:
+
+   ![Mesh1](Img\Mesh1.png)
+
+   
+
+   You can see it there: It has 8 edges, because there are 4 edges times 2 (first in one direction, second in another direction).
+
+2. Triangle single-face mesh:
+
+   ![Mesh2](Img\Mesh2.png)
+
+   No surprise it has 6 edges now.
+
+3. Triangle two-face mesh:
+
+   ![Mesh3](Img\Mesh3.png)
+
+   As you can see: the same mechanism like it's in the Create Graph component is working. There shouldn't be duplicate vertices, we have 4 vertices here.
+
+   But why there is no Tolerance input to check which points are overlapping, like it is in Create Graph?
+
+   Because it doesn't really checking it. It reads the mesh like it is, so if the mesh is correctly made then it shouldn't be duplicate vertices in it!
+
+   If your mesh has duplicates vertices - well it's not quite good, read an "Important note" below, to check how you can deal with it.
+
+4. Surface to mesh example:
+
+   It's often really useful to turn surface to mesh, and turn it into graph.
+
+   ![SurfaceToMesh](Img\SurfaceToMesh.png)
+
+   We have to refine the mesh to better represent input surface:
+
+   ![SurfaceToMeshRefine](Img\SurfaceToMeshRefine.png)
+
+   As you can see, we can turn mesh to large graph, and then analyze it.
+
+
 
 **Important note:** Sometimes meshes are not properly created, even using built-in components, for example:
 
+![CubeMesh](Img\CubeMesh.png)
+
 If you study how this mesh is created, you can see that some of the vertices are duplicated. Mesh To Graph component will create errors when things like this happens inside input mesh. 
 
-There are some ways to fix these types of meshes. Personally I use Pufferfish components: [Pufferfish](https://www.food4rhino.com/app/pufferfish). It has Rebuild Mesh component that can deal with all that stuff.
+There are some ways to fix these types of meshes. Personally I use Pufferfish components: [Pufferfish](https://www.food4rhino.com/app/pufferfish). It has Rebuild Mesh component that can deal with all that stuff:
+
+![CubeMeshFixed](Img\CubeMeshFixed.png)
 
 #### Deconstruct Graph
+
+It deconstructs the Graph to it's elements.
+
+![DeconstructGraph](Img\DeconstructGraph.png)
 
 #### Graph To Report Part
 
 If you use Pterodactyl plugin then you can convert a graph to the Flowchart that can be used to visualize graph.
+
+![ReportPart](Img\ReportPart.png)
 
 It works well only for small graphs, for the large ones it can become barely readable.
 
@@ -141,6 +328,10 @@ Returns degree of the graph.
 #### Get Vertex Degree
 
 Returns degree of the vertex. It also returns it's in- and out- degree.
+
+### Tips
+
+#### How to get geometry (point) of specific vertex
 
 ## Algorithm
 
