@@ -242,9 +242,9 @@ To understand it more, few simple examples:
 
    ```mermaid
    graph LR
+   	0 --> 2;
    	0 --> 1;
    	1 --> 2;
-   	0 --> 2;
    ```
 
 #### Mesh To Graph
@@ -321,6 +321,8 @@ It works well only for small graphs, for the large ones it can become barely rea
 
 This one can be really helpful: it takes the Point as an input and it finds vertex of the Graph that is the closest to this input point. It returns the closest vertex by giving it's index. It's really helpful if you want to find a specific vertex.
 
+![ClosestVertex](Img\ClosestVertex.png)
+
 #### Get Graph Degree
 
 Returns degree of the graph.
@@ -328,10 +330,6 @@ Returns degree of the graph.
 #### Get Vertex Degree
 
 Returns degree of the vertex. It also returns it's in- and out- degree.
-
-### Tips
-
-#### How to get geometry (point) of specific vertex
 
 ## Algorithm
 
@@ -345,9 +343,65 @@ These components allow you to use different graph algorithms. There are based on
 
 This component will check if the Graph is connected using BFS.
 
+![NotConnected](Img\NotConnected.png)
+
+![Connected](Img\Connected.png)
+
+The component is limited: if you created your Graph by Create Graph component and you've used directed Graph Part - then it won't work. It's because if you want to find out if your directed graph is connected (weakly connected) - then the plugin should actually create a new graph where every edge is replaced by the undirected edge, and then check it out. This mechanism is not implemented.
+
 #### BFS Search / Dijkstra Search
 
-These components will create
+These components will create Previous Array and will show you Visited vertices.
+
+Inputs:
+
+- Start Vertex Index is needed to know from which vertex search will start.
+
+- BFS Search has Keep Searching input, because it can keep searching even if the graph is not connected. If you set it True: it will keep jumping to not visited vertices. False = it will behave casual: it will start the search naturally.
+
+Outputs:
+
+- Visited are list of points that shows visited vertices during the search
+- Previous Array is an array of integers, that contains indexes of previously visited vertices. We will understand it while we'll analyze few examples above
+
+Examples:
+
+1. One directed edge, start vertex Id=0
+
+   ![SearchExample1](Img\SearchExample1.png)
+
+   We can visualize this graph like this:
+
+   ```mermaid
+   graph LR
+   	0 --> 1
+   ```
+   
+   We started the search from vertex Id=0 and then we visited vertex Id=1 from there. As you can see in Previous Array: vertex Id=0 hasn't visited any vertex, that's why it has -1 there, and vertex Id=1 has previously visited vertex Id=0.
+
+2. One directed edge, start vertex Id=1
+
+   ![SearchExample2](Img\SearchExample2.png)
+
+   This is the same example as above, but we started search from vertex Id=1. That's why we couldn't get to the vertex 0, and we see that the only vertex visited was vertex Id=1.
+
+3. Triangle with additional edge, start vertex Id=0
+
+   ![SearchExample3](Img\SearchExample3.png)
+
+   ```mermaid
+   graph LR
+   	0 --> 1;
+   	1 --> 2;
+   	0 --> 2;
+   	2 --> 3;
+   ```
+
+   As you can see we can only get to vertex Id=3 by vertex Id=2 - that's why during BFS search Previous Array's position=3 was set to 2.
+
+4. Not connected
+
+   
 
 #### BFS Shortest Path / Dijkstra Shortest Path / A* Shortest Path
 
@@ -368,3 +422,15 @@ If your graph has edges with different weights (lengths) then A* should be the b
 You can always check which vertices where visited during search of the shortest path - there are in "Visited" output.
 
 Of course if it couldn't find any path - then the component will throw an exception.
+
+## Visualization
+
+### About
+
+There are no built-in visualization tools in Megarachne that will allow you to display stuff in Grasshopper. The only one is Graph To Report Part, but it will show you only the scheme of a small graph in Markdown editor. But you can use built-in Grasshopper components to do it, and it's pretty easy!
+
+### Graph
+
+
+
+### Path

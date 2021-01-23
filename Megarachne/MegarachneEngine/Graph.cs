@@ -10,6 +10,8 @@ namespace MegarachneEngine
     {
         public Graph(List<GraphPart> graphParts, double tolerance)
         {
+            GraphParts = graphParts;
+
             Vertices = new List<Point3d>();
 
             int numberOfCurves = 0;
@@ -136,6 +138,8 @@ namespace MegarachneEngine
                 currentEdgeCount += 1;
             }
         }
+
+        public List<GraphPart> GraphParts { get; }
 
         public override string ToString()
         {

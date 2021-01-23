@@ -17,6 +17,13 @@ namespace MegarachneEngine
         {
             PreviousArray = new int[Graph.Vertices.Count];
             PreviousEdgeArray = new int[Graph.Vertices.Count];
+
+            for (int i = 0; i < PreviousArray.Length; i++)
+            {
+                PreviousArray[i] = -1;
+                PreviousEdgeArray[i] = -1;
+            }
+
             Visited = new bool[Graph.Vertices.Count];
             VisitedVertices = new List<Point3d>();
         }
@@ -72,6 +79,22 @@ namespace MegarachneEngine
 
         public bool IsGraphConnected()
         {
+            if (Graph.GraphParts is null)
+            {
+            }
+            else
+            {
+                var foundedDirectedEdge = Graph.GraphParts.FirstOrDefault(x => x.IsDirected);
+                if (foundedDirectedEdge is null)
+                {
+                }
+                else
+                {
+                    throw new ArgumentException(
+                        "It won't find out if the graph is connected or not when directed Graph Parts exists.");
+                }
+            }
+
             DeclareArrays();
 
             Queue<int> queue = new Queue<int>();
