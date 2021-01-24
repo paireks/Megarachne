@@ -2,7 +2,7 @@
 Graph theory for Grasshopper
 
 <p align="center">
-  <img width="100" height="100" src="https://github.com/paireks/Megarachne/blob/Version_1_0_0/Megarachne/IMG/MegarachneLogo100x100.png">
+  <img width="100" height="100" src="https://github.com/paireks/Megarachne/blob/master/Megarachne/IMG/MegarachneLogo100x100.png">
 </p>
 
 ## Purpose
@@ -18,7 +18,7 @@ Actually all the Megarachne's graphs are directed and all of the edges have weig
 ## Features (1.0.0)
 
 <p align="center">
-  <img src="https://github.com/paireks/Megarachne/blob/Version_1_0_0/Megarachne/IMG/2021-01-24_02h28_01.png">
+  <img src="https://github.com/paireks/Megarachne/blob/master/Megarachne/IMG/2021-01-24_02h28_01.png">
 </p>
 
 
