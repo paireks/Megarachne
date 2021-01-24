@@ -57,7 +57,7 @@ namespace MegarachneEngine
                     int edgeToNeighbor = Graph.AdjacencyList.Edges[currentVertexIndex][i];
                     double weightToNeighbor = Graph.EdgesWeights[edgeToNeighbor];
 
-                    if (Weights[neighborIndex] == 0 || Weights[neighborIndex] > Weights[currentVertexIndex] + weightToNeighbor)
+                    if (Weights[neighborIndex] > Weights[currentVertexIndex] + weightToNeighbor)
                     {
                         Weights[neighborIndex] = Weights[currentVertexIndex] + weightToNeighbor;
                         PreviousArray[neighborIndex] = currentVertexIndex;
@@ -113,7 +113,7 @@ namespace MegarachneEngine
                     int edgeToNeighbor = Graph.AdjacencyList.Edges[currentVertexIndex][i];
                     double weightToNeighbor = Graph.EdgesWeights[edgeToNeighbor];
 
-                    if (Weights[neighborIndex] == 0 || Weights[neighborIndex] > Weights[currentVertexIndex] + weightToNeighbor)
+                    if (Weights[neighborIndex] > Weights[currentVertexIndex] + weightToNeighbor)
                     {
                         Weights[neighborIndex] = Weights[currentVertexIndex] + weightToNeighbor;
                         PreviousArray[neighborIndex] = currentVertexIndex;
