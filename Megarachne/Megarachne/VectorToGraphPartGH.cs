@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
+using MegarachneEngine;
 using Rhino.Geometry;
 
 namespace Megarachne
@@ -12,7 +13,7 @@ namespace Megarachne
           : base("Vector To Graph Part", "Vector To Graph Part",
               "Convert bound vector to the Graph Part." +
               " Point will be the first vertex, vector will be the edge, and at the end of the vector new vertex will be created.",
-              "Megarachne", "Graph Part")
+              "Megarachne", "1. Graph Part")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -26,7 +27,6 @@ namespace Megarachne
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Graph Part", "Graph Part", "Created Graph Part", GH_ParamAccess.item);
-            pManager.AddGeometryParameter("Geometry", "Geometry", "Geometry of edge and vertices", GH_ParamAccess.item);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -38,13 +38,15 @@ namespace Megarachne
             DA.GetData(1, ref point);
             DA.GetData(2, ref isDirected);
 
+            GraphPart graphPart = new GraphPart(vector, point, isDirected);
 
+            DA.SetData(0, graphPart);
         }
         protected override System.Drawing.Bitmap Icon
         {
             get
             {
-                return null;
+                return Properties.Resources.VectorToGraphPart;
             }
         }
         public override Guid ComponentGuid

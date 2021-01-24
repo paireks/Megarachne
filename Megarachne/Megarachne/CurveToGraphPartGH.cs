@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
+using MegarachneEngine;
 using Rhino.Geometry;
 
 namespace Megarachne
@@ -12,7 +13,7 @@ namespace Megarachne
             : base("Curve To Graph Part", "Curve To Graph Part",
                 "Convert curve to Graph Part." +
                 " Start point of curve will be the first vertex, end point will be the second vertex, curve will be the edge.",
-                "Megarachne", "Graph Part")
+                "Megarachne", "1. Graph Part")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -24,7 +25,6 @@ namespace Megarachne
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Graph Part", "Graph Part", "Created Graph Part", GH_ParamAccess.item);
-            pManager.AddGeometryParameter("Geometry", "Geometry", "Geometry of edge and vertices", GH_ParamAccess.item);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -33,12 +33,17 @@ namespace Megarachne
 
             DA.GetData(0, ref curve);
             DA.GetData(1, ref isDirected);
+
+            GraphPart graphPart = new GraphPart(curve, isDirected);
+
+            DA.SetData(0, graphPart);
+
         }
         protected override System.Drawing.Bitmap Icon
         {
             get
             {
-                return null;
+                return Properties.Resources.CurveToGraphPart;
             }
         }
         public override Guid ComponentGuid

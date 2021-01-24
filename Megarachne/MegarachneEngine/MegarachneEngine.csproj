@@ -52,14 +52,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdjacencyList.cs" />
+    <Compile Include="AStar.cs" />
+    <Compile Include="AStarVertex.cs" />
+    <Compile Include="Bfs.cs" />
+    <Compile Include="Dijkstra.cs" />
+    <Compile Include="DijkstraVertex.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphPart.cs" />
+    <Compile Include="Interfaces\ISearch.cs" />
+    <Compile Include="Path.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\RhinoCommon.6.31.20315.17001\build\net45\RhinoCommon.targets" Condition="Exists('..\packages\RhinoCommon.6.31.20315.17001\build\net45\RhinoCommon.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

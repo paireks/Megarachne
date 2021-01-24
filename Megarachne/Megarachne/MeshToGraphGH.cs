@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
+using MegarachneEngine;
 using Rhino.Geometry;
 
 namespace Megarachne
 {
-    public class MeshToGraphPartGH : GH_Component
+    public class MeshToGraphGH : GH_Component
     {
-        public MeshToGraphPartGH()
-            : base("Mesh To Graph Part", "Mesh To Graph Part",
-                "Convert mesh to Graph Part.",
-                "Megarachne", "Graph Part")
+        public MeshToGraphGH()
+          : base("Mesh To Graph", "Mesh To Graph",
+              "Convert Mesh to Graph",
+              "Megarachne", "2. Graph")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -20,25 +21,28 @@ namespace Megarachne
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Graph Part", "Graph Part", "Created Graph Part", GH_ParamAccess.item);
-            pManager.AddGeometryParameter("Geometry", "Geometry", "Geometry of edge and vertices", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Graph", "Graph", "Created Graph", GH_ParamAccess.item);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Mesh mesh = null;
 
             DA.GetData(0, ref mesh);
+
+            Graph graph = new Graph(mesh);
+
+            DA.SetData(0, graph);
         }
         protected override System.Drawing.Bitmap Icon
         {
             get
             {
-                return null;
+                return Properties.Resources.MeshToGraph;
             }
         }
         public override Guid ComponentGuid
         {
-            get { return new Guid("7580929f-11eb-428d-83df-bd89dcda2576"); }
+            get { return new Guid("0927415e-1e70-47b7-b824-1504d1434ed7"); }
         }
     }
 }

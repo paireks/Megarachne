@@ -1,4 +1,5 @@
 ﻿using Rhino.Geometry;
+using System;
 
 namespace MegarachneEngine
 {
@@ -9,6 +10,7 @@ namespace MegarachneEngine
             StartVertex = curve.PointAtStart;
             EndVertex = curve.PointAtEnd;
             Edge = curve;
+            EdgeWeight = curve.GetLength();
             IsDirected = isDirected;
         }
 
@@ -19,7 +21,7 @@ namespace MegarachneEngine
 
             Line edgeLine = new Line(point, vector);
             Edge = new LineCurve(edgeLine);
-
+            EdgeWeight = vector.Length;
             IsDirected = isDirected;
         }
 
@@ -30,14 +32,22 @@ namespace MegarachneEngine
 
             Line edgeLine = new Line(pointA, pointB);
             Edge = new LineCurve(edgeLine);
-
+            EdgeWeight = pointA.DistanceTo(pointB);
             IsDirected = isDirected;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Graph Part{0}" +
+                                 "Is Directed: {1}{0}" +
+                                 "Edge Weight: {2}", Environment.NewLine, IsDirected, EdgeWeight);
         }
 
         public bool IsDirected { get; set; }
         public Point3d StartVertex { get; set; }
         public Point3d EndVertex { get; set; }
         public Curve Edge { get; set; }
+        public double EdgeWeight { get; }
 
     }
 }

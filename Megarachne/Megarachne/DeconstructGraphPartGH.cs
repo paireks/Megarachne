@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
+using MegarachneEngine;
 using Rhino.Geometry;
 
 namespace Megarachne
@@ -11,7 +12,7 @@ namespace Megarachne
         public DeconstructGraphPartGH()
             : base("Deconstruct Graph Part", "Deconstruct Graph Part",
                 "Deconstruct Graph Part to vertices and edge",
-                "Megarachne", "Graph Part")
+                "Megarachne", "1. Graph Part")
         {
         }
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -20,13 +21,22 @@ namespace Megarachne
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddCurveParameter("Edge", "Edge", "Deconstructed edge", GH_ParamAccess.item);
             pManager.AddPointParameter("Vertices", "Vertices", "Deconstructed vertices", GH_ParamAccess.list);
-
+            pManager.AddCurveParameter("Edge", "Edge", "Deconstructed edge", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("IsDirected", "IsDirected", "Check if the graph part is directed",
+                GH_ParamAccess.item);
+            pManager.AddNumberParameter("Weight", "Weight", "Weight of the edge", GH_ParamAccess.item);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            GraphPart graphPart = null;
 
+            DA.GetData(0, ref graphPart);
+
+            DA.SetDataList(0, new List<Point3d> {graphPart.StartVertex, graphPart.EndVertex});
+            DA.SetData(1, graphPart.Edge);
+            DA.SetData(2, graphPart.IsDirected);
+            DA.SetData(3, graphPart.EdgeWeight);
         }
         public override GH_Exposure Exposure
         {
@@ -36,7 +46,7 @@ namespace Megarachne
         {
             get
             {
-                return null;
+                return Properties.Resources.DeconstructGraphPart;
             }
         }
         public override Guid ComponentGuid
