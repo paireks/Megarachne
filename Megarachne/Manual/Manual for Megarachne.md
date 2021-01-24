@@ -446,7 +446,7 @@ From my own experience I have to say that when you use a mesh to create a graph,
 
 If your graph has edges with different weights (lengths) then A* should be the best for you.
 
-You can always check which vertices where visited during search of the shortest path - there are in "Visited" output.
+You can always check which vertices where visited during search of the shortest path - there are in "Visited Vertices" output.
 
 Of course if it couldn't find any path - then the component will throw an exception.
 
@@ -458,7 +458,19 @@ There are no built-in visualization tools in Megarachne that will allow you to d
 
 ### Graph
 
+We can show all of the vertices with it's indexes by using Text Tag or Text Tag 3D:
 
+![ShowVertices](Img\ShowVertices.png)
+
+To display weights of our edges, we can use Line Dimension component:
+
+![ShowEdges](Img\ShowEdges.png)
 
 ### Path
+
+I personally like to use Join curves to join all of the shortest path's edges into one curve.
+
+![JoinCurves](Img\JoinCurves.png)
+
+
 
