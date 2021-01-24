@@ -21,7 +21,7 @@ namespace Megarachne
             pManager.AddIntegerParameter("Start Vertex Index", "Start Vertex Index",
                 "It will start the search with this given vertex", GH_ParamAccess.item, 0);
             pManager.AddBooleanParameter("Keep Searching", "Keep Searching", 
-                "True = algorithm will keep searching even if the graph is not connected. False = Naturally stops for not connected graph.", GH_ParamAccess.item, true);
+                "True = algorithm will keep searching even if the graph is not connected. False = Naturally stops for not connected graph.", GH_ParamAccess.item, false);
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
@@ -32,7 +32,7 @@ namespace Megarachne
         {
             Graph graph = null;
             int startVertex = 0;
-            bool keepSearching = true;
+            bool keepSearching = false;
 
             DA.GetData(0, ref graph);
             DA.GetData(1, ref startVertex);

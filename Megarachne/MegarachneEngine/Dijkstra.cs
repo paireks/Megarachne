@@ -17,14 +17,15 @@ namespace MegarachneEngine
         {
             PreviousArray = new int[Graph.Vertices.Count];
             PreviousEdgeArray = new int[Graph.Vertices.Count];
+            Weights = new double[Graph.Vertices.Count];
 
             for (int i = 0; i < PreviousArray.Length; i++)
             {
                 PreviousArray[i] = -1;
                 PreviousEdgeArray[i] = -1;
+                Weights[i] = double.PositiveInfinity;
             }
 
-            Weights = new double[Graph.Vertices.Count];
             Visited = new bool[Graph.Vertices.Count];
             VisitedVertices = new List<Point3d>();
         }

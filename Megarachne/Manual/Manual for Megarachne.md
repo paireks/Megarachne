@@ -363,6 +363,7 @@ Outputs:
 
 - Visited are list of points that shows visited vertices during the search
 - Previous Array is an array of integers, that contains indexes of previously visited vertices. We will understand it while we'll analyze few examples above
+- Dijkstra Search has also Weights Array that keeps track of different edge weights
 
 Examples:
 
@@ -399,9 +400,35 @@ Examples:
 
    As you can see we can only get to vertex Id=3 by vertex Id=2 - that's why during BFS search Previous Array's position=3 was set to 2.
 
+   You may also ask why it shows vertex Id=0 instead Id=1 for vertex Id=2. Yes, you can go through both vertices to vertex Id=2, but Previous Array will show you the shortest path vertices (for BFS shortest path = path with the least number of edges).
+
 4. Not connected
 
-   
+   ![SearchExample4](Img\SearchExample4.png)
+
+   As you can see if Keep Searching is set to False - it will stop the search naturally, but if it's True, than it will keep searching by jumping to not visited vertex:
+
+   ![SearchExample4](Img\SearchExample4Keep.png)
+
+5. One directed edge, start vertex Id=0, Dijkstra
+
+   ![SearchExample5](Img\SearchExample5.png)
+
+   As you can see Dijkstra Search has also Weights Array. Weight Array for vertex Id=1 is 0, because it costs nothing to go from vertex Id=0 to vertex Id=0. But it costs 10 to go from vertex 0 to 1, that's why vertex Id=1 has weight 10 in Weights Array.
+
+6. Triangle with additional edge, start vertex Id=0, Dijkstra
+
+   ![SearchExample6](Img\SearchExample6.png)
+
+   As you can see, Weights Array for vertex Id=3 has 12.071068, which means that the shortest path from the start vertex (Id=0) to the vertex Id=3 is 12.071068 long.
+
+7. Triangle with separated edge, start vertex Id=0, Dijkstra
+
+   OK, but what we will see in the Weights Array if we couldn't get to the specific vertex.
+
+   ![SearchExample7](Img\SearchExample7.png)
+
+   As you can see: it takes Infinity to get there. We can't get there so the path weight from vertex Id=0 to Id=3 or Id=4 is set to +Infinity.
 
 #### BFS Shortest Path / Dijkstra Shortest Path / A* Shortest Path
 
@@ -434,3 +461,4 @@ There are no built-in visualization tools in Megarachne that will allow you to d
 
 
 ### Path
+
