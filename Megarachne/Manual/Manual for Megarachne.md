@@ -45,7 +45,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Megarachne allows you to convert Rhino/Grasshopper geometry into graphs and solve specific problems with it.
 
-Actually all the Megarachne's graphs are directed and all of the edges have weights that are equal to the length of those weights.
+Actually all the Megarachne's graphs are directed and all of the edges have weights that are equal to the length of these edges.
 
 ## Graph Part
 
