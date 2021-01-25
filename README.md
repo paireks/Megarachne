@@ -13,7 +13,7 @@ Megarachne can help you to use graph theory with Grasshopper.
 
 Megarachne allows you to convert Rhino/Grasshopper geometry into graphs and solve specific problems with it.
 
-Actually all the Megarachne's graphs are directed and all of the edges have weights that are equal to the length of those edges.
+Actually all the Megarachne's graphs are directed and all of the edges have weights that are equal to the length of these edges.
 
 ## Features (1.0.0)
 
