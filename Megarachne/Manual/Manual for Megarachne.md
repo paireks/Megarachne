@@ -14,7 +14,7 @@ Megarachne is an open-source plug-in for Grasshopper.
 
 **Purpose: **Megarachne can help you to use graph theory with Grasshopper.
 
-**Requirements:** Rhino 6 or Rhino 7
+**Requirements:** Rhino 6 or Rhino 7, Windows or Mac (check Win vs Mac chapter)
 
 **Contact:** If you have any specific questions, email me: w.radaczynski@gmail.com
 
@@ -472,5 +472,11 @@ I personally like to use Join curves to join all of the shortest path's edges in
 
 ![JoinCurves](Img\JoinCurves.png)
 
+## Win vs Mac
 
+Thanks to the Dries Verbruggen (http://www.unfold.be/) Megarachne also works on Macs.
+
+### Differences
+
+The difference in the results can be found while you will analyze Visited Vertices. It turns out that order of similar (in fact: the same in algorithm sense) vertices can be different, which doesn't affect the end results. It can only affect the scripts if you will try to use those visited vertices to build some logic using it's order. You can read more about it here: https://discourse.mcneel.com/t/mac-vs-windows-difference-between-results/118437
 
